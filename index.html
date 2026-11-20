@@ -114,9 +114,9 @@ var timeEl = document.getElementById('reelTime');
 var tagEl = document.getElementById('reelTag');
 var picks = [].slice.call(document.querySelectorAll('#reelPick .pick'));
 var reels = [
-{ src: 'assets/food_hi.mp4', tag: 'A001 · 食堂现场' },
-{ src: 'assets/gala_hi.mp4', tag: 'B002 · 迎新晚会' }
-];
+  { cdn: 'https://cdn.jsdelivr.net/gh/xiao-danbao/meiying-studio-site@dd9fac3/assets/food_hi.mp4', gh: 'https://xiao-danbao.github.io/meiying-studio-site/assets/food_hi.mp4', tag: 'A001 · 食堂现场' },
+  { cdn: 'https://cdn.jsdelivr.net/gh/xiao-danbao/meiying-studio-site@dd9fac3/assets/gala_hi.mp4', gh: 'https://xiao-danbao.github.io/meiying-studio-site/assets/gala_hi.mp4', tag: 'B002 · 迎新晚会' }
+];;
 var cur = 0, front = va, back = vb;
 function fmt(t) {
 t = Math.max(0, Math.round(t || 0));
@@ -126,11 +126,20 @@ function paint() {
 tagEl.textContent = reels[cur].tag;
 picks.forEach(function (p, k) { p.classList.toggle('on', k === cur); });
 }
+function setSources(v, r) {
+  v.innerHTML = '';
+  [r.cdn, r.gh].forEach(function (u) {
+    var s = document.createElement('source');
+    s.src = u;
+    s.type = 'video/mp4';
+    v.appendChild(s);
+  });
+}
 function load(i, play) {
   started = true;
 cur = i;
 var r = reels[i];
-back.src = r.src;
+setSources(back, r);
 back.load();
 try { back.currentTime = 0; } catch (e) {}
 if (play) { var pr = back.play(); if (pr && pr.catch) pr.catch(function () {}); }
@@ -141,7 +150,7 @@ front = back; back = old;
 window.setTimeout(function () {
 if (old === front) return;
 old.pause();
-old.removeAttribute('src');
+old.innerHTML = '';
 old.load();
 }, 700);
 prog.style.width = '0%';
@@ -187,7 +196,7 @@ load(i, true);
   function start() {
     if (started) return;
     started = true;
-    front.src = reels[0].src;
+    setSources(front, reels[0]);
     front.classList.add('show');
     front.load();
     paint();
