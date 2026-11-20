@@ -771,8 +771,6 @@ body{
 
 .film-frame.playing .film-play{opacity:.86;pointer-events:auto}
 .film-frame.playing .film-play:hover{opacity:1}
-.meta-link{color:#8c5a3a;text-decoration:none;border-bottom:1px solid rgba(140,90,58,.3)}
-.meta-link:hover{color:#5f3c26;border-color:rgba(95,60,38,.55)}
 
 
 @media(max-width:560px){
@@ -782,7 +780,7 @@ body{
 }
 
 
-/* R6 Quark video CTA */
+/* R6 film controls */
 .film-bar{display:none!important}
 .film-time{font-size:9px;letter-spacing:.12em;color:rgba(255,255,255,.62)}
 .film-play{text-decoration:none;cursor:pointer}
@@ -1262,6 +1260,35 @@ body{
   #join .join-in{padding:14px clamp(20px,3vw,34px)!important}
   #join .join-in .j-bot{padding-top:8px}
 }
+
+/* === R13 · 部门名称可读性微调 + 移除原素材入口 === */
+.nav ul a{
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:-.005em;
+  color:rgba(20,19,15,.74);
+}
+.nav ul a:hover{color:var(--ink)}
+.tag{
+  font-weight:500;
+  color:rgba(20,19,15,.68);
+}
+.dark .tag{color:rgba(245,245,247,.74)}
+.card-tag{
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:rgba(0,0,0,.62);
+}
+.cine-bottom span:first-child{
+  font-weight:600;
+  letter-spacing:.08em;
+  color:rgba(255,255,255,.84);
+}
+.ph-note span{
+  font-weight:600;
+  color:rgba(67,50,39,.68);
+}
 </style>
 </head>
 <body>
@@ -1378,7 +1405,7 @@ body{
       <div class="card-head">
         <p class="card-tag">02 · 摄影部</p>
         <h3 class="card-title">当天出片</h3>
-        <p class="card-meta">活动跟拍 · 舞台与人像 · 修图交付 · <a class="meta-link" href="https://pan.quark.cn/s/3725ba5cb150" target="_blank" rel="noopener">原图素材 ↗</a></p>
+        <p class="card-meta">活动跟拍 · 舞台与人像 · 修图交付</p>
       </div>
       <div class="card-visual">
         <div class="photo-wall">
