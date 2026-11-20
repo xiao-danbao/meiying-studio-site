@@ -3,21 +3,259 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>魅影工作室 · 正在进入国内高速版</title>
-<meta http-equiv="refresh" content="0;url=https://aka.doubaocdn.com/s/vuujg8AVYH">
-<script>location.replace('https://aka.doubaocdn.com/s/vuujg8AVYH');</script>
+<title>魅影工作室 · 国内高速入口</title>
+<meta name="description" content="魅影工作室国内高速镜像入口。主站托管于 GitHub Pages，镜像每 6 天自动续期。">
+<meta name="theme-color" content="#f4f0e8">
+<!-- MIRROR_URL:https://aka.doubaocdn.com/s/KkuHJKrlT5 -->
+<!-- MIRROR_EXPIRES:2026-11-28 03:41 -->
 <style>
-html,body{margin:0;height:100%;background:#f5f1ea;color:#221f1c;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
-body{display:grid;place-items:center;text-align:center}
-main{padding:32px}
-p{font-size:14px;letter-spacing:.08em;color:#6f665c}
-a{display:inline-block;margin-top:18px;padding:11px 20px;border-radius:999px;background:#221f1c;color:#fff;text-decoration:none;font-size:13px}
+:root{
+  --paper:#f4f0e8;
+  --ink:#181614;
+  --muted:#746b60;
+  --line:rgba(24,22,20,.14);
+  --copper:#9a5b2e;
+  --glass:rgba(255,255,255,.58);
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0;
+  min-height:100svh;
+  color:var(--ink);
+  background:
+    radial-gradient(1100px 700px at 78% 8%, rgba(154,91,46,.10), transparent 62%),
+    radial-gradient(900px 600px at 10% 100%, rgba(24,22,20,.06), transparent 60%),
+    var(--paper);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.shell{
+  width:min(1180px,calc(100% - 48px));
+  min-height:100svh;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+}
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:26px 0;
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{
+  width:38px;height:38px;
+  border:1px solid var(--ink);
+  border-radius:50%;
+  display:grid;place-items:center;
+  font:600 12px/1 "Songti SC","STSong",serif;
+  letter-spacing:.12em;
+}
+.brand-copy{display:flex;flex-direction:column;gap:3px}
+.brand-name{font-size:13px;font-weight:600;letter-spacing:.08em}
+.brand-sub{font-size:9px;letter-spacing:.2em;color:var(--muted)}
+.status{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  font-size:10px;letter-spacing:.14em;color:var(--muted);
+  white-space:nowrap;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--copper);
+  box-shadow:0 0 0 4px rgba(154,91,46,.10);
+}
+main{
+  flex:1;
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);
+  align-items:center;
+  gap:clamp(32px,6vw,92px);
+  padding:clamp(56px,9vh,112px) 0 clamp(40px,7vh,84px);
+}
+.eyebrow{
+  margin:0;
+  font-size:10px;
+  letter-spacing:.24em;
+  color:var(--copper);
+}
+h1{
+  margin:18px 0 0;
+  font-family:"Songti SC","Noto Serif SC","STSong",serif;
+  font-size:clamp(46px,7.2vw,92px);
+  line-height:.98;
+  letter-spacing:-.045em;
+  font-weight:600;
+}
+h1 em{font-style:normal;color:var(--copper)}
+.lead{
+  max-width:520px;
+  margin:24px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.primary,.secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:50px;
+  padding:0 24px;
+  border-radius:999px;
+  text-decoration:none;
+  font-size:13px;
+  letter-spacing:.04em;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease;
+}
+.primary{
+  background:var(--ink);
+  color:#fff;
+  border:1px solid var(--ink);
+  box-shadow:0 16px 36px rgba(24,22,20,.14);
+}
+.primary:hover{transform:translateY(-2px);background:#000}
+.secondary{
+  background:var(--glass);
+  border:1px solid var(--line);
+  color:var(--ink);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+}
+.secondary:hover{transform:translateY(-2px);border-color:rgba(24,22,20,.28)}
+.primary span{font-size:15px;line-height:1}
+.meta{
+  display:flex;flex-wrap:wrap;gap:18px;
+  margin-top:22px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.08em;
+}
+.meta span{display:inline-flex;align-items:center;gap:6px}
+.meta i{width:4px;height:4px;border-radius:50%;background:var(--copper);font-style:normal}
+.card{
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:26px;
+  background:linear-gradient(160deg,rgba(255,255,255,.74),rgba(255,255,255,.36));
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  box-shadow:0 24px 70px rgba(24,22,20,.10);
+}
+.card-label{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-size:9px;letter-spacing:.18em;color:var(--muted);
+}
+.card-label strong{font-weight:600;color:var(--copper);letter-spacing:.12em}
+.card-title{
+  margin:18px 0 0;
+  font-family:"Songti SC","STSong",serif;
+  font-size:24px;
+  font-weight:600;
+  letter-spacing:-.02em;
+}
+.card-copy{
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+.card-row{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+.card-row:last-of-type{border-bottom:0;padding-bottom:0}
+.card-row span{color:var(--muted);font-size:10px;letter-spacing:.08em}
+.card-row strong{font-size:12px;font-weight:600;text-align:right;line-height:1.6}
+.expiry{
+  margin-top:20px;
+  padding:12px 14px;
+  border:1px solid rgba(154,91,46,.18);
+  border-radius:12px;
+  background:rgba(154,91,46,.055);
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.04em;
+  line-height:1.7;
+}
+.expiry strong{color:var(--ink);font-weight:600}
+footer{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 0 28px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.06em;
+}
+footer a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+@media (max-width:860px){
+  .shell{width:min(100% - 32px,620px)}
+  header{padding:20px 0}
+  main{grid-template-columns:1fr;gap:38px;padding:48px 0 44px}
+  h1{font-size:clamp(44px,13vw,68px)}
+  .lead{font-size:13px}
+  .actions{flex-direction:column;align-items:stretch}
+  .primary,.secondary{width:100%}
+  aside{max-width:520px}
+  footer{flex-direction:column;align-items:flex-start;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  .primary,.secondary{transition:none}
+}
 </style>
 </head>
 <body>
-<main>
-<p>正在进入魅影工作室 · 国内高速版</p>
-<a href="https://aka.doubaocdn.com/s/vuujg8AVYH">立即进入</a>
-</main>
+<div class="shell">
+  <header>
+    <div class="brand">
+      <div class="mark">魅影</div>
+      <div class="brand-copy">
+        <div class="brand-name">魅影工作室</div>
+        <div class="brand-sub">MEIYING STUDIO</div>
+      </div>
+    </div>
+    <div class="status"><i class="dot"></i>CN MIRROR · LIVE</div>
+  </header>
+
+  <main>
+    <section>
+      <p class="eyebrow">MEIYING STUDIO · DOMESTIC ACCESS</p>
+      <h1>让每一帧<br>都留下<em>魅影</em></h1>
+      <p class="lead">主站托管于 GitHub Pages，国内访问走高速镜像。镜像地址每 6 天自动续期一次，始终比 7 天签名有效期提前一天完成替换。</p>
+      <div class="actions">
+        <a class="primary" id="mirror-link" href="https://aka.doubaocdn.com/s/KkuHJKrlT5">进入国内高速版 <span>↗</span></a>
+        <a class="secondary" href="./full.html">GitHub 原站</a>
+      </div>
+      <div class="meta">
+        <span><i></i>主站内容以 GitHub 为准</span>
+        <span><i></i>镜像失效时请使用 GitHub 原站</span>
+      </div>
+    </section>
+
+    <aside>
+      <div class="card">
+        <div class="card-label"><span>MIRROR STATUS</span><strong>ACTIVE</strong></div>
+        <h2 class="card-title">国内高速镜像</h2>
+        <p class="card-copy">签名直链由平台自动续期，不需要手动更换。当前入口已同步至 R16 主站内容。</p>
+        <div class="card-row"><span>镜像周期</span><strong>7 天签名 / 6 天续期</strong></div>
+        <div class="card-row"><span>续期方式</span><strong>定时任务自动上传并更新</strong></div>
+        <div class="card-row"><span>备用入口</span><strong>GitHub Pages · full.html</strong></div>
+        <div class="expiry" data-expires="2026-11-28 03:41">当前镜像有效期至 <strong>2026.11.28 03:41</strong><br>若无法打开，请点击上方「GitHub 原站」。</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <span>© 2026 魅影工作室 · 党委宣传部魅影工作室</span>
+    <span>永久主站：<a href="./full.html">xiao-danbao.github.io/meiying-studio-site/full.html</a></span>
+  </footer>
+</div>
 </body>
 </html>
