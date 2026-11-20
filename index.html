@@ -16,7 +16,7 @@
 .film-frame.playing .film-play .ico-play{opacity:0;transform:scale(.72)}
 .film-frame.playing .film-play .ico-pause{opacity:1;transform:none}
 .film-play:hover{background:linear-gradient(145deg,rgba(22,20,18,.84),rgba(22,20,18,.48));border-color:rgba(255,255,255,.42);transform:translate(-50%,-50%) scale(1.05)}
-.film-play:active{transform:translate(-50%,-50%) scale(.97)}
+.film-play:active{transform:translate(-50%,-50%) scale(.96)}
 .film-play:focus-visible{outline:2px solid rgba(255,255,255,.72);outline-offset:4px}
 .film-origin{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-size:10px;letter-spacing:.06em;color:#8c6a52;text-decoration:none;border-bottom:1px solid rgba(140,106,82,.28);padding-bottom:2px;transition:color .2s,border-color .2s}
 .film-origin:hover{color:#5f422f;border-color:rgba(95,66,47,.55)}
@@ -30,8 +30,8 @@
 
 
 @media(max-width:560px){
-  .film-play{left:auto;right:10px;bottom:10px;top:auto;transform:none!important;width:42px;height:42px}
-  .film-play:hover,.film-play:active{transform:scale(1.03)!important}
+  .film-play{left:auto;right:10px;bottom:10px;top:auto;transform:none!important;width:44px;height:44px}
+  .film-play:hover{transform:scale(1.03)!important}.film-play:active{transform:scale(.96)!important}
   .film-play .ico{width:15px;height:15px}
 }
 
