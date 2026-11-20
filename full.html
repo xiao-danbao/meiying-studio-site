@@ -136,7 +136,7 @@ body{
   transition:transform .9s var(--ease), opacity .8s var(--ease);
 }
 .card-head{margin-bottom:clamp(10px,1.6vh,16px)}
-.card-tag{margin:0; font-size:11px; letter-spacing:.03em; color:rgba(0,0,0,.52)}
+
 .card-title{
   margin:clamp(6px,1vh,10px) 0 0;
   font-size:clamp(19px,2.1vw,26px);
@@ -1274,12 +1274,6 @@ body{
   color:rgba(20,19,15,.68);
 }
 .dark .tag{color:rgba(245,245,247,.74)}
-.card-tag{
-  font-size:11.5px;
-  font-weight:600;
-  letter-spacing:.02em;
-  color:rgba(0,0,0,.62);
-}
 .cine-bottom span:first-child{
   font-weight:600;
   letter-spacing:.08em;
@@ -1288,6 +1282,100 @@ body{
 .ph-note span{
   font-weight:600;
   color:rgba(67,50,39,.68);
+}
+
+/* === R14 · 部门名胶囊：卡面右上空闲处，一处一名，不覆盖画面 === */
+.card-head{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+}
+.dept-pill{
+  align-self:flex-end;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  max-width:100%;
+  margin:0 0 1px;
+  padding:5px 10px 5px 8px;
+  border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.8) 0%,rgba(255,255,255,.54) 100%);
+  box-shadow:
+    0 0 0 1px rgba(58,42,29,.08),
+    0 1px 2px rgba(58,42,29,.05),
+    inset 0 1px 0 rgba(255,255,255,.78);
+  -webkit-backdrop-filter:blur(12px) saturate(1.08);
+  backdrop-filter:blur(12px) saturate(1.08);
+  font-size:11px;
+  line-height:1;
+  letter-spacing:.02em;
+  color:rgba(20,19,15,.74);
+  white-space:nowrap;
+}
+.dept-pill::before{
+  content:"";
+  width:4px;height:4px;
+  flex:none;
+  border-radius:50%;
+  background:#a9784c;
+  box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12);
+}
+.dept-pill .num{
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.08em;
+  color:rgba(20,19,15,.42);
+  font-variant-numeric:tabular-nums;
+}
+.dept-pill .slash{
+  margin:0 -1px;
+  font-size:9px;
+  color:rgba(20,19,15,.28);
+}
+.dept-pill .name{
+  font-weight:600;
+  letter-spacing:.03em;
+  color:rgba(20,19,15,.78);
+}
+@media (max-width:560px){
+  .dept-pill{padding:4px 9px 4px 7px;gap:5px}
+}
+
+/* === R15 · 部门胶囊收口：英文单标，避免与章节中文标签重复 === */
+.dept-pill{
+  gap:7px;
+  padding:6px 12px 6px 9px;
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.94) 0%,rgba(255,255,255,.6) 100%);
+  box-shadow:
+    0 0 0 1px rgba(58,42,29,.09),
+    0 1px 2px rgba(58,42,29,.05),
+    0 8px 18px rgba(58,42,29,.055),
+    inset 0 1px 0 rgba(255,255,255,.92);
+}
+.dept-pill::before{
+  width:5px;height:5px;
+  background:linear-gradient(135deg,#bd8d60 0%,#8f5c36 100%);
+  box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35);
+}
+.dept-pill .name{
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.18em;
+  color:rgba(20,19,15,.76);
+}
+@media (max-width:560px){
+  .dept-pill{
+    gap:6px;
+    padding:4px 9px 4px 7px;
+    font-size:10.5px;
+    letter-spacing:.12em;
+  }
+  .dept-pill .name{font-size:10.5px;letter-spacing:.16em}
 }
 </style>
 </head>
@@ -1343,7 +1431,7 @@ body{
   <!-- 02 视频运营部 -->
   <section class="panel light t-video" id="video">
     <div class="p-copy">
-      <p class="tag">01 / 视频运营部</p>
+        <p class="tag">01 / 视频运营部</p>
       <h2 class="title"><em>把素材。</em><br><span>剪成能看完的片子。</span></h2>
       <p class="body">负责视频的拍摄与剪辑，也做 AI 视频创作。现场怎么拍、素材怎么剪、节奏怎么给，都在这里定。</p>
       <div class="p-notes">
@@ -1354,7 +1442,7 @@ body{
     </div>
     <div class="p-card">
       <div class="card-head">
-        <p class="card-tag">01 · 视频运营部</p>
+        <p class="dept-pill" aria-label="视频运营部"><span class="name">FILM</span></p>
         <h3 class="card-title">拍现场，也做 AI 生成</h3>
         <p class="card-meta">拍摄 · 剪辑 · 调色 · AI 视频</p>
       </div>
@@ -1392,7 +1480,7 @@ body{
   <!-- 03 摄影部 -->
   <section class="panel light t-photo" id="photo">
     <div class="p-copy">
-      <p class="tag">02 / 摄影部</p>
+        <p class="tag">02 / 摄影部</p>
       <h2 class="title"><em>活动当天。</em><br><span>我们在场。</span></h2>
       <p class="body">跟拍、抓拍、修图。把现场的光和情绪留下来，当天出片，第二天能发。活动结束后，最先被看到的往往是照片。</p>
       <div class="p-notes">
@@ -1403,7 +1491,7 @@ body{
     </div>
     <div class="p-card">
       <div class="card-head">
-        <p class="card-tag">02 · 摄影部</p>
+        <p class="dept-pill" aria-label="摄影部"><span class="name">PHOTO</span></p>
         <h3 class="card-title">当天出片</h3>
         <p class="card-meta">活动跟拍 · 舞台与人像 · 修图交付</p>
       </div>
@@ -1423,7 +1511,7 @@ body{
   <!-- 04 视觉部 -->
   <section class="panel light t-visual" id="visual">
     <div class="p-copy">
-      <p class="tag">03 / 视觉部</p>
+        <p class="tag">03 / 视觉部</p>
       <h2 class="title"><em>一张海报。</em><br><span>先说话。</span></h2>
       <p class="body">海报、封面、活动物料。把一场活动的气质，压成一张能被停下来看的图。节气海报、招新主视觉、展板与头图，都从这里出。</p>
       <div class="p-notes">
@@ -1434,7 +1522,7 @@ body{
     </div>
     <div class="p-card">
       <div class="card-head">
-        <p class="card-tag">03 · 视觉部</p>
+        <p class="dept-pill" aria-label="视觉部"><span class="name">VISUAL</span></p>
         <h3 class="card-title">海报、封面、活动物料</h3>
         <p class="card-meta">节气海报 · 招新主视觉 · 物料适配</p>
       </div>
@@ -1461,7 +1549,7 @@ body{
   <!-- 05 综合部 -->
   <section class="panel light t-general" id="general">
     <div class="p-copy">
-      <p class="tag">04 / 综合部</p>
+        <p class="tag">04 / 综合部</p>
       <h2 class="title"><em>让其他四个部门。</em><br><span>只管创作。</span></h2>
       <p class="body">部门日常事务、物资与场地、跨部门的排期协调。看起来是杂事，实际是让整条链路不断的那一环。</p>
       <div class="p-notes">
@@ -1472,7 +1560,7 @@ body{
     </div>
     <div class="p-card">
       <div class="card-head">
-        <p class="card-tag">04 · 综合部</p>
+        <p class="dept-pill" aria-label="综合部"><span class="name">OPS</span></p>
         <h3 class="card-title">排期、物资、场地</h3>
         <p class="card-meta">日常事务 · 物资与场地 · 排期对接</p>
       </div>
@@ -1495,7 +1583,7 @@ body{
   <!-- 06 编辑部 -->
   <section class="panel light t-editorial" id="editorial">
     <div class="p-copy">
-      <p class="tag">05 / 编辑部</p>
+        <p class="tag">05 / 编辑部</p>
       <h2 class="title"><em>一条推文。</em><br><span>也是一次排版。</span></h2>
       <p class="body">写清楚，比写漂亮更重要。选题、文案、标题、配图的位置，都是读者能不能读下去的理由。负责推文的编排与发布，从一段活动的记录，到一条可以转发的图文。</p>
       <div class="p-notes">
@@ -1506,7 +1594,7 @@ body{
     </div>
     <div class="p-card">
       <div class="card-head">
-        <p class="card-tag">05 · 编辑部</p>
+        <p class="dept-pill" aria-label="编辑部"><span class="name">WORDS</span></p>
         <h3 class="card-title">从选题到发布</h3>
         <p class="card-meta">选题 · 文案 · 图文编排 · 排期</p>
       </div>
