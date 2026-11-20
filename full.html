@@ -1187,6 +1187,81 @@ body{
   #join .join-qr img{width:72px; height:72px}
 }
 
+
+/* === R12 · 加入卡紧凑布局：横向双栏、底部署名进流、整体收高 === */
+#join .p-card{
+  height:clamp(320px, 52svh, 420px)!important;
+  min-height:0!important;
+}
+@media (max-width:560px){
+  #join .p-card{height:min(420px, calc(100svh - 280px))!important}
+}
+/* 底部署名改为流内元素，避免短卡时被 overflow 裁掉 */
+#join .join-in .j-bot{
+  position:static!important; left:auto!important; bottom:auto!important;
+  width:100%; margin-top:auto; padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.09);
+}
+@media (min-width:700px){
+  #join .join-in{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,auto);
+    grid-template-rows:auto 1fr auto auto 1fr auto;
+    column-gap:clamp(16px,2.2vw,32px);
+    row-gap:0;
+    align-items:start;
+    padding:clamp(22px,3.2vh,34px) clamp(24px,3vw,38px);
+  }
+  #join .j-top{
+    grid-column:1/-1; grid-row:1;
+    position:static; left:auto; top:auto;
+    margin:0; align-self:start;
+  }
+  #join .join-in > h3{
+    grid-column:1; grid-row:3;
+    align-self:end; margin:0;
+  }
+  #join .join-lead{
+    grid-column:1; grid-row:4;
+    align-self:start; margin:0; max-width:36ch;
+  }
+  #join .join-row{
+    grid-column:2; grid-row:3/5;
+    align-self:center; justify-self:end;
+    margin:0; display:flex; flex-direction:column; align-items:flex-start;
+    gap:10px; flex-wrap:nowrap; max-width:100%;
+  }
+  #join .join-act{align-items:flex-start}
+  #join .join-in .j-bot{
+    grid-column:1/-1; grid-row:6;
+    margin:0; align-self:end;
+  }
+}
+
+/* R12.1 · 收紧桌面短卡高度；手机改回流式并让 MEMBER/署名不再绝对定位 */
+#join .p-card{
+  height:clamp(340px, 52svh, 420px)!important;
+}
+@media (max-width:560px){
+  #join .p-card{
+    height:min(380px, calc(100svh - 280px))!important;
+    flex:0 0 auto!important;
+  }
+  #join .join-in{
+    display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+    padding:16px; gap:8px;
+  }
+  #join .j-top{
+    position:static; left:auto; top:auto; margin:0 0 2px;
+  }
+}
+
+/* R12.2 · 桌面短高度再加入一档紧凑尺寸，保证 728×600 也不越界 */
+@media (min-width:561px) and (max-height:620px){
+  #join .p-card{height:320px!important; padding:8px!important}
+  #join .join-in{padding:14px clamp(20px,3vw,34px)!important}
+  #join .join-in .j-bot{padding-top:8px}
+}
 </style>
 </head>
 <body>
