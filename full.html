@@ -1674,8 +1674,8 @@ html.gear-open::-webkit-scrollbar{display:none}
           </div>
           <div class="r-bottom">
             <span>临时的事，当天再排。</span>
-            <button class="gear-entry" type="button" data-gear-open aria-haspopup="dialog" aria-label="打开器材库，共 22 件器材">
-              <span class="gear-entry-dot" aria-hidden="true"></span><span>器材库</span><span class="gear-entry-num">22</span><span class="gear-entry-arrow" aria-hidden="true">→</span>
+            <button class="gear-entry" type="button" data-gear-open aria-haspopup="dialog" aria-label="打开器材库，共 21 件器材">
+              <span class="gear-entry-dot" aria-hidden="true"></span><span>器材库</span><span class="gear-entry-num">21</span><span class="gear-entry-arrow" aria-hidden="true">→</span>
             </button>
           </div>
         </div>
@@ -3921,7 +3921,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
     <small class="brand-sub">影像器材</small>
   </div>
   <div class="top-tools">
-    <span class="top-count"><b id="familyCount">22</b><i>件</i></span>
+    <span class="top-count"><b id="familyCount">21</b><i>件</i></span>
     <button class="gear-exit" id="gearClose" type="button" aria-label="关闭器材库，返回工作室">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
       <span>返回</span>
@@ -3962,7 +3962,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   <div class="detail" id="familyDetail" aria-hidden="true">
     <div class="detail-bar">
       <button class="detail-back" id="detailBack" type="button">← 全家福</button>
-      <span class="detail-meta" id="detailMeta">01 / 22</span>
+      <span class="detail-meta" id="detailMeta">01 / 21</span>
     </div>
     <div class="detail-body" id="detailBody"></div>
   </div>
@@ -3978,7 +3978,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
       <div class="meter">
         <span class="num" id="cur">01</span>
         <i class="bar"><b id="bar"></b></i>
-        <span class="num dim" id="tot">22</span>
+        <span class="num dim" id="tot">21</span>
       </div>
       <button class="round" id="next" aria-label="下一件">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.4 3l4.8 5-4.8 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -4271,13 +4271,6 @@ function initGear(root) {
         },
       ]
     },
-    {
-      id: 'power',
-      cn: '电池',
-      en: 'POWER',
-      hint: '电池按数量借用，不是按型号。',
-      items: []
-    }
   ];
 
   const FILE = {
@@ -4294,22 +4287,16 @@ function initGear(root) {
 
   const SECS = [
     { id:'body', cn:'机身' }, { id:'lens', cn:'镜头' }, { id:'light', cn:'灯光' },
-    { id:'support', cn:'支撑' }, { id:'audio', cn:'音频' }, { id:'power', cn:'电池' }
+    { id:'support', cn:'支撑' }, { id:'audio', cn:'音频' }
   ];
 
-  const POWER = [
-    ['LP-E6N','佳能 6D2'], ['DMW-BLJ31','松下 S5 II'], ['NP-FZ100','索尼 a7 III'],
-    ['EN-EL15a','尼康 D7500'], ['内置电池','Pocket 3 / 4'], ['VB-26','神牛 V860III'],
-    ['AA × 4','尼康 SB-700']
-  ];
-
-  // R22 放射蜂窝：中心机身，向外一圈机身/云台，再外一圈镜头/灯光，最外支撑与电池。
+  // R22 放射蜂窝：中心机身，向外一圈机身/云台，再外一圈镜头/灯光，最外支撑与麦克风。
   const RADIAL_ORDER = [
     '6d2',
     'd7500','a7m3','s5ii','pocket3','pocket4','rs3',
     '2470','24105','70200','100400','s70200','18200',
     'light1','light2','stick','godox','nikonflash','tripod',
-    'stand','mic','power'
+    'stand','mic'
   ];
   const RADIAL_D = .29;
   const HEX_Y = Math.sqrt(3) / 2;
@@ -4333,7 +4320,11 @@ function initGear(root) {
     x: (p[0] + p[1] / 2) * RADIAL_D,
     y: p[1] * HEX_Y * RADIAL_D
   });
-  const RADIAL_SLOTS = [[0,0]].concat(RING1, RING2, RING3).map(toSlot);
+  // 21 件：手机保留左、下两个外圈落点填满竖屏；桌面保留左、上两个落点，避免器材被底栏压住。
+  const radialSlots = () => {
+    const outer = innerWidth <= 860 ? [RING3[0], RING3[2]] : [RING3[0], RING3[1]];
+    return [[0,0]].concat(RING1, RING2, outer).map(toSlot);
+  };
   function filterSlots(n){
     if (n <= 1) return [{ x: 0, y: 0 }];
     const out = [{ x: 0, y: 0 }];
@@ -4356,7 +4347,6 @@ function initGear(root) {
       ...it, sec: sec.id, secCn: sec.cn, idx: i + 1, n: sec.items.length
     }));
   });
-  CARDS.push({ sec:'power', secCn:'电池', power:true });
 
   /* ---------- 渲染 ---------- */
   const track = root.getElementById('track');
@@ -4408,24 +4398,10 @@ function initGear(root) {
       </div>`;
   }
 
-  function powerHTML(){
-    return `<div class="shot pow-figure">
-        <div class="big">07</div>
-        <div class="cap">种电池型号</div>
-      </div>
-      <div class="info">
-        <p class="grp">电池 · 按数量</p>
-        <h2 class="cn">借几块<br>记几块</h2>
-        <p class="en">POWER — BY QUANTITY</p>
-        <div class="pow-list">${POWER.map(([a, b]) => `<div><span>${a}</span><em>${b}</em></div>`).join('')}</div>
-        <p class="note">登记表只填数量，归还时按数量清点。少一块都不行。</p>
-      </div>`;
-  }
-
   CARDS.forEach((c, i) => {
     const el = document.createElement('article');
-    el.className = 'card' + (c.power ? ' card--dark card--power sec-power' : ' sec-' + c.sec);
-    el.innerHTML = c.power ? powerHTML() : bodyHTML(c, i);
+    el.className = 'card sec-' + c.sec;
+    el.innerHTML = bodyHTML(c, i);
     track.appendChild(el);
     cards.push(el);
   });
@@ -4648,7 +4624,7 @@ function initGear(root) {
   function renderFamily(filter){
     if (!familyGrid) return;
     familyFilter = filter || 'all';
-    const keyOf = c => c.power ? 'power' : c.id;
+    const keyOf = c => c.id;
     const pool = new Map(CARDS.map((c, i) => [keyOf(c), { c, i }]));
     const ordered = RADIAL_ORDER.map(id => pool.get(id)).filter(Boolean);
     const list = ordered.filter(x =>
@@ -4662,21 +4638,18 @@ function initGear(root) {
     familyGrid.classList.toggle('is-filtered', familyFilter !== 'all');
 
     const n = list.length;
-    const slots = familyFilter === 'all' ? RADIAL_SLOTS : filterSlots(n);
+    const slots = familyFilter === 'all' ? radialSlots() : filterSlots(n);
     const tileD = (familyFilter !== 'all' && n === 1) ? .34 : RADIAL_D;
     familyGrid.dataset.layout = 'radial';
     familyGrid.style.setProperty('--plane-w', '200%');
     familyGrid.style.setProperty('--plane-h', '200%');
 
     familyGrid.innerHTML = list.map(({ c, i }, idx) => {
-      const isPower = !!c.power;
-      const name = isPower ? '电池 · 按数量' : c.cn;
+      const name = c.cn;
       const slot = slots[idx] || { x: 0, y: 0 };
-      const media = isPower
-        ? '<span class="thumb"><span class="tile-pow"><b>07</b><small>种电池</small></span></span>'
-        : '<span class="thumb"><img src="' + cut(c.id) + '" alt="" draggable="false" loading="eager" decoding="async"></span>';
+      const media = '<span class="thumb"><img src="' + cut(c.id) + '" alt="" draggable="false" loading="eager" decoding="async"></span>';
       const style = '--rx:' + slot.x.toFixed(4) + ';--ry:' + slot.y.toFixed(4) + ';--ts:' + tileD;
-      return '<button type="button" class="tile sec-' + c.sec + (isPower ? ' is-power' : '') +
+      return '<button type="button" class="tile sec-' + c.sec +
         (idx === 0 ? ' is-center' : '') +
         '" data-index="' + i + '" style="' + style + '" aria-label="查看' + name + '详情">' + media +
         '<span class="tile-name">' + name + '</span></button>';
