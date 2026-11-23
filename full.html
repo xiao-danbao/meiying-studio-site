@@ -1398,6 +1398,60 @@ body{
 @media (max-width:560px){
   .dept-pill .name{font-size:10.5px;letter-spacing:.05em}
 }
+
+/* ===== 320 短屏：综合部卡面与器材库入口适配 ===== */
+@media (max-width:380px) and (max-height:620px){
+  #general{padding-top:calc(var(--nav-h) + 10px); padding-bottom:14px; gap:10px}
+  #general .tag{font-size:10px; margin-bottom:6px}
+  #general .title{font-size:clamp(25px,7.8vw,29px); line-height:1.08}
+  #general .body{font-size:12.5px; line-height:1.5; margin-top:8px}
+  #general .p-card{flex:0 0 300px; height:300px; min-height:300px; padding:10px; border-radius:20px}
+  #general .card-title{font-size:16px}
+  #general .card-meta{font-size:10px}
+  #general .card-head{gap:4px}
+  #general .rows-sheet{padding:9px; padding-bottom:9px; gap:4px}
+  #general .rows-sheet .row{padding:5px 0; font-size:10.5px; gap:6px}
+  #general .row .v{font-size:9.5px}
+  #general .rows-sheet .r-top, #general .rows-sheet .r-bottom{font-size:9px}
+  #general .gear-entry{min-height:24px; padding:0 7px; font-size:9px; gap:5px}
+}
+
+/* ===== 器材库入口与全屏覆盖层（2026-11-23） ===== */
+.rows-sheet .r-bottom{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:8px; flex-wrap:wrap;
+}
+.gear-entry{
+  flex:0 0 auto; margin-left:auto;
+  display:inline-flex; align-items:center; gap:7px;
+  min-height:28px; padding:0 9px; border:0; border-radius:8px;
+  background:#17181B; color:#fff; cursor:pointer;
+  font:600 10px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  letter-spacing:.03em; white-space:nowrap;
+  box-shadow:0 5px 12px -8px rgba(0,0,0,.55);
+  transition:background .22s var(--ease), transform .18s var(--ease);
+}
+.gear-entry:hover{background:#C8102E}
+.gear-entry:active{transform:scale(.97)}
+.gear-entry .gear-entry-dot{
+  width:5px; height:5px; border-radius:50%; background:#C8102E;
+  box-shadow:0 0 0 2px rgba(255,255,255,.1);
+}
+.gear-entry:hover .gear-entry-dot{background:#fff; box-shadow:none}
+.gear-entry .gear-entry-num{opacity:.56; font-variant-numeric:tabular-nums}
+#gearOverlay{
+  position:fixed; inset:0; z-index:120;
+  visibility:hidden; opacity:0; pointer-events:none;
+  background:#131315; color-scheme:dark;
+  transition:opacity .34s var(--ease), visibility 0s linear .34s;
+}
+#gearOverlay.is-open{
+  visibility:visible; opacity:1; pointer-events:auto;
+  transition:opacity .34s var(--ease), visibility 0s linear 0s;
+}
+@media(prefers-reduced-motion:reduce){
+  #gearOverlay{transition:none!important}
+}
 </style>
 </head>
 <body>
@@ -1595,7 +1649,12 @@ body{
             <div class="row"><span class="k">场地与对接</span><span class="v">教室、场地、老师与社团沟通</span></div>
             <div class="row"><span class="k">排期与跟进</span><span class="v">跨部门任务分派与进度</span></div>
           </div>
-          <div class="r-bottom">临时的事，当天再排。</div>
+          <div class="r-bottom">
+            <span>临时的事，当天再排。</span>
+            <button class="gear-entry" type="button" data-gear-open aria-haspopup="dialog" aria-label="打开器材库，共 23 件器材">
+              <span class="gear-entry-dot" aria-hidden="true"></span>器材库 <span class="gear-entry-num">23</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1923,5 +1982,1088 @@ paintMute();
 paint();
 })();
 </script>
+
+<div id="gearOverlay" role="dialog" aria-modal="true" aria-label="魅影工作室 · 器材库" aria-hidden="true"></div>
+
+<template id="gearOverlayCss">
+<style>
+.gear-root{
+  --bg:#131315;
+  --card:#fff;
+  --ink:#17181B;
+  --ink-2:#54565C;
+  --ink-3:#8A8C92;
+  --red:#C8102E;
+  --cardw:min(1280px,91vw);
+  --cardh:min(636px,calc(100vh - 216px));
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+.gear-root{height:100%}
+.gear-root{
+  background:var(--bg);color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro SC","PingFang SC","HarmonyOS Sans SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  overflow:hidden;-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+}
+img{display:block}
+button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit}
+.img-manifest{display:none!important}
+
+/* 展台光 */
+.gear-root::before{
+  content:'';position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(115% 85% at 50% -12%, #26262E 0%, rgba(38,38,46,0) 62%),
+    linear-gradient(180deg,#17171A 0%,#101012 100%);
+}
+
+/* ---------- 顶栏 ---------- */
+.top{
+  position:absolute;top:0;left:0;right:0;height:76px;z-index:20;
+  display:flex;align-items:center;gap:clamp(12px,2.4vw,36px);
+  padding:0 clamp(18px,3.2vw,54px);
+  background:linear-gradient(180deg,rgba(19,19,21,.86),rgba(19,19,21,.52) 70%,rgba(19,19,21,0));
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);
+  backdrop-filter:blur(18px) saturate(1.2);
+  pointer-events:none;
+}
+.top>*{pointer-events:auto}
+.brand{
+  font-size:clamp(15px,1.3vw,17px);font-weight:800;letter-spacing:-.02em;
+  display:flex;align-items:baseline;gap:10px;flex:none;
+}
+.brand b{color:var(--red);font-weight:800}
+.brand span{
+  font-family:var(--tech);font-size:10.5px;letter-spacing:.18em;
+  color:rgba(255,255,255,.42);font-weight:600;
+}
+
+.chips{
+  display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none;
+  padding:4px;border-radius:999px;
+  background:rgba(255,255,255,.08);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;font-size:13px;padding:7px 15px;border-radius:999px;
+  color:rgba(255,255,255,.62);font-weight:500;
+  transition:color .25s var(--ease),background .25s var(--ease);
+}
+.chip:hover{color:#fff}
+.chip.on{background:#fff;color:#17181B;font-weight:600}
+
+/* ---------- 舞台 ---------- */
+.stage{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.track{
+  pointer-events:auto;
+  width:100%;height:var(--cardh);
+  display:flex;align-items:center;gap:clamp(14px,2.2vw,26px);
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  padding-inline:calc((100vw - var(--cardw)) / 2);
+  scroll-padding-inline:calc((100vw - var(--cardw)) / 2);
+  scrollbar-width:none;
+  position:relative;
+  opacity:0;
+  transition:opacity .5s var(--ease);
+}
+.track.on{opacity:1}
+.track::-webkit-scrollbar{display:none}
+.track.dragging{scroll-snap-type:none;scroll-behavior:auto}
+
+/* ---------- 卡片 ---------- */
+.card{
+  flex:0 0 var(--cardw);height:var(--cardh);
+  background:var(--card);border-radius:clamp(18px,2.2vw,30px);
+  scroll-snap-align:center;scroll-snap-stop:always;
+  display:grid;grid-template-columns:1.06fr 1fr;
+  overflow:hidden;
+  transform-origin:center center;
+  box-shadow:0 36px 72px -28px rgba(0,0,0,.72), 0 0 0 1px rgba(255,255,255,.07);
+  will-change:transform,opacity;
+  color:var(--ink);
+}
+.card--dark{
+  background:linear-gradient(160deg,#1E1E23 0%,#121215 100%);
+  color:#F2F1EE;
+  box-shadow:0 36px 72px -28px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.1);
+}
+
+.shot{
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(20px,3.2vw,46px) clamp(16px,3vw,42px) clamp(30px,4.2vw,58px);
+  position:relative;
+}
+.shot img{
+  width:100%;height:100%;object-fit:contain;
+  border-radius:clamp(14px,1.6vw,22px);
+  box-shadow:0 0 0 1px rgba(23,24,27,.1), 0 16px 34px -22px rgba(23,24,27,.22);
+}
+
+.info{
+  padding:clamp(26px,3.4vw,52px) clamp(22px,3.2vw,48px) clamp(26px,3.4vw,52px) clamp(4px,1vw,16px);
+  display:flex;flex-direction:column;justify-content:center;
+  min-width:0;
+}
+.grp{
+  font-family:var(--tech);font-weight:600;
+  font-size:11px;letter-spacing:.2em;color:var(--ink-3);
+  margin-bottom:clamp(10px,1.4vw,18px);
+}
+.card--dark .grp{color:rgba(255,255,255,.42)}
+.cn{
+  font-size:clamp(26px,3.1vw,44px);font-weight:800;line-height:1.05;
+  letter-spacing:-.035em;
+}
+.en{
+  font-family:var(--tech);font-weight:600;
+  font-size:clamp(13px,1.35vw,17px);letter-spacing:.045em;
+  color:var(--ink-2);margin-top:8px;text-transform:uppercase;
+  line-height:1.3;
+}
+.card--dark .en{color:rgba(255,255,255,.55)}
+
+.specs{
+  margin-top:clamp(16px,2.2vw,28px);
+  padding-top:clamp(14px,1.8vw,22px);
+  border-top:1px solid rgba(23,24,27,.14);
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(7px,1vw,11px) clamp(14px,2vw,26px);
+  align-items:baseline;
+}
+.specs dt{
+  font-size:clamp(11px,1.05vw,12.5px);color:var(--ink-3);letter-spacing:.06em;
+  white-space:nowrap;
+}
+.specs dd{
+  font-size:clamp(12px,1.15vw,14px);line-height:1.45;color:var(--ink);
+  margin:0;
+}
+.card--dark .specs{border-color:rgba(255,255,255,.16)}
+.card--dark .specs dt{color:rgba(255,255,255,.42)}
+.card--dark .specs dd{color:rgba(255,255,255,.86)}
+
+.note{
+  margin-top:clamp(16px,2.2vw,26px);padding-top:0;
+  font-size:clamp(11.5px,1.1vw,13px);line-height:1.65;color:var(--ink-2);
+  display:flex;gap:10px;align-items:flex-start;
+}
+.note::before{
+  content:'';flex:none;width:2px;height:14px;background:var(--red);
+  margin-top:3px;border-radius:1px;opacity:.9;
+}
+.card--dark .note{color:rgba(255,255,255,.56);margin-top:clamp(20px,2.6vw,32px)}
+
+/* 电池卡 */
+.pow-figure{flex-direction:column;align-items:flex-start;justify-content:center;gap:0;padding-left:clamp(24px,5vw,84px)}
+.pow-figure .big{
+  font-family:var(--tech);font-weight:700;
+  font-size:clamp(88px,13vw,196px);line-height:.86;letter-spacing:-.03em;color:#fff;
+}
+.pow-figure .cap{
+  font-size:clamp(11px,1.1vw,13px);letter-spacing:.22em;
+  color:rgba(255,255,255,.42);margin-top:clamp(10px,1.6vw,20px);
+}
+.pow-list{
+  margin-top:clamp(14px,1.8vw,24px);
+  border-top:1px solid rgba(255,255,255,.14);padding-top:clamp(10px,1.4vw,16px);
+}
+.pow-list div{
+  display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+  padding:clamp(6px,.8vw,9px) 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:clamp(11.5px,1.05vw,13px);
+}
+.pow-list span{font-family:var(--tech);font-weight:600;letter-spacing:.05em;color:#fff}
+.pow-list em{font-style:normal;color:rgba(255,255,255,.46);white-space:nowrap;font-size:.92em}
+
+/* ---------- 底部 HUD ---------- */
+.hud{
+  position:absolute;left:0;right:0;bottom:0;height:112px;z-index:20;
+  display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,26px);
+  padding-bottom:40px;
+  background:linear-gradient(0deg,rgba(16,16,18,.9),rgba(16,16,18,0));
+  pointer-events:none;
+}
+.hud>*{pointer-events:auto}
+.disclaimer{
+  position:absolute;left:0;right:0;bottom:12px;z-index:21;
+  text-align:center;pointer-events:none;
+  font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.3);
+}
+.round{
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.08);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+  color:rgba(255,255,255,.8);
+  transition:transform .35s var(--ease),background .25s,color .25s;
+}
+.round:hover{background:rgba(255,255,255,.16);color:#fff}
+.round:active{transform:scale(.92)}
+.round:disabled{opacity:.3;pointer-events:none}
+
+.meter{display:flex;align-items:center;gap:clamp(10px,1.4vw,18px)}
+.num{
+  font-family:var(--tech);font-weight:600;font-size:13px;
+  letter-spacing:.1em;color:rgba(255,255,255,.9);min-width:22px;text-align:center;
+}
+.num.dim{color:rgba(255,255,255,.34)}
+.bar{
+  width:clamp(90px,16vw,210px);height:3px;border-radius:2px;
+  background:rgba(255,255,255,.16);overflow:hidden;position:relative;
+}
+.bar b{
+  position:absolute;left:0;top:0;height:100%;width:4%;
+  background:var(--red);border-radius:2px;
+  transition:width .5s var(--ease);
+}
+
+.hint{
+  position:absolute;left:50%;bottom:118px;transform:translateX(-50%);
+  font-size:11.5px;letter-spacing:.08em;color:rgba(255,255,255,.36);
+  pointer-events:none;
+  animation:fadeHint 1s .8s both;
+}
+@keyframes fadeHint{from{opacity:0}to{opacity:1}}
+
+/* ---------- 入场 ---------- */
+.card{opacity:0}
+.track.ready .card:nth-child(1){opacity:1}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(26px) scale(.955)}
+  to{opacity:1;transform:none}
+}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:860px){
+  .top{padding:0 14px;gap:10px}
+  .brand{font-size:14px}
+  .chip{font-size:12px;padding:6px 11px}
+  .chips{padding:3px}
+  .gear-root{--cardw:min(94vw,520px);--cardh:min(calc(100vh - 196px),700px)}
+  .card{grid-template-columns:1fr;grid-template-rows:minmax(0,.85fr) 1fr}
+  .info{padding:clamp(18px,4vw,30px) clamp(20px,5vw,32px) clamp(20px,4.4vw,30px)}
+  .shot{padding:clamp(14px,5vw,30px) clamp(20px,7vw,44px) 0}
+  .chips{margin-left:auto}
+  .brand span{display:none}
+  .hud{height:104px;padding-bottom:38px}
+  .disclaimer{font-size:10px;bottom:11px}
+  .hint{bottom:104px}
+  .bar{width:clamp(70px,26vw,160px)}
+  .specs{gap:6px 14px}
+  .specs dd{font-size:12.5px}
+  .note{margin-top:14px;padding-top:0}
+  .pow-figure{display:none}
+  .pow-list div{font-size:12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .track{scroll-behavior:auto}
+}
+
+/* ===== 魅影工作室 · 器材库融合层 ===== */
+.gear-root{
+  --tech:"Bahnschrift","DIN Alternate","Helvetica Neue","PingFang SC",sans-serif;
+  position:absolute; inset:0; width:100%; height:100%;
+  isolation:isolate; overscroll-behavior:none;
+  background:
+    radial-gradient(115% 85% at 50% -12%, #26262E 0%, rgba(38,38,46,0) 62%),
+    linear-gradient(180deg,#17171A 0%,#101012 100%);
+}
+.gear-root::before{display:none}
+.gear-root::after{
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),
+             inset 0 120px 120px -120px rgba(255,255,255,.05);
+}
+.brand span{white-space:nowrap}
+.chips{min-width:0}
+.chip{white-space:nowrap}
+.gear-exit{
+  flex:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  height:34px; padding:0 13px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06); color:rgba(255,255,255,.76);
+  font-size:12px; font-weight:500; letter-spacing:.02em;
+  -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+  transition:background .22s var(--ease), color .22s var(--ease), border-color .22s var(--ease);
+}
+.gear-exit:hover{background:rgba(255,255,255,.14); color:#fff; border-color:rgba(255,255,255,.28)}
+.gear-exit:active{transform:scale(.96)}
+.gear-exit:focus-visible{outline:2px solid rgba(255,255,255,.72); outline-offset:2px}
+.gear-exit svg{flex:none}
+:focus-visible{outline:2px solid rgba(200,16,46,.92); outline-offset:3px}
+
+/* viewport-safe sizing and iOS home indicator */
+.gear-root{--cardh:min(636px,calc(100vh - 216px));--cardh:min(636px,calc(100svh - 216px))}
+.hud{height:calc(112px + env(safe-area-inset-bottom));padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+.disclaimer{bottom:calc(12px + env(safe-area-inset-bottom))}
+@media(max-width:860px){
+  .gear-root{--cardw:min(94vw,520px);--cardh:min(calc(100vh - 196px),700px);--cardh:min(calc(100svh - 196px),700px)}
+  .hud{height:calc(104px + env(safe-area-inset-bottom));padding-bottom:calc(38px + env(safe-area-inset-bottom))}
+  .disclaimer{bottom:calc(11px + env(safe-area-inset-bottom))}
+  .gear-exit{width:34px;padding:0;gap:0}
+  .gear-exit span{display:none}
+}
+@media(max-width:420px){
+  .brand span{display:none}
+  .top{gap:8px;padding:0 12px}
+  .chips{padding:3px;margin-left:auto}
+  .chip{padding:8px 12px;font-size:12px}
+}
+
+</style>
+</template>
+
+<template id="gearOverlayMarkup">
+<div class="gear-root">
+<header class="top">
+  <div class="brand">器材<b>库</b><span>MEIYING STUDIO · 23 件</span></div>
+  <nav class="chips" id="chips" aria-label="分区"></nav>
+  <button class="gear-exit" id="gearClose" type="button" aria-label="关闭器材库，返回工作室">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    <span>返回</span>
+  </button>
+</header>
+
+<div class="img-manifest"><img src="assets/equipment/acc-godox.webp" alt="">
+<img src="assets/equipment/acc-light-wide.webp" alt="">
+<img src="assets/equipment/acc-light.webp" alt="">
+<img src="assets/equipment/acc-mic.webp" alt="">
+<img src="assets/equipment/acc-nikonflash.webp" alt="">
+<img src="assets/equipment/acc-rs3.webp" alt="">
+<img src="assets/equipment/acc-stand.webp" alt="">
+<img src="assets/equipment/acc-stick.webp" alt="">
+<img src="assets/equipment/acc-tripod.webp" alt="">
+<img src="assets/equipment/body-6d2-wide.webp" alt="">
+<img src="assets/equipment/body-6d2.webp" alt="">
+<img src="assets/equipment/body-a7m3.webp" alt="">
+<img src="assets/equipment/body-d7500.webp" alt="">
+<img src="assets/equipment/body-dv-wide.webp" alt="">
+<img src="assets/equipment/body-dv.webp" alt="">
+<img src="assets/equipment/body-pocket3.webp" alt="">
+<img src="assets/equipment/body-pocket4.webp" alt="">
+<img src="assets/equipment/body-s5ii.webp" alt="">
+<img src="assets/equipment/lens-100400.webp" alt="">
+<img src="assets/equipment/lens-18200.webp" alt="">
+<img src="assets/equipment/lens-24105.webp" alt="">
+<img src="assets/equipment/lens-2470.webp" alt="">
+<img src="assets/equipment/lens-70200.webp" alt="">
+<img src="assets/equipment/lens-s70200.webp" alt=""></div>
+<div class="stage">
+  <div class="track" id="track"></div>
+</div>
+
+<footer class="hud">
+  <button class="round" id="prev" aria-label="上一件">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M9.6 3L4.8 8l4.8 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  </button>
+  <div class="meter">
+    <span class="num" id="cur">01</span>
+    <i class="bar"><b id="bar"></b></i>
+    <span class="num dim" id="tot">23</span>
+  </div>
+  <button class="round" id="next" aria-label="下一件">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.4 3l4.8 5-4.8 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  </button>
+</footer>
+
+<p class="disclaimer">图片仅供参考 · 具体型号以工作室实物为准</p>
+</div>
+</template>
+
+<script>
+function initGear(root) {
+  'use strict';
+  const KIT = [
+    {
+      id: 'body',
+      cn: '机身',
+      en: 'BODY',
+      hint: '七台机身，从全画幅单反到口袋云台。',
+      items: [
+        {
+          id: '6d2', name: 'Canon EOS 6D Mark II', cn: '佳能 6D2',
+          spec: '全画幅 · 2620 万像素 · EF 卡口',
+          specs: [
+            ['画幅', '全画幅 CMOS，2620 万有效像素'],
+            ['对焦', '45 点全十字型 AF，双像素 CMOS AF'],
+            ['视频', '1080/60p，支持 4K 延时短片'],
+            ['机身', '144 × 110.5 × 74.8 mm / 765 g'],
+            ['电池', 'LP-E6N'],
+          ],
+          note: 'EF 卡口通用机身，六支 EF 镜头全部可用。'
+        },
+        {
+          id: 's5ii', name: 'Panasonic LUMIX S5 II', cn: '松下 S52',
+          spec: '全画幅 · 2420 万像素 · L 卡口',
+          specs: [
+            ['画幅', '全画幅 CMOS，2420 万有效像素'],
+            ['对焦', '779 点相位检测 AF（S5 II 新增）'],
+            ['视频', '6K 30p / C4K 60p，双原生 ISO'],
+            ['机身', '134.3 × 102.3 × 90.1 mm / 740 g'],
+            ['防抖', '机身五轴，最高 6.5 档'],
+          ],
+          note: '拍视频首选，机内散热与防抖都稳。'
+        },
+        {
+          id: 'a7m3', name: 'Sony α7 III', cn: '索尼 a7m3',
+          spec: '全画幅 · 2420 万像素 · E 卡口',
+          specs: [
+            ['画幅', '全画幅背照式 CMOS，2420 万有效像素'],
+            ['对焦', '693 点相位 + 425 点对比检测'],
+            ['视频', '4K 30p，全像素读取无裁切'],
+            ['机身', '126.9 × 95.6 × 73.7 mm / 650 g'],
+            ['电池', 'NP-FZ100，单块可拍约 710 张'],
+          ],
+          note: '配索尼 70-200 时对焦最快。'
+        },
+        {
+          id: 'd7500', name: 'Nikon D7500', cn: '尼康 D7500',
+          spec: 'DX 画幅 · 2088 万像素 · F 卡口',
+          specs: [
+            ['画幅', 'DX 格式 CMOS，2088 万有效像素'],
+            ['对焦', '51 点 AF，其中 15 点为十字型'],
+            ['视频', '4K 30p，支持间隔拍摄'],
+            ['机身', '135.5 × 104 × 72.5 mm / 720 g'],
+            ['电池', 'EN-EL15a'],
+          ],
+          note: '尼康 18-200 只能装这台，别拿错。'
+        },
+        {
+          id: 'pocket3', name: 'DJI Osmo Pocket 3', cn: '大疆 Pocket 3',
+          spec: '1 英寸 CMOS · 4K/120 · 三轴云台',
+          specs: [
+            ['传感器', '1 英寸 CMOS，等效 20mm f/2.0'],
+            ['视频', '4K 120fps，10-bit D-Log M'],
+            ['屏幕', '2 英寸旋转触摸屏，横竖切换'],
+            ['机身', '139.7 × 42.2 × 33.5 mm / 179 g'],
+            ['续航', '约 166 分钟，支持快充'],
+          ],
+          note: '走街、快剪、手持跟拍最省事的一台。'
+        },
+        {
+          id: 'pocket4', name: 'DJI Osmo Pocket 4', cn: '大疆 Pocket 4',
+          spec: '1 英寸 CMOS · 4K/240 · 107GB 内置',
+          specs: [
+            ['传感器', '1 英寸 CMOS，等效 20mm f/2.0'],
+            ['视频', '4K 240fps 慢动作，10-bit'],
+            ['存储', '107GB 内置存储，免带卡'],
+            ['云台', '三轴机械增稳，智能跟随'],
+            ['机身', '约 190 g'],
+          ],
+          note: '慢动作素材用这台，240fps 能撑 8 倍放慢。'
+        },
+        {
+          id: 'dv', name: 'Panasonic NV-GS5EN', cn: '录像机',
+          spec: 'MiniDV 磁带 · 10 倍光变 · 标清',
+          specs: [
+            ['格式', 'MiniDV 磁带，标清 720×480'],
+            ['镜头', '10 倍光学变焦，电子防抖'],
+            ['取景', '2.5 英寸 LCD 翻转屏'],
+            ['接口', 'IEEE 1394 / AV 输出'],
+          ],
+          note: '老素材机。导出需要采集卡，别指望直接拷文件。'
+        },
+      ]
+    },
+    {
+      id: 'lens',
+      cn: '镜头',
+      en: 'LENS',
+      hint: '六支镜头，焦段从 18mm 铺到 400mm。',
+      items: [
+        {
+          id: '2470', name: 'Canon EF 24-70mm f/2.8L II USM', cn: '佳能 24-70',
+          spec: '恒定 f/2.8 · 82mm 滤镜 · 805 g',
+          specs: [
+            ['焦段', '24-70mm，恒定 f/2.8'],
+            ['结构', '13 组 18 片，含 1 片超级 UD'],
+            ['最近对焦', '0.38 m'],
+            ['尺寸', 'φ88.5 × 113 mm / 805 g'],
+          ],
+          note: '标准变焦主力，室内活动基本这一支够。'
+        },
+        {
+          id: '24105', name: 'Canon EF 24-105mm f/4L IS II USM', cn: '佳能 24-105',
+          spec: '恒定 f/4 · 4 级防抖 · 795 g',
+          specs: [
+            ['焦段', '24-105mm，恒定 f/4'],
+            ['防抖', 'IS 光学防抖，约 4 级'],
+            ['最近对焦', '0.45 m'],
+            ['尺寸', 'φ83.5 × 107 mm / 795 g'],
+          ],
+          note: '一镜走全场的长焦段标准镜，配 6D2 最顺手。'
+        },
+        {
+          id: '70200', name: 'Canon EF 70-200mm f/2.8L IS II USM', cn: '佳能 70-200',
+          spec: '恒定 f/2.8 · 4 级防抖 · 1490 g',
+          specs: [
+            ['焦段', '70-200mm，恒定 f/2.8'],
+            ['防抖', 'IS 光学防抖，约 4 级'],
+            ['最近对焦', '1.2 m'],
+            ['尺寸', 'φ88.8 × 199 mm / 1490 g'],
+          ],
+          note: '舞台、合影、压缩背景。重，记得挂肩带。'
+        },
+        {
+          id: '100400', name: 'Canon EF 100-400mm f/4.5-5.6L IS II USM', cn: '佳能 100-400',
+          spec: '超远摄 · 4 级防抖 · 1570 g',
+          specs: [
+            ['焦段', '100-400mm，f/4.5-5.6'],
+            ['防抖', 'IS 光学防抖，约 4 级'],
+            ['最近对焦', '0.98 m'],
+            ['尺寸', 'φ94 × 193 mm / 1570 g'],
+          ],
+          note: '运动会、远处抓拍。白镜，注意别磕碰。'
+        },
+        {
+          id: '18200', name: 'Nikon AF-S DX 18-200mm f/3.5-5.6G ED VR II', cn: '尼康 18-200',
+          spec: 'DX 专用 · 11 倍变焦 · 565 g',
+          specs: [
+            ['焦段', '18-200mm，f/3.5-5.6'],
+            ['画幅', 'DX 专用，全画幅机身不可用'],
+            ['防抖', 'VR II 光学防抖'],
+            ['尺寸', 'φ77 × 96.5 mm / 565 g'],
+          ],
+          note: '只配 D7500。装上其他机身会被裁切或打板。'
+        },
+        {
+          id: 's70200', name: 'Sony FE 70-200mm f/4 G OSS II', cn: '索尼 70-200',
+          spec: '恒定 f/4 · 全焦段微距 · 794 g',
+          specs: [
+            ['焦段', '70-200mm，恒定 f/4'],
+            ['防抖', 'OSS 光学防抖'],
+            ['最近对焦', '0.4 m（微距模式）'],
+            ['尺寸', 'φ82.2 × 149 mm / 794 g'],
+          ],
+          note: '配 a7m3。第二代体积小，手持一天不累。'
+        },
+      ]
+    },
+    {
+      id: 'light',
+      cn: '灯光',
+      en: 'LIGHT',
+      hint: '五件灯，柔和光与硬光都能做。',
+      items: [
+        {
+          id: 'light2', name: 'LED Panel ×2 + 深口格栅柔光箱', cn: '补光灯 ×2',
+          spec: '双色温 LED · 120cm 深口格栅 · 成对',
+          specs: [
+            ['类型', 'LED 常亮，双色温可调'],
+            ['柔光', '120cm 深口格栅柔光箱，含蜂巢'],
+            ['配置', '两灯一套，含灯架与收纳袋'],
+            ['用途', '双人访谈的三点布光主光 + 辅光'],
+          ],
+          note: '两台一起借才是完整布光，别只借一支。'
+        },
+        {
+          id: 'light1', name: 'LED Panel ×1 + 深口格栅柔光箱', cn: '补光灯 ×1',
+          spec: '双色温 LED · 120cm 深口格栅 · 单灯',
+          specs: [
+            ['类型', 'LED 常亮，双色温可调'],
+            ['柔光', '120cm 深口格栅柔光箱，含蜂巢'],
+            ['配置', '单灯 + 灯架，可作补光或发丝光'],
+          ],
+          note: '单灯出外景够用，室内做主光偏弱。'
+        },
+        {
+          id: 'stick', name: 'LED Tube Light', cn: '灯棒',
+          spec: '手持棒灯 · 双色温 / RGB · 内置电池',
+          specs: [
+            ['类型', 'LED 手持棒灯，细长管身'],
+            ['色温', '双色温或 RGB 全彩可调'],
+            ['供电', '内置电池，可离电使用'],
+            ['用途', '轮廓光、眼神光、狭窄空间补光'],
+          ],
+          note: '塞进狭缝打背景光很好用，人像加一条轮廓线。'
+        },
+        {
+          id: 'godox', name: 'Godox V860III C', cn: '神牛 V860III C',
+          spec: '机顶闪光灯 · GN60 · 佳能口',
+          specs: [
+            ['指数', 'GN60（ISO100，200mm）'],
+            ['兼容', '佳能 E-TTL II，2.4G 无线主从'],
+            ['回电', '全光约 0.9 s'],
+            ['电池', 'VB-26 锂电，全光约 480 次'],
+          ],
+          note: '佳能口。尼康机身装不上，别硬插。'
+        },
+        {
+          id: 'nikonflash', name: 'Nikon Speedlight SB-700', cn: '尼康 闪光灯',
+          spec: '机顶闪光灯 · GN28 · i-TTL',
+          specs: [
+            ['指数', 'GN28（ISO100，35mm）'],
+            ['兼容', '尼康 i-TTL，CLS 创意闪光系统'],
+            ['变焦', '24-120mm 自动变焦'],
+            ['供电', '4 节 AA 电池'],
+          ],
+          note: '配 D7500。带扩散罩与色片，柔化直闪。'
+        },
+      ]
+    },
+    {
+      id: 'support',
+      cn: '支撑',
+      en: 'SUPPORT',
+      hint: '稳定器、三脚架、灯架，站得住才拍得稳。',
+      items: [
+        {
+          id: 'rs3', name: 'DJI RS 3', cn: '大疆 RS 3 稳定器',
+          spec: '三轴稳定 · 负载 3kg · 12h 续航',
+          specs: [
+            ['负载', '最大 3 kg，适配主流微单 + 24-70'],
+            ['轴数', '三轴机械增稳，自动轴锁'],
+            ['屏幕', '1.8 英寸触摸屏'],
+            ['续航', '约 12 小时，支持快充'],
+          ],
+          note: 'S5 II / a7m3 上稳定器前先拆手柄，否则调不平。'
+        },
+        {
+          id: 'tripod', name: 'Camera Tripod + Fluid Head', cn: '三脚架',
+          spec: '铝合金 · 液压云台 · 承重 5kg',
+          specs: [
+            ['材质', '铝合金脚管，三节可调'],
+            ['云台', '液压阻尼云台，支持横竖拍'],
+            ['承重', '约 5 kg'],
+            ['高度', '最高约 1.6 m，最低约 0.6 m'],
+          ],
+          note: '长焦必须上脚架，手持 70-200 会糊。'
+        },
+        {
+          id: 'stand', name: 'Light Stand', cn: '灯架',
+          spec: '铝合金 · 2.8m · 承重 5kg',
+          specs: [
+            ['材质', '铝合金，三节伸缩'],
+            ['高度', '最高 2.8 m，收纳约 1 m'],
+            ['承重', '约 5 kg，配标准 1/4 螺口'],
+            ['配件', '含柔光箱转接座'],
+          ],
+          note: '灯架配重块别忘，长杆伸高会前倾。'
+        },
+      ]
+    },
+    {
+      id: 'audio',
+      cn: '音频',
+      en: 'AUDIO',
+      hint: '声音不行，画面白拍。',
+      items: [
+        {
+          id: 'mic', name: 'DJI Mic 2', cn: 'DJI 麦克风',
+          spec: '一拖二无线 · 32-bit 内录 · 250m',
+          specs: [
+            ['配置', '双发射器 + 接收器，含充电盒'],
+            ['内录', '32-bit 浮点，单机可独立录音'],
+            ['传输', '最远 250 m，抗干扰'],
+            ['续航', '内录 14 小时 / 综合 18 小时'],
+          ],
+          note: '采访、口播、走拍都用它。开录前先确认内录在跑。'
+        },
+      ]
+    },
+    {
+      id: 'power',
+      cn: '电池',
+      en: 'POWER',
+      hint: '电池按数量借用，不是按型号。',
+      items: []
+    }
+  ];
+
+  const FILE = {
+    '6d2':'body-6d2','s5ii':'body-s5ii','a7m3':'body-a7m3','d7500':'body-d7500',
+    'pocket3':'body-pocket3','pocket4':'body-pocket4','dv':'body-dv',
+    '2470':'lens-2470','24105':'lens-24105','70200':'lens-70200','100400':'lens-100400',
+    '18200':'lens-18200','s70200':'lens-s70200',
+    'light2':'acc-light','light1':'acc-light','stick':'acc-stick','godox':'acc-godox',
+    'nikonflash':'acc-nikonflash','rs3':'acc-rs3','tripod':'acc-tripod','stand':'acc-stand',
+    'mic':'acc-mic'
+  };
+  const shot = id => `assets/equipment/${FILE[id]}.webp`;
+
+  const SECS = [
+    { id:'body', cn:'机身' }, { id:'lens', cn:'镜头' }, { id:'light', cn:'灯光' },
+    { id:'support', cn:'支撑' }, { id:'audio', cn:'音频' }, { id:'power', cn:'电池' }
+  ];
+
+  const POWER = [
+    ['LP-E6N','佳能 6D2'], ['DMW-BLJ31','松下 S5 II'], ['NP-FZ100','索尼 a7 III'],
+    ['EN-EL15a','尼康 D7500'], ['内置电池','Pocket 3 / 4'], ['VB-26','神牛 V860III'],
+    ['AA × 4','尼康 SB-700']
+  ];
+
+  /* ---------- 组装卡片数据 ---------- */
+  const CARDS = [];
+  KIT.forEach(sec => {
+    if (!sec.items.length) return;
+    sec.items.forEach((it, i) => CARDS.push({
+      ...it, sec: sec.id, secCn: sec.cn, idx: i + 1, n: sec.items.length
+    }));
+  });
+  CARDS.push({ sec:'power', secCn:'电池', power:true });
+
+  /* ---------- 渲染 ---------- */
+  const track = root.getElementById('track');
+  const chips = root.getElementById('chips');
+  const cur = root.getElementById('cur');
+  const tot = root.getElementById('tot');
+  const bar = root.getElementById('bar');
+  const prevBtn = root.getElementById('prev');
+  const nextBtn = root.getElementById('next');
+  const cards = [];
+
+  function bodyHTML(c, i){
+    return `<div class="shot"><img src="${shot(c.id)}" alt="${c.cn} ${c.name}" ${i < 2 ? '' : 'loading="lazy"'}></div>
+      <div class="info">
+        <p class="grp">${c.secCn} ${c.idx} / ${c.n}</p>
+        <h2 class="cn">${c.cn}</h2>
+        <p class="en">${c.name}</p>
+        <dl class="specs">${c.specs.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
+        ${c.note ? `<p class="note">${c.note}</p>` : ''}
+      </div>`;
+  }
+
+  function powerHTML(){
+    return `<div class="shot pow-figure">
+        <div class="big">07</div>
+        <div class="cap">种电池型号</div>
+      </div>
+      <div class="info">
+        <p class="grp">电池 · 按数量</p>
+        <h2 class="cn">借几块<br>记几块</h2>
+        <p class="en">POWER — BY QUANTITY</p>
+        <div class="pow-list">${POWER.map(([a, b]) => `<div><span>${a}</span><em>${b}</em></div>`).join('')}</div>
+        <p class="note">登记表只填数量，归还时按数量清点。少一块都不行。</p>
+      </div>`;
+  }
+
+  CARDS.forEach((c, i) => {
+    const el = document.createElement('article');
+    el.className = 'card' + (c.power ? ' card--dark card--power' : '');
+    el.innerHTML = c.power ? powerHTML() : bodyHTML(c, i);
+    track.appendChild(el);
+    cards.push(el);
+  });
+
+  SECS.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.dataset.sec = s.id;
+    b.textContent = s.cn;
+    b.addEventListener('click', () => {
+      const i = CARDS.findIndex(c => c.sec === s.id);
+      if (i >= 0) goTo(i);
+    });
+    chips.appendChild(b);
+  });
+
+  /* ---------- 滚动与缩放 ---------- */
+  const centerOf = el => el.offsetLeft + el.offsetWidth / 2;
+  let active = 0;
+  let raf = 0;
+
+  function update(){
+    raf = 0;
+    const mid = track.scrollLeft + track.clientWidth / 2;
+    let best = active, dist = Infinity;
+    for (let i = 0; i < cards.length; i++) {
+      const el = cards[i];
+      const d = Math.abs(centerOf(el) - mid);
+      if (d < dist) { dist = d; best = i; }
+      const p = Math.min(d / track.clientWidth, 1);
+      el.style.transform = `scale(${1 - 0.07 * p}) translateZ(0)`;
+      el.style.opacity = String(1 - 0.52 * p);
+    }
+    if (best !== active) setActive(best);
+  }
+
+  function setActive(i){
+    active = i;
+    cur.textContent = String(i + 1).padStart(2, '0');
+    bar.style.width = ((i + 1) / cards.length * 100).toFixed(1) + '%';
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === cards.length - 1;
+    const sec = CARDS[i].sec;
+    chips.querySelectorAll('.chip').forEach(b => b.classList.toggle('on', b.dataset.sec === sec));
+  }
+
+  let animRaf = 0;
+
+  function animateTo(left){
+    cancelAnimationFrame(animRaf);
+    const from = track.scrollLeft;
+    const delta = left - from;
+    if (Math.abs(delta) < 1.5) { track.scrollLeft = left; return; }
+    const dur = Math.min(780, Math.max(300, 300 + Math.abs(delta) * 0.06));
+    const t0 = performance.now();
+    track.style.scrollSnapType = 'none';
+    track.style.scrollBehavior = 'auto';
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const step = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      track.scrollLeft = from + delta * ease(p);
+      if (p < 1) { animRaf = requestAnimationFrame(step); }
+      else {
+        track.scrollLeft = left;
+        animRaf = requestAnimationFrame(() => {
+          track.style.scrollSnapType = '';
+          track.style.scrollBehavior = '';
+          schedule();
+        });
+      }
+    };
+    animRaf = requestAnimationFrame(step);
+  }
+
+  function goTo(i, instant){
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    const left = centerOf(cards[i]) - track.clientWidth / 2;
+    if (instant) {
+      cancelAnimationFrame(animRaf);
+      track.style.scrollSnapType = 'none';
+      track.scrollLeft = left;
+      requestAnimationFrame(() => {
+        track.style.scrollSnapType = '';
+        schedule();
+      });
+      return;
+    }
+    animateTo(left);
+  }
+
+  track.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+
+  /* ---------- 拖拽（1:1 跟手 + 动量投影） ---------- */
+  let moved = false, down = false, startX = 0, startScroll = 0, lastX = 0, lastT = 0, vx = 0, settle = 0;
+
+  track.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    down = true; moved = false;
+    cancelAnimationFrame(animRaf);
+    startX = e.clientX; startScroll = track.scrollLeft;
+    lastX = e.clientX; lastT = performance.now(); vx = 0;
+    clearTimeout(settle);
+    track.style.scrollSnapType = 'none';
+    track.style.scrollBehavior = 'auto';
+    try { track.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+
+  track.addEventListener('pointermove', e => {
+    if (!down) return;
+    const now = performance.now();
+    track.scrollLeft = startScroll - (e.clientX - startX);
+    if (Math.abs(e.clientX - startX) > 4) moved = true;
+    const dt = now - lastT;
+    if (dt > 0) vx = Math.max(-2.2, Math.min(2.2, (e.clientX - lastX) / dt));
+    lastX = e.clientX; lastT = now;
+  });
+
+  function endDrag(){
+    if (!down) return;
+    down = false;
+    if (!moved) {
+      settle = setTimeout(() => { track.style.scrollSnapType = ''; track.style.scrollBehavior = ''; }, 120);
+      return;
+    }
+    const projected = track.scrollLeft - vx * 240;
+    const mid = projected + track.clientWidth / 2;
+    let best = active, dist = Infinity;
+    cards.forEach((el, i) => {
+      const d = Math.abs(centerOf(el) - mid);
+      if (d < dist) { dist = d; best = i; }
+    });
+    goTo(best);
+    settle = setTimeout(() => {
+      track.style.scrollSnapType = '';
+      track.style.scrollBehavior = '';
+      schedule();
+    }, 220);
+  }
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+  track.addEventListener('pointerleave', endDrag);
+
+  /* ---------- 滚轮与按键 ---------- */
+  track.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    const step = e.deltaMode === 1 ? e.deltaY * 26 : e.deltaY;
+    track.scrollLeft += step;
+  }, { passive: false });
+
+
+  prevBtn.addEventListener('click', () => goTo(active - 1));
+  nextBtn.addEventListener('click', () => goTo(active + 1));
+
+  /* ---------- 初始化 ---------- */
+  tot.textContent = String(cards.length).padStart(2, '0');
+
+  function schedule(){ if (!raf) raf = requestAnimationFrame(update); }
+
+  function boot(){
+    measureOnce();
+    requestAnimationFrame(() => {
+      update();
+      track.classList.add('on');
+    });
+  }
+
+  function measureOnce(){
+    const mid = track.scrollLeft + track.clientWidth / 2;
+    cards.forEach(el => {
+      const p = Math.min(Math.abs(centerOf(el) - mid) / track.clientWidth, 1);
+      el.style.transform = `scale(${1 - 0.07 * p}) translateZ(0)`;
+      el.style.opacity = String(1 - 0.52 * p);
+    });
+    setActive(0);
+  }
+
+  let rz = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(rz);
+    rz = setTimeout(() => goTo(active, true), 120);
+  });
+
+  boot();
+  return {
+    goTo,
+    getActive: () => active,
+    getTotal: () => cards.length
+  };
+}
+
+
+(function(){
+  var host = document.getElementById('gearOverlay');
+  if (!host || host.getAttribute('data-gear-ready') === '1') return;
+  host.setAttribute('data-gear-ready', '1');
+
+  var shadow = host.attachShadow({ mode: 'open' });
+  shadow.appendChild(document.getElementById('gearOverlayCss').content.cloneNode(true));
+  shadow.appendChild(document.getElementById('gearOverlayMarkup').content.cloneNode(true));
+
+  var gear = initGear(shadow);
+  var trackEl = shadow.getElementById('track');
+  if (trackEl) {
+    trackEl.tabIndex = -1;
+    trackEl.setAttribute('role', 'region');
+    trackEl.setAttribute('aria-label', '器材横向陈列，可用左右方向键浏览');
+  }
+  var closeBtn = shadow.getElementById('gearClose');
+  var isOpen = false;
+  var lastTrigger = null;
+  var oldOverflow = '';
+  var oldHtmlOverflow = '';
+  var oldScrollY = 0;
+
+  function focusables(){
+    return Array.prototype.slice.call(shadow.querySelectorAll(
+      'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+    )).filter(function(el){
+      return el.getClientRects().length > 0;
+    });
+  }
+
+  function onKey(e){
+    if (!isOpen) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      close();
+      return;
+    }
+    if (e.key === 'Tab') {
+      var list = focusables();
+      if (!list.length) return;
+      var first = list[0], last = list[list.length - 1];
+      var active = shadow.activeElement;
+      if (e.shiftKey && (active === first || !active || active === host)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+      return;
+    }
+    var handled = true;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') {
+      gear.goTo(gear.getActive() + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+      gear.goTo(gear.getActive() - 1);
+    } else if (e.key === 'Home') {
+      gear.goTo(0);
+    } else if (e.key === 'End') {
+      gear.goTo(gear.getTotal() - 1);
+    } else {
+      handled = false;
+    }
+    if (handled) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }
+
+  function open(trigger){
+    if (isOpen) return;
+    isOpen = true;
+    lastTrigger = trigger || document.activeElement;
+    oldOverflow = document.body.style.overflow;
+    oldHtmlOverflow = document.documentElement.style.overflow;
+    oldScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    host.classList.add('is-open');
+    host.setAttribute('aria-hidden', 'false');
+    window.addEventListener('keydown', onKey, true);
+    window.setTimeout(function(){
+      if (closeBtn) closeBtn.focus({ preventScroll: true });
+    }, 60);
+  }
+
+  function close(){
+    if (!isOpen) return;
+    isOpen = false;
+    host.classList.remove('is-open');
+    host.setAttribute('aria-hidden', 'true');
+    window.removeEventListener('keydown', onKey, true);
+    document.body.style.overflow = oldOverflow;
+    document.documentElement.style.overflow = oldHtmlOverflow;
+    document.documentElement.scrollTop = oldScrollY;
+    window.scrollTo({ top: oldScrollY, left: 0, behavior: 'instant' });
+    if (lastTrigger && typeof lastTrigger.focus === 'function') {
+      lastTrigger.focus({ preventScroll: true });
+    }
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-gear-open]'), function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      open(btn);
+    });
+  });
+
+  window.MeiyingGear = {
+    open: open,
+    close: close,
+    toggle: function(){ isOpen ? close() : open(document.activeElement); },
+    isOpen: function(){ return isOpen; }
+  };
+
+  if (location.hash === '#gear') open(null);
+})();
+
+</script>
+
 </body>
 </html>
