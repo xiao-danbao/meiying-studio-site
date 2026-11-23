@@ -2648,7 +2648,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .gear-sheet.family-mode .detail{display:flex}
   .gear-sheet.family-mode.is-detail .detail{
     opacity:1; visibility:visible; transform:none; pointer-events:auto;
-    transition:opacity .28s var(--ease), transform .32s var(--ease), visibility 0s linear 0s;
+    transition:opacity .01s linear, transform .32s var(--ease), visibility 0s linear 0s;
   }
   .gear-sheet.family-mode .top{
     height:auto; min-height:0; display:grid;
@@ -3342,7 +3342,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
 }
 .gear-sheet .family .tile:active{transform:scale(.94) rotate(0deg);transition-duration:.1s}
 .gear-sheet .family .tile.is-picked{
-  z-index:8; transform:translateY(-3px) scale(1.18) rotate(0deg);
+  z-index:8; transform:translateY(-3px) scale(1) rotate(0deg);
   filter:brightness(1.1) drop-shadow(0 0 18px rgba(255,246,233,.16));
   transition-duration:.18s;
 }
@@ -3431,7 +3431,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   transition:opacity .3s var(--wall-ease),visibility 0s linear 0s;
 }
 .gear-sheet.family-mode.is-detail .family{
-  opacity:.09; visibility:visible; transform:scale(.965);
+  opacity:.09; visibility:visible; transform:none;
   filter:blur(2px) brightness(.75); pointer-events:none;
   transition:opacity .3s var(--wall-ease),transform .4s var(--wall-ease),filter .3s var(--ease),visibility 0s linear 0s;
 }
@@ -3909,6 +3909,147 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .gear-sheet .chips{background:rgba(12,11,9,.95); -webkit-backdrop-filter:none; backdrop-filter:none}
 }
 
+
+/* ===== R25 · 单设备：同一张照片从墙面放大，说明贴着机身 ===== */
+.gear-sheet .card.r25-detail{
+  width:100%; max-width:none; height:100%; max-height:none;
+  display:flex; flex-direction:column; gap:0;
+  padding:0; overflow:hidden;
+  border:0; border-radius:0; background:none; box-shadow:none;
+  animation:none;
+}
+.gear-sheet .r25-head{
+  flex:none; position:relative; z-index:6;
+  padding:0 clamp(14px,2vw,26px) clamp(6px,1.1vh,10px);
+  display:flex; flex-direction:column; align-items:flex-start; gap:0;
+  pointer-events:none;
+}
+.gear-sheet .r25-head .grp{
+  margin:0 0 5px; padding:0;
+  font-size:9px; line-height:1; letter-spacing:.16em;
+  color:rgba(255,246,233,.42);
+}
+.gear-sheet .r25-head .cn{
+  font-size:clamp(25px,6.1vw,40px); line-height:1.02; font-weight:800;
+  letter-spacing:-.045em; color:var(--wall-ink);
+  text-shadow:0 14px 30px rgba(0,0,0,.45);
+}
+.gear-sheet .r25-head .en{
+  margin-top:5px; font-size:9.5px; line-height:1.35;
+  letter-spacing:.08em; color:rgba(255,246,233,.5);
+}
+.gear-sheet .r25-stage{
+  flex:1; min-height:0; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.gear-sheet .r25-photo{
+  position:absolute; inset:0; min-width:0; min-height:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.gear-sheet .r25-photo img{
+  position:relative; z-index:2;
+  width:auto; height:auto; max-width:100%; max-height:100%;
+  object-fit:contain; border-radius:0; box-shadow:none;
+  filter:drop-shadow(0 34px 30px rgba(0,0,0,.62)) drop-shadow(0 5px 6px rgba(0,0,0,.35));
+}
+.gear-sheet .r25-photo.is-waiting img{opacity:0}
+.gear-sheet .r25-rail{
+  position:absolute; inset:0; z-index:5; pointer-events:none;
+}
+.gear-sheet .r25-anno{
+  position:absolute; top:var(--ay,50%); width:min(34vw,150px);
+  display:flex; flex-direction:column; gap:2px;
+  transform:translateY(-50%);
+  color:rgba(255,246,233,.9);
+  text-shadow:0 2px 12px rgba(0,0,0,.72);
+  transition:opacity .3s var(--wall-ease), transform .3s var(--wall-ease);
+}
+.gear-sheet .r25-anno.left{left:calc(var(--photo-left, 0px) + clamp(2px,1vw,10px)); text-align:left; align-items:flex-start}
+.gear-sheet .r25-anno.right{right:calc(var(--photo-right, 0px) + clamp(2px,1vw,10px)); text-align:right; align-items:flex-end}
+.gear-sheet .r25-anno::before{
+  content:""; position:absolute; top:50%; width:clamp(14px,3vw,34px); height:1px;
+  background:linear-gradient(90deg,rgba(255,246,233,.46),rgba(255,246,233,.08));
+  opacity:.8;
+}
+.gear-sheet .r25-anno.left::before{left:0}
+.gear-sheet .r25-anno.right::before{right:0; background:linear-gradient(90deg,rgba(255,246,233,.08),rgba(255,246,233,.46))}
+.gear-sheet .r25-anno b{
+  display:flex; align-items:center; gap:5px;
+  font-size:8.2px; line-height:1; font-weight:600;
+  letter-spacing:.12em; color:rgba(255,246,233,.44); white-space:nowrap;
+}
+.gear-sheet .r25-anno b::before{
+  content:""; flex:none; width:4px; height:4px; border-radius:50%;
+  background:rgba(255,246,233,.72); box-shadow:0 0 0 2px rgba(255,246,233,.1);
+}
+.gear-sheet .r25-anno span{
+  display:block; font-size:clamp(9px,1.9vw,10.5px); line-height:1.35;
+  letter-spacing:.01em; color:rgba(255,246,233,.94);
+  text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.82);
+}
+.gear-sheet .r25-note{
+  flex:none; position:relative; z-index:6;
+  margin:0; padding:clamp(7px,1.4vh,12px) clamp(14px,2vw,26px) 0;
+  display:flex; gap:8px;
+  font-size:clamp(8px,1.9vw,10px); line-height:1.45;
+  color:rgba(255,246,233,.5);
+}
+.gear-sheet .r25-note::before{
+  content:""; flex:none; width:2px; height:13px; margin-top:2px;
+  background:var(--red);
+}
+.gear-sheet .card.r25-detail:not(.is-ready) .r25-head,
+.gear-sheet .card.r25-detail:not(.is-ready) .r25-anno,
+.gear-sheet .card.r25-detail:not(.is-ready) .r25-note{
+  opacity:0; transform:translateY(4px);
+}
+.gear-sheet .card.r25-detail.is-ready .r25-head,
+.gear-sheet .card.r25-detail.is-ready .r25-note{opacity:1; transform:none}
+.gear-sheet .card.r25-detail.is-ready .r25-anno{opacity:1; transform:translateY(-50%)}
+/* 单张照片飞行：不用替身，直接把墙上那张图移到详情 */
+.gear-sheet .r25-hero{
+  position:absolute; z-index:80; margin:0; pointer-events:none;
+  max-width:none; max-height:none; border-radius:0; box-shadow:none;
+  object-fit:contain;
+  transition:
+    left .58s cubic-bezier(.2,.88,.2,1),
+    top .58s cubic-bezier(.2,.88,.2,1),
+    width .58s cubic-bezier(.2,.88,.2,1),
+    height .58s cubic-bezier(.2,.88,.2,1),
+    opacity .2s linear;
+}
+.gear-sheet .r25-hero.is-returning{opacity:1}
+.gear-sheet .r25-photo img.is-hero{
+  width:100%; height:100%; max-width:100%; max-height:100%;
+}
+/* 顶栏不再出现分割线：让渐变在更长距离里消失 */
+.gear-sheet .top::before{
+  height:100%;
+  background:radial-gradient(220px 72px at 92px 50%,rgba(12,11,9,.64) 0%,rgba(12,11,9,.18) 55%,rgba(12,11,9,0) 100%);
+  -webkit-mask-image:none; mask-image:none;
+  -webkit-backdrop-filter:none; backdrop-filter:none;
+}
+.gear-sheet .top,
+.gear-sheet.family-mode .top,
+.gear-sheet.family-mode.is-detail .top{
+  border-bottom:0; background:none; box-shadow:none;
+  -webkit-backdrop-filter:none; backdrop-filter:none;
+}
+@media(min-width:900px){
+  .gear-sheet .r25-anno b{font-size:9px}
+  .gear-sheet .r25-anno span{font-size:11.5px}
+}
+.gear-sheet .top::before{display:none}
+@media(max-width:860px){
+  .gear-sheet .r25-stage{padding:0}
+  .gear-sheet .r25-anno{width:min(31vw,108px)}
+  .gear-sheet .r25-anno b{font-size:8.4px}
+  .gear-sheet .r25-anno span{font-size:9.5px}
+  .gear-sheet .r25-head{padding-left:12px; padding-right:12px}
+  .gear-sheet .r25-note{padding-left:12px; padding-right:12px; font-size:8px}
+}
+
 </style>
 </template>
 
@@ -4299,6 +4440,7 @@ function initGear(root) {
     'stand','mic'
   ];
   const RADIAL_D = .29;
+  const TILE_D = .255;
   const HEX_Y = Math.sqrt(3) / 2;
   const RING1 = [[0,-1],[1,-1],[1,0],[0,1],[-1,1],[-1,0]];
   function hexCells(k){
@@ -4376,6 +4518,10 @@ function initGear(root) {
   let lastTile = null;
   let detailTimer = 0;
   let ghostTimer = 0;
+  let detailPhoto = null;
+  let heroImg = null;
+  let heroTile = null;
+  let heroTimer = 0;
   let suppressClickUntil = 0;
   const cards = [];
   function defaultWallScale(){
@@ -4386,16 +4532,68 @@ function initGear(root) {
     pointers: new Map(), drag: null, pinch: null, moved: false
   };
 
-  function bodyHTML(c, i, detailMode){
-    const src = detailMode ? cut(c.id) : shot(c.id);
-    return `<div class="shot"><img src="${src}" alt="${c.cn} ${c.name}" ${i < 2 ? '' : 'loading="lazy"'}></div>
-      <div class="info">
+  // 旧滚动画廊已经不再展示照片，只保留文字占位，避免同一台器材出现第二张图。
+  function bodyHTML(c, i){
+    return `<div class="info">
         <p class="grp">${c.secCn} ${c.idx} / ${c.n}</p>
         <h2 class="cn">${c.cn}</h2>
         <p class="en">${c.name}</p>
         <dl class="specs">${c.specs.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
         ${c.note ? `<p class="note">${c.note}</p>` : ''}
       </div>`;
+  }
+
+  const SPEC_Y = {
+    '画幅':43, '对焦':57, '视频':31, '机身':74, '电池':64, '防抖':55,
+    '传感器':40, '屏幕':48, '存储':59, '云台':69, '续航':78,
+    '焦段':43, '结构':29, '最近对焦':61, '尺寸':78,
+    '类型':35, '柔光':54, '配置':70, '用途':82,
+    '指数':30, '兼容':47, '回电':62, '供电':77,
+    '负载':36, '轴数':53, '材质':31, '承重':66, '高度':80,
+    '配置':39, '内录':55, '传输':71, '续航':84,
+    '配件':78
+  };
+  const SPEC_SIDE = {
+    '画幅':'left', '对焦':'left', '视频':'right', '机身':'right', '电池':'right', '防抖':'right',
+    '传感器':'left', '屏幕':'right', '存储':'right', '云台':'right', '续航':'left',
+    '焦段':'left', '结构':'right', '最近对焦':'left', '尺寸':'right',
+    '类型':'left', '柔光':'right', '配置':'right', '用途':'left',
+    '指数':'left', '兼容':'right', '回电':'left', '供电':'right',
+    '负载':'left', '轴数':'right', '材质':'left', '承重':'right', '高度':'left',
+    '内录':'right', '传输':'left', '配件':'right'
+  };
+  function annotationsFor(c){
+    const raw = (c.specs || []).filter(([k]) => k !== '电池').slice(0, 5);
+    const out = raw.map(([k, v], idx) => ({
+      k: k, v: v,
+      side: SPEC_SIDE[k] || (idx % 2 === 0 ? 'left' : 'right'),
+      y: SPEC_Y[k] || (38 + idx * 11)
+    }));
+    // 每侧最多三个，避免在手机上互相压住。
+    const left = out.filter(a => a.side === 'left');
+    const right = out.filter(a => a.side === 'right');
+    if (left.length > 3) left.splice(3).forEach(a => right.push(Object.assign({}, a, {side:'right'})));
+    if (right.length > 3) right.splice(3).forEach(a => left.push(Object.assign({}, a, {side:'left'})));
+    const fix = (list, side) => {
+      if (!list.length) return '';
+      return list.map(a => {
+        const y = Math.max(24, Math.min(86, a.y)) + '%';
+        return `<div class="r25-anno ${side}" style="--ay:${y}"><b>${a.k}</b><span>${a.v}</span></div>`;
+      }).join('');
+    };
+    return fix(left, 'left') + fix(right, 'right');
+  }
+  function detailHTML(c, i){
+    return `<div class="r25-head">
+        <p class="grp">${c.secCn} ${c.idx} / ${c.n} · 共 ${CARDS.length} 件</p>
+        <h2 class="cn">${c.cn}</h2>
+        <p class="en">${c.name}</p>
+      </div>
+      <div class="r25-stage">
+        <div class="r25-photo" data-photo></div>
+        <div class="r25-rail" aria-hidden="true">${annotationsFor(c)}</div>
+      </div>
+      ${c.note ? `<p class="r25-note">${c.note}</p>` : ''}`;
   }
 
   CARDS.forEach((c, i) => {
@@ -4639,7 +4837,7 @@ function initGear(root) {
 
     const n = list.length;
     const slots = familyFilter === 'all' ? radialSlots() : filterSlots(n);
-    const tileD = (familyFilter !== 'all' && n === 1) ? .34 : RADIAL_D;
+    const tileD = (familyFilter !== 'all' && n === 1) ? .34 : TILE_D;
     familyGrid.dataset.layout = 'radial';
     familyGrid.style.setProperty('--plane-w', '200%');
     familyGrid.style.setProperty('--plane-h', '200%');
@@ -4694,13 +4892,165 @@ function initGear(root) {
     const c = CARDS[i];
     if (!c || !detailBody) return;
     const el = document.createElement('article');
-    el.className = 'card detail-card' + (c.power ? ' card--dark card--power sec-power' : ' sec-' + c.sec);
-    el.innerHTML = c.power ? powerHTML() : bodyHTML(c, i, true);
+    el.className = 'card detail-card r25-detail sec-' + c.sec;
+    el.innerHTML = detailHTML(c, i);
     detailBody.innerHTML = '';
     detailBody.appendChild(el);
+    detailPhoto = el.querySelector('[data-photo]');
     if (detailMeta) {
       detailMeta.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(CARDS.length).padStart(2, '0');
     }
+  }
+
+  function targetPhotoRect(img){
+    const frame = detailPhoto ? detailPhoto.getBoundingClientRect() : null;
+    if (!frame || !frame.width || !frame.height) return null;
+    const nw = img.naturalWidth || 1;
+    const nh = img.naturalHeight || 1;
+    let w = frame.width, h = w / (nw / nh);
+    if (h > frame.height) { h = frame.height; w = h * (nw / nh); }
+    return {
+      left: frame.left + (frame.width - w) / 2,
+      top: frame.top + (frame.height - h) / 2,
+      width: w, height: h
+    };
+  }
+
+  function layoutPhotoRails(){
+    const ph = detailPhoto;
+    const st = detail && detail.querySelector('.r25-stage');
+    if (!ph || !st) return;
+    const img = ph.querySelector('img');
+    if (!img || !img.naturalWidth || !img.naturalHeight) return;
+    const fr = ph.getBoundingClientRect();
+    if (!fr.width || !fr.height) return;
+    const sc = Math.min(fr.width / img.naturalWidth, fr.height / img.naturalHeight);
+    const pad = Math.round(Math.max(0, (fr.width - img.naturalWidth * sc) / 2));
+    st.style.setProperty('--photo-left', pad + 'px');
+    st.style.setProperty('--photo-right', pad + 'px');
+  }
+
+  function mountHeroFromTile(tile, c){
+    const src = tile ? tile.querySelector('.thumb img') : null;
+    if (!src || !detail || !detailPhoto) {
+      const img = document.createElement('img');
+      img.className = 'is-hero';
+      img.alt = c.cn;
+      img.src = cut(c.id);
+      img.addEventListener('load', function(){
+        const card = detailBody.querySelector('.r25-detail');
+        if (card) card.classList.add('is-ready');
+      }, { once: true });
+      detailPhoto.appendChild(img);
+      layoutPhotoRails();
+      return;
+    }
+    const from = src.getBoundingClientRect();
+    const to = targetPhotoRect(src);
+    if (!from.width || !to) {
+      detailPhoto.appendChild(src);
+      src.classList.add('is-hero');
+      const card = detailBody.querySelector('.r25-detail');
+      if (card) card.classList.add('is-ready');
+      layoutPhotoRails();
+      return;
+    }
+    const dr = detail.getBoundingClientRect();
+    heroImg = src;
+    heroTile = tile;
+    src.classList.add('r25-hero');
+    src.style.position = 'absolute';
+    src.style.left = (from.left - dr.left) + 'px';
+    src.style.top = (from.top - dr.top) + 'px';
+    src.style.width = from.width + 'px';
+    src.style.height = from.height + 'px';
+    detail.appendChild(src);
+    detailPhoto.classList.add('is-waiting');
+    layoutPhotoRails();
+    void src.offsetWidth;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        src.style.left = (to.left - dr.left) + 'px';
+        src.style.top = (to.top - dr.top) + 'px';
+        src.style.width = to.width + 'px';
+        src.style.height = to.height + 'px';
+      });
+    });
+    clearTimeout(heroTimer);
+    heroTimer = window.setTimeout(function(){
+      if (!detailPhoto || !src) return;
+      detailPhoto.appendChild(src);
+      src.classList.remove('r25-hero');
+      src.classList.add('is-hero');
+      src.removeAttribute('style');
+      detailPhoto.classList.remove('is-waiting');
+      const card = detailBody.querySelector('.r25-detail');
+      if (card) card.classList.add('is-ready');
+      layoutPhotoRails();
+    }, 620);
+  }
+
+  function returnHeroToTile(animate){
+    const img = heroImg || (detailPhoto && detailPhoto.querySelector('img'));
+    const tile = heroTile;
+    if (!img || !tile) return;
+    clearTimeout(heroTimer);
+    const box = tile.querySelector('.thumb');
+    if (!box) return;
+    img.classList.remove('is-hero', 'r25-hero');
+    img.removeAttribute('style');
+    box.appendChild(img);
+    heroImg = null;
+    heroTile = null;
+  }
+
+  function closeDetail(){
+    if (!sheet || viewMode !== 'detail') return;
+    const img = heroImg || (detailPhoto && detailPhoto.querySelector('img'));
+    const tile = heroTile || (familyGrid && familyGrid.querySelector('.tile[data-index="' + active + '"]'));
+    const box = tile && tile.querySelector('.thumb');
+    const from = img ? img.getBoundingClientRect() : null;
+    const to = box ? box.getBoundingClientRect() : null;
+    const sr = stage ? stage.getBoundingClientRect() : null;
+    viewMode = 'family';
+    if (tile) tile.classList.remove('is-picked');
+    sheet.classList.remove('is-detail');
+    if (family) family.setAttribute('aria-hidden', 'false');
+    if (detail) detail.setAttribute('aria-hidden', 'true');
+    if (wallGuide) wallGuide.classList.remove('is-hidden');
+    if (img && box && from && to && sr && !prefersReduce.matches) {
+      img.classList.remove('is-hero');
+      img.classList.add('r25-hero');
+      stage.appendChild(img);
+      img.style.position = 'absolute';
+      img.style.left = (from.left - sr.left) + 'px';
+      img.style.top = (from.top - sr.top) + 'px';
+      img.style.width = from.width + 'px';
+      img.style.height = from.height + 'px';
+      void img.offsetWidth;
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          img.style.left = (to.left - sr.left) + 'px';
+          img.style.top = (to.top - sr.top) + 'px';
+          img.style.width = to.width + 'px';
+          img.style.height = to.height + 'px';
+        });
+      });
+      window.setTimeout(function(){
+        img.classList.remove('r25-hero');
+        img.removeAttribute('style');
+        if (box && img.parentNode !== box) box.appendChild(img);
+      }, 600);
+    } else if (img && box) {
+      img.classList.remove('is-hero', 'r25-hero');
+      img.removeAttribute('style');
+      box.appendChild(img);
+    }
+    detailBody.innerHTML = '';
+    detailPhoto = null;
+    heroImg = null;
+    heroTile = null;
+    clearTimeout(heroTimer);
   }
 
   function showFamily(filter, reset){
@@ -4726,45 +5076,14 @@ function initGear(root) {
     });
   }
 
-  function flyTileToDetail(tile, c){
-    if (prefersReduce.matches || !stage || !detailBody || !tile || !c || c.power) return;
-    const srcImg = tile.querySelector('.thumb img');
-    const dstImg = detailBody.querySelector('.shot img');
-    if (!srcImg || !dstImg) return;
-    const sr = stage.getBoundingClientRect();
-    const ar = srcImg.getBoundingClientRect();
-    const br = dstImg.getBoundingClientRect();
-    if (!ar.width || !ar.height || !br.width || !br.height) return;
-    if (stage.querySelector('.zoom-ghost')) stage.querySelectorAll('.zoom-ghost').forEach(function(g){ g.remove(); });
-    const ghost = document.createElement('div');
-    ghost.className = 'zoom-ghost';
-    const img = document.createElement('img');
-    img.src = cut(c.id);
-    img.alt = '';
-    ghost.appendChild(img);
-    ghost.style.left = (ar.left - sr.left) + 'px';
-    ghost.style.top = (ar.top - sr.top) + 'px';
-    ghost.style.width = ar.width + 'px';
-    ghost.style.height = ar.height + 'px';
-    ghost.style.opacity = '1';
-    stage.appendChild(ghost);
-    void ghost.offsetWidth;
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){
-        ghost.style.left = (br.left - sr.left) + 'px';
-        ghost.style.top = (br.top - sr.top) + 'px';
-        ghost.style.width = br.width + 'px';
-        ghost.style.height = br.height + 'px';
-      });
-    });
-    clearTimeout(ghostTimer);
-    window.setTimeout(function(){ ghost.style.opacity = '0'; }, 530);
-    ghostTimer = window.setTimeout(function(){ if (ghost.parentNode) ghost.remove(); }, 780);
-  }
 
   function showDetail(i, tile, focusBack){
     if (!sheet) return;
     i = Math.max(0, Math.min(CARDS.length - 1, i));
+    if (viewMode === 'detail') returnHeroToTile(false);
+    if (!tile && familyGrid) {
+      tile = familyGrid.querySelector('.tile[data-index="' + i + '"]');
+    }
     if (tile) lastTile = tile;
     setDetailOrigin(tile || lastTile);
     clearTimeout(detailTimer);
@@ -4780,7 +5099,7 @@ function initGear(root) {
       if (familyCount) familyCount.textContent = String(CARDS.length);
       setActive(i);
       requestAnimationFrame(function(){
-        if (tile) flyTileToDetail(tile, CARDS[i]);
+        mountHeroFromTile(tile, CARDS[i]);
       });
       if (focusBack) {
         window.setTimeout(function(){
@@ -4790,7 +5109,7 @@ function initGear(root) {
     };
     if (tile && !prefersReduce.matches) {
       tile.classList.add('is-picked');
-      detailTimer = window.setTimeout(open, 150);
+      detailTimer = window.setTimeout(open, 110);
     } else {
       open();
     }
@@ -4835,7 +5154,7 @@ function initGear(root) {
     });
   }
   if (detailBack) {
-    detailBack.addEventListener('click', function(){ showFamily(undefined, false); });
+    detailBack.addEventListener('click', function(){ closeDetail(); });
   }
   if (mq.addEventListener) mq.addEventListener('change', syncLayout);
   else if (mq.addListener) mq.addListener(syncLayout);
