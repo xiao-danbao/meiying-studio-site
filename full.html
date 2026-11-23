@@ -3154,6 +3154,537 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .gear-sheet .detail-card .cn{font-size:20px}
 }
 
+/* ===== R21 · 圆形设备墙 / 浮层底栏 / 深色设备详情 ===== */
+.gear-root{
+  --wall-ease:cubic-bezier(.22,.9,.28,1);
+  --wall-rim:rgba(255,246,233,.18);
+  --wall-ink:#F4EFE6;
+  --wall-muted:rgba(255,246,233,.5);
+}
+
+/* 顶栏：渐变高斯模糊，内容从下方穿过 */
+.gear-sheet .top,
+.gear-sheet.family-mode .top,
+.gear-sheet.family-mode.is-detail .top{
+  position:absolute; top:0; left:0; right:0; z-index:30;
+  display:flex; align-items:center; justify-content:space-between;
+  height:clamp(54px,7.4vh,64px);
+  padding:0 clamp(14px,2.2vw,28px);
+  gap:14px;
+  border-bottom:0;
+  background:none;
+  pointer-events:none;
+}
+.gear-sheet .top::before{
+  content:""; position:absolute; inset:-1px -1px auto; height:calc(100% + 30px);
+  z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(100% 160% at 4% 10%,rgba(193,63,52,.16) 0%,rgba(193,63,52,.04) 36%,rgba(193,63,52,0) 62%),
+    linear-gradient(180deg,rgba(12,11,9,.86) 0%,rgba(12,11,9,.62) 44%,rgba(12,11,9,.24) 72%,rgba(12,11,9,0) 100%),
+    linear-gradient(90deg,rgba(255,246,233,.09) 0%,rgba(255,246,233,0) 42%,rgba(0,0,0,.06) 100%);
+  -webkit-backdrop-filter:blur(26px) saturate(1.12);
+  backdrop-filter:blur(26px) saturate(1.12);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 60%,rgba(0,0,0,.82) 76%,transparent 100%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 60%,rgba(0,0,0,.82) 76%,transparent 100%);
+}
+.gear-sheet .top > *{position:relative; z-index:1; pointer-events:auto}
+.gear-sheet .top .brand{gap:10px}
+.gear-sheet .top .brand-title{text-shadow:0 2px 18px rgba(0,0,0,.5)}
+.gear-sheet .top .top-tools{gap:10px}
+
+/* 舞台真正铺满整张 sheet，内容可以穿到底栏下面 */
+.gear-sheet .stage{
+  position:absolute; inset:0; z-index:1;
+  display:block; width:100%; height:100%;
+  padding:0; min-height:0;
+}
+.gear-sheet.family-mode .track{display:none}
+
+/* 圆形照片墙 */
+.gear-sheet .family{
+  --wall-size:min(calc(100vw - 20px),calc(100svh - 120px),560px);
+  position:absolute; inset:0; z-index:2;
+  display:none; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:0; padding:0; overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 48%,rgba(255,244,226,.055) 0%,rgba(255,244,226,0) 42%),
+    radial-gradient(circle at 50% 50%,#201B15 0%,#15120E 48%,#090807 100%);
+  opacity:1; visibility:visible; transform:none; pointer-events:auto;
+}
+.gear-sheet.family-mode .family{display:flex}
+.gear-sheet.family-mode .family .tile,
+.gear-sheet.family-mode .family .wall-plane{will-change:transform}
+.gear-sheet .family::before,
+.gear-sheet .family::after{
+  content:""; position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  border-radius:50%; pointer-events:none; z-index:0;
+}
+.gear-sheet .family::before{
+  width:calc(var(--wall-size) * 1.58); height:calc(var(--wall-size) * 1.58);
+  border:1px solid rgba(255,246,233,.075);
+  box-shadow:0 0 0 1px rgba(0,0,0,.22), 0 40px 100px -34px rgba(0,0,0,.65);
+  opacity:.62;
+}
+.gear-sheet .family::after{
+  width:calc(var(--wall-size) * 1.98); height:calc(var(--wall-size) * 1.98);
+  border:1px dashed rgba(255,246,233,.052);
+  opacity:.58;
+}
+
+.wall-viewport{
+  position:relative; z-index:2; flex:none;
+  width:var(--wall-size); height:var(--wall-size); aspect-ratio:1/1;
+  border-radius:50%;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(80% 52% at 50% 4%,rgba(255,244,225,.16) 0%,rgba(255,244,225,.04) 48%,rgba(255,244,225,0) 74%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,rgba(255,255,255,0) 1px 46px),
+    linear-gradient(180deg,#2A241D 0%,#191510 48%,#0A0908 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,246,233,.17),
+    0 0 0 6px rgba(6,5,4,.22),
+    0 42px 96px -34px rgba(0,0,0,.94),
+    inset 0 0 92px rgba(0,0,0,.68);
+  cursor:grab;
+  touch-action:none;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.wall-viewport:active,
+.wall-viewport.is-grabbing{cursor:grabbing}
+.wall-viewport:focus-visible{outline:2px solid rgba(255,246,233,.52); outline-offset:8px}
+.wall-viewport::before{
+  content:""; position:absolute; inset:0; z-index:6; border-radius:inherit; pointer-events:none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,246,233,.14),
+    inset 0 0 46px 14px rgba(0,0,0,.38);
+}
+.wall-viewport::after{
+  content:""; position:absolute; inset:0; z-index:6; border-radius:inherit; pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 44%,rgba(0,0,0,.1) 58%,rgba(0,0,0,.52) 78%,rgba(0,0,0,.86) 92%,rgba(7,6,5,.98) 100%),
+    linear-gradient(115deg,rgba(255,246,233,.055) 0%,rgba(255,246,233,0) 38%);
+}
+
+.wall-plane{
+  position:absolute; left:50%; top:50%; z-index:1;
+  width:var(--plane-w,155%); height:var(--plane-h,155%);
+  display:grid;
+  grid-template-columns:repeat(var(--cols,5),minmax(0,1fr));
+  grid-template-rows:repeat(var(--rows,5),minmax(0,1fr));
+  gap:clamp(7px,1.6vh,14px) clamp(7px,1.5vw,14px);
+  padding:3.2%;
+  align-content:stretch;
+  transform-origin:center center;
+  will-change:transform;
+}
+.wall-plane > .tile{grid-column:auto}
+.wall-plane > .tile.is-wide{grid-column:span 2}
+
+/* 墙面上的器材：透明主体、投影、标签 */
+.gear-sheet .family .tile{
+  position:relative; isolation:isolate;
+  min-width:0; min-height:0;
+  display:flex; flex-direction:column; align-items:stretch;
+  padding:0 2px 2px;
+  border:0; border-radius:0; background:none; box-shadow:none;
+  color:rgba(255,255,255,.82); text-align:left;
+  overflow:visible;
+  transform:translateY(var(--tile-dy,0)) rotate(var(--tile-rot,0));
+  transition:transform .22s var(--wall-ease),opacity .22s var(--ease),filter .22s var(--ease);
+}
+.gear-sheet .family .tile::before{display:none}
+.gear-sheet .family .tile .thumb{
+  flex:1; min-width:0; min-height:0; display:grid; place-items:center;
+  padding:2px 0 3px;
+  border:0; border-radius:0; background:none; box-shadow:none;
+  overflow:visible;
+}
+.gear-sheet .family .tile .thumb img{
+  display:block; width:100%; height:100%;
+  min-width:0; min-height:0; max-width:100%; max-height:100%;
+  object-fit:contain; border-radius:0;
+  filter:drop-shadow(0 18px 14px rgba(0,0,0,.62)) drop-shadow(0 2px 3px rgba(0,0,0,.34));
+  transform:translateZ(0);
+}
+.gear-sheet .family .tile .tile-name{
+  display:flex; align-items:center; gap:5px;
+  flex:none; min-width:0; margin-top:1px; padding:0 1px 1px;
+  color:rgba(255,255,255,.8); font-size:clamp(9px,2.45vw,10.5px);
+  font-weight:600; line-height:1.15; letter-spacing:.005em;
+  text-shadow:0 1px 3px rgba(0,0,0,.78);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.gear-sheet .family .tile .tile-name::before{
+  content:""; flex:none; width:4px; height:4px; border-radius:50%;
+  background:var(--tile-accent,#8E877A); opacity:.95;
+}
+.gear-sheet .family .tile.is-power .thumb{
+  background:radial-gradient(circle at 50% 32%,rgba(255,255,255,.14) 0%,rgba(255,255,255,.04) 52%,rgba(255,255,255,0) 70%);
+  border:1px solid rgba(255,246,233,.18); border-radius:50%;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 18px 32px -22px rgba(0,0,0,.9);
+}
+.gear-sheet .family .tile.is-power .tile-pow{
+  align-items:center; justify-content:center; padding-left:0; text-align:center;
+}
+.gear-sheet .family .tile.is-power .tile-pow b{font-size:clamp(18px,5vw,25px)}
+.gear-sheet .family .tile.is-power .tile-pow small{font-size:clamp(6px,1.7vw,7.5px)}
+.gear-sheet .family .tile:nth-child(5n+1){--tile-dy:2px;--tile-rot:-.5deg}
+.gear-sheet .family .tile:nth-child(5n+2){--tile-dy:-2px;--tile-rot:.4deg}
+.gear-sheet .family .tile:nth-child(5n+3){--tile-dy:1px;--tile-rot:-.25deg}
+.gear-sheet .family .tile:nth-child(5n+4){--tile-dy:-3px;--tile-rot:.55deg}
+.gear-sheet .family .tile:nth-child(5n){--tile-dy:-1px;--tile-rot:0deg}
+@media(hover:hover){
+  .gear-sheet .family .tile:hover{transform:translateY(calc(var(--tile-dy,0px) - 4px)) rotate(0deg);filter:brightness(1.06)}
+}
+.gear-sheet .family .tile:active{transform:scale(.94) rotate(0deg);transition-duration:.1s}
+.gear-sheet .family .tile.is-picked{
+  z-index:8; transform:translateY(-3px) scale(1.18) rotate(0deg);
+  filter:brightness(1.1) drop-shadow(0 0 18px rgba(255,246,233,.16));
+  transition-duration:.18s;
+}
+
+/* 墙内提示 */
+.wall-guide{
+  position:absolute; left:50%; top:calc(50% + var(--wall-size) / 2 + 14px); z-index:8;
+  transform:translateX(-50%);
+  display:inline-flex; align-items:center; gap:7px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,246,233,.13);
+  background:rgba(8,7,6,.5);
+  -webkit-backdrop-filter:blur(16px) saturate(1.1);
+  backdrop-filter:blur(16px) saturate(1.1);
+  box-shadow:0 12px 28px -22px rgba(0,0,0,.9);
+  color:rgba(255,246,233,.58); font-size:9.5px; line-height:1;
+  letter-spacing:.045em; white-space:nowrap; pointer-events:none;
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+.gear-sheet .family .tile-name{
+  transition:opacity .22s ease, transform .22s cubic-bezier(.22,.68,.35,1);
+}
+.gear-sheet .family .tile{
+  transition:opacity .26s ease, filter .26s ease;
+}
+.gear-sheet .family .tile.is-cut{
+  opacity:.52; filter:saturate(.82) brightness(.82);
+}
+.gear-sheet .family .tile.is-cut .tile-name{
+  opacity:0; transform:translateY(3px);
+}
+
+.wall-guide-dot{
+  width:4px; height:4px; border-radius:50%;
+  background:rgba(255,246,233,.55); box-shadow:0 0 0 3px rgba(255,246,233,.08);
+}
+.wall-guide.is-hidden{opacity:0; transform:translateX(-50%) translateY(5px)}
+
+/* 底栏：只留一条轻胶囊，内容与墙面从下面穿过去 */
+.gear-sheet .bottom-deck,
+.gear-sheet.family-mode .bottom-deck{
+  position:absolute; left:0; right:0; bottom:0; z-index:40;
+  display:flex; align-items:flex-end; justify-content:center;
+  gap:10px; width:100%;
+  padding:0 10px calc(5px + env(safe-area-inset-bottom));
+  background:none; pointer-events:none;
+}
+.gear-sheet .bottom-deck::before{display:none}
+.gear-sheet .bottom-deck > *{pointer-events:auto}
+.gear-sheet.family-mode .chips{
+  width:auto; max-width:calc(100% - 14px); margin:0 auto;
+  padding:2px; gap:1px;
+  background:rgba(9,8,7,.5);
+  border:1px solid rgba(255,246,233,.13);
+  box-shadow:0 16px 36px -26px rgba(0,0,0,.92), inset 0 1px 0 rgba(255,255,255,.08);
+  -webkit-backdrop-filter:blur(24px) saturate(1.16);
+  backdrop-filter:blur(24px) saturate(1.16);
+}
+.gear-sheet.family-mode .chips::-webkit-scrollbar{display:none}
+.gear-sheet .chip{padding:5px 10px; font-size:11px}
+.gear-sheet .chip-ind{top:2px; bottom:2px; background:rgba(246,243,235,.95)}
+.gear-sheet.family-mode .hud{display:none}
+.gear-sheet.family-mode.is-detail .hud{display:flex}
+.gear-sheet.family-mode.is-detail .chips{display:none}
+.gear-sheet .hud{gap:0; padding:0}
+.gear-sheet .nav-capsule{padding:4px 7px; gap:8px}
+.gear-sheet .nav-capsule .round{width:34px; height:34px}
+.gear-sheet .disclaimer{display:none!important}
+
+/* 单独设备：深色展台卡 + 放大飞入 */
+.gear-sheet .detail{
+  position:absolute; inset:0; z-index:4;
+  display:none; flex-direction:column;
+  padding:calc(clamp(54px,7.4vh,64px) + 8px) clamp(12px,3vw,28px) calc(56px + env(safe-area-inset-bottom));
+  gap:0; overflow:hidden;
+  background:rgba(7,6,5,.56);
+  -webkit-backdrop-filter:blur(18px) saturate(.92);
+  backdrop-filter:blur(18px) saturate(.92);
+  opacity:0; visibility:hidden; pointer-events:none; transform:none;
+  transition:opacity .3s var(--wall-ease),visibility 0s linear .3s;
+}
+.gear-sheet.family-mode .detail{display:flex}
+.gear-sheet.family-mode.is-detail .detail{
+  opacity:1; visibility:visible; pointer-events:auto;
+  transition:opacity .3s var(--wall-ease),visibility 0s linear 0s;
+}
+.gear-sheet.family-mode.is-detail .family{
+  opacity:.09; visibility:visible; transform:scale(.965);
+  filter:blur(2px) brightness(.75); pointer-events:none;
+  transition:opacity .3s var(--wall-ease),transform .4s var(--wall-ease),filter .3s var(--ease),visibility 0s linear 0s;
+}
+.gear-sheet.family-mode.is-detail .wall-guide{display:none}
+.gear-sheet .detail-bar{
+  flex:none; width:100%; max-width:1080px; height:32px;
+  margin:0 auto 7px; padding:0 2px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.gear-sheet .detail-back{
+  min-height:30px; padding:0 11px;
+  border-color:rgba(255,246,233,.15); background:rgba(255,255,255,.055);
+  color:rgba(255,255,255,.76); font-size:10.5px;
+  -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+}
+.gear-sheet .detail-back:hover{background:rgba(255,255,255,.13); border-color:rgba(255,246,233,.26); color:#fff}
+.gear-sheet .detail-meta{font-size:9px; color:rgba(255,255,255,.4)}
+.gear-sheet .detail-body{
+  flex:1; min-height:0;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; padding:0;
+}
+.gear-sheet .card.detail-card{
+  width:100%; max-width:1080px; height:100%; max-height:640px;
+  min-height:0; flex:none; overflow:hidden;
+  display:grid;
+  grid-template-columns:1fr;
+  grid-template-rows:minmax(0,.9fr) minmax(0,1.1fr);
+  border-radius:clamp(22px,3vw,34px);
+  border:1px solid rgba(255,246,233,.15);
+  background:
+    radial-gradient(80% 58% at 50% -4%,rgba(255,246,233,.08) 0%,rgba(255,246,233,0) 66%),
+    linear-gradient(150deg,#2B251E 0%,#15120F 54%,#0B0A09 100%);
+  color:var(--wall-ink);
+  box-shadow:
+    0 54px 110px -38px rgba(0,0,0,.92),
+    0 20px 40px -28px rgba(0,0,0,.7),
+    inset 0 1px 0 rgba(255,246,233,.14);
+  animation:detailCardIn .58s var(--wall-ease) both;
+  will-change:transform,opacity;
+}
+@keyframes detailCardIn{
+  from{opacity:0; transform:translateY(16px) scale(.93)}
+  to{opacity:1; transform:none}
+}
+.gear-sheet .detail-card .shot{
+  position:relative; min-height:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:clamp(14px,2.4vw,34px) clamp(14px,3vw,42px) clamp(10px,2vw,26px);
+  background:
+    radial-gradient(circle at 50% 48%,rgba(255,244,226,.15) 0%,rgba(255,244,226,.045) 32%,rgba(255,244,226,0) 62%),
+    linear-gradient(150deg,rgba(255,255,255,.03),rgba(0,0,0,.12));
+  overflow:hidden;
+}
+.gear-sheet .detail-card .shot::after{
+  content:""; position:absolute; left:50%; top:48%; width:72%; aspect-ratio:1/1;
+  transform:translate(-50%,-50%); border-radius:50%;
+  border:1px solid rgba(255,246,233,.075); pointer-events:none;
+}
+.gear-sheet .detail-card .shot img{
+  position:relative; z-index:1; width:100%; height:100%;
+  object-fit:contain; border-radius:0; box-shadow:none;
+  filter:drop-shadow(0 26px 24px rgba(0,0,0,.66)) drop-shadow(0 4px 5px rgba(0,0,0,.34));
+}
+.gear-sheet .detail-card .info{
+  min-height:0; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none;
+  padding:clamp(16px,2.2vw,26px) clamp(18px,3vw,36px) clamp(18px,2.4vw,30px);
+  display:flex; flex-direction:column; justify-content:flex-start;
+  background:linear-gradient(180deg,rgba(255,255,255,.018),rgba(0,0,0,.16));
+  border-top:1px solid rgba(255,246,233,.1);
+  color:var(--wall-ink);
+}
+.gear-sheet .detail-card .info::-webkit-scrollbar{display:none}
+.gear-sheet .detail-card .grp{
+  display:flex; align-items:center; gap:0;
+  font-size:10px; line-height:1; letter-spacing:.15em; color:rgba(255,246,233,.42);
+  margin-bottom:7px;
+}
+.gear-sheet .detail-card .cn{
+  font-size:clamp(26px,7vw,38px); line-height:1.02; font-weight:800;
+  letter-spacing:-.045em; color:var(--wall-ink);
+}
+.gear-sheet .detail-card .en{
+  font-size:10px; line-height:1.35; margin-top:6px; color:rgba(255,246,233,.56);
+  letter-spacing:.08em;
+}
+.gear-sheet .detail-card .specs{
+  margin-top:clamp(10px,2vw,16px); padding-top:clamp(9px,1.7vw,14px);
+  border-top:1px solid rgba(255,246,233,.12);
+  display:grid; grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(4px,.8vw,7px) clamp(10px,2vw,18px);
+}
+.gear-sheet .detail-card .specs dt{font-size:9.5px; color:rgba(255,246,233,.38); letter-spacing:.06em}
+.gear-sheet .detail-card .specs dd{font-size:11px; line-height:1.42; color:rgba(255,246,233,.9)}
+.gear-sheet .detail-card .note{
+  margin-top:clamp(10px,2vw,16px); padding-top:0;
+  color:rgba(255,246,233,.58); font-size:10px; line-height:1.55; gap:9px;
+}
+.gear-sheet .detail-card .note::before{width:2px; height:13px; background:var(--red); margin-top:3px}
+.gear-sheet .detail-card.card--power .pow-figure{display:flex; padding:clamp(14px,3vw,36px)}
+.gear-sheet .detail-card.card--power .pow-figure .big{
+  font-size:clamp(92px,16vw,172px); color:rgba(255,246,233,.94);
+  text-shadow:0 18px 38px rgba(0,0,0,.55);
+}
+.gear-sheet .detail-card.card--power .pow-figure .cap{color:rgba(255,246,233,.42)}
+.gear-sheet .detail-card.card--power .pow-list{
+  border-top-color:rgba(255,246,233,.12);
+}
+.gear-sheet .detail-card.card--power .pow-list div{
+  border-bottom-color:rgba(255,246,233,.07); font-size:10.5px;
+}
+.gear-sheet .detail-card.card--power .pow-list span{color:rgba(255,246,233,.9)}
+.gear-sheet .detail-card.card--power .pow-list em{color:rgba(255,246,233,.42)}
+.gear-sheet .detail-card .detail-foot{display:none}
+
+/* 飞入动画替身 */
+.zoom-ghost{
+  position:absolute; z-index:60; pointer-events:none;
+  display:grid; place-items:center; overflow:visible;
+  will-change:left,top,width,height,opacity,transform;
+  transition:
+    left .54s cubic-bezier(.2,.9,.2,1),
+    top .54s cubic-bezier(.2,.9,.2,1),
+    width .54s cubic-bezier(.2,.9,.2,1),
+    height .54s cubic-bezier(.2,.9,.2,1),
+    opacity .22s ease .34s,
+    filter .54s cubic-bezier(.2,.9,.2,1);
+}
+.zoom-ghost img{
+  display:block; width:100%; height:100%; object-fit:contain;
+  filter:drop-shadow(0 28px 30px rgba(0,0,0,.68));
+}
+.zoom-ghost.is-landed{opacity:0; filter:blur(1px)}
+
+/* 响应式 */
+@media(min-width:861px){
+  .gear-sheet .family{
+    --wall-size:min(78vw,calc(100svh - 72px),760px);
+  }
+  .wall-guide{
+    top:auto; bottom:calc(50% - var(--wall-size) / 2 + 20px);
+  }
+  .gear-sheet .top{height:64px; padding:0 clamp(18px,2.4vw,30px)}
+  .gear-sheet .detail{
+    padding-top:88px;
+    padding-bottom:calc(58px + env(safe-area-inset-bottom));
+  }
+  .gear-sheet .detail-bar{height:34px; margin-bottom:9px}
+  .gear-sheet .card.detail-card{
+    max-width:1080px; height:min(640px,100%);
+    grid-template-columns:1.05fr 1fr;
+    grid-template-rows:1fr;
+    border-radius:34px;
+  }
+  .gear-sheet .detail-card .shot{padding:clamp(20px,2.6vw,38px) clamp(18px,3vw,46px)}
+  .gear-sheet .detail-card .info{
+    padding:clamp(24px,3vw,42px) clamp(24px,3.2vw,46px);
+    border-top:0; border-left:1px solid rgba(255,246,233,.1);
+    justify-content:center;
+  }
+  .gear-sheet .detail-card .cn{font-size:clamp(30px,3.2vw,46px)}
+  .gear-sheet .detail-card .en{font-size:clamp(11px,1.1vw,13px)}
+  .gear-sheet .detail-card .specs{
+    margin-top:clamp(16px,2vw,24px); padding-top:clamp(12px,1.7vw,18px);
+    gap:8px 18px;
+  }
+  .gear-sheet .detail-card .specs dt{font-size:10px}
+  .gear-sheet .detail-card .specs dd{font-size:12px}
+  .gear-sheet .detail-card .note{font-size:11.5px; margin-top:18px}
+  .gear-sheet .detail-card .shot::after{width:64%}
+}
+@media(max-width:860px){
+  .gear-sheet .family{
+    --wall-size:min(calc(100vw - 20px),calc(100svh - 120px),560px);
+  }
+  .gear-sheet .top,
+  .gear-sheet.family-mode .top,
+  .gear-sheet.family-mode.is-detail .top{
+    height:56px; padding:0 12px;
+    display:flex; align-items:center; justify-content:space-between;
+    grid-template-columns:none; grid-template-rows:none;
+    gap:10px;
+  }
+  .gear-sheet .top .brand-title{font-size:15px}
+  .gear-sheet .top .brand-sub{display:none}
+  .gear-sheet .top .top-count{font-size:8px}
+  .gear-sheet .top .top-count b{font-size:11px}
+  .gear-sheet .top .gear-exit{width:34px; height:32px; padding:0; gap:0}
+  .gear-sheet .detail{
+    padding:64px 10px calc(52px + env(safe-area-inset-bottom));
+  }
+  .gear-sheet .detail-bar{height:30px; margin-bottom:6px}
+  .gear-sheet .card.detail-card{
+    grid-template-rows:minmax(0,.88fr) minmax(0,1.12fr);
+    border-radius:22px;
+  }
+  .gear-sheet .detail-card .shot{padding:12px 18px 9px}
+  .gear-sheet .detail-card .info{padding:13px 16px 16px}
+  .gear-sheet .detail-card .cn{font-size:clamp(23px,6.3vw,30px)}
+  .gear-sheet .bottom-deck{padding:0 9px calc(4px + env(safe-area-inset-bottom))}
+  .gear-sheet.family-mode .chips{max-width:calc(100% - 8px)}
+  .gear-sheet .chip{font-size:10.5px; padding:5px 9px}
+}
+@media(min-width:421px) and (max-width:860px){
+  .gear-sheet .detail-card .info{justify-content:center}
+}
+@media(max-width:420px){
+  .gear-sheet .family{--wall-size:min(calc(100vw - 20px),calc(100svh - 106px),560px)}
+  .gear-sheet .top,
+  .gear-sheet.family-mode .top,
+  .gear-sheet.family-mode.is-detail .top{height:52px; padding:0 10px}
+  .gear-sheet .top .brand-title{font-size:13.5px}
+  .gear-sheet .top .gear-exit{width:30px; height:30px}
+  .gear-sheet .detail{padding:58px 7px calc(48px + env(safe-area-inset-bottom))}
+  .gear-sheet .detail-bar{height:27px; margin-bottom:4px}
+  .gear-sheet .detail-back{min-height:27px; padding:0 9px; font-size:9.5px}
+  .gear-sheet .card.detail-card{border-radius:18px}
+  .gear-sheet .detail-card .shot{padding:10px 12px 8px}
+  .gear-sheet .detail-card .info{padding:11px 12px 13px}
+  .gear-sheet .detail-card .cn{font-size:23px}
+  .gear-sheet .detail-card .specs dt{font-size:8.8px}
+  .gear-sheet .detail-card .specs dd{font-size:10px}
+  .gear-sheet .detail-card .note{font-size:9.5px}
+  .gear-sheet .family .tile .tile-name{font-size:9px; gap:4px}
+  .gear-sheet .bottom-deck{padding:0 7px calc(3px + env(safe-area-inset-bottom))}
+  .gear-sheet .chip{font-size:9.5px; padding:4px 7px; letter-spacing:0}
+  .wall-guide{font-size:8.5px; padding:5px 8px; top:calc(50% + var(--wall-size) / 2 + 10px)}
+}
+@media(max-width:340px){
+  .gear-sheet .family{--wall-size:calc(100vw - 16px)}
+  .gear-sheet .family .tile .tile-name{font-size:8px; gap:3px}
+  .gear-sheet .detail{padding:54px 5px calc(45px + env(safe-area-inset-bottom))}
+  .gear-sheet .detail-card .cn{font-size:20px}
+  .gear-sheet .detail-card .info{padding:9px 10px 11px}
+  .gear-sheet .detail-card .specs dt{font-size:8px}
+  .gear-sheet .detail-card .specs dd{font-size:9.2px}
+  .gear-sheet .chip{font-size:9px; padding:4px 6px}
+}
+@media(prefers-reduced-motion:reduce){
+  .gear-sheet .detail-card{animation:none!important}
+  .gear-sheet .detail,
+  .gear-sheet .family,
+  .gear-sheet .family .tile,
+  .wall-guide{transition:none!important}
+  .zoom-ghost{display:none!important}
+}
+@media(prefers-reduced-transparency:reduce){
+  .gear-sheet .top::before{background:rgba(12,11,9,.92); -webkit-backdrop-filter:none; backdrop-filter:none}
+  .gear-sheet .detail{background:#0B0A09; -webkit-backdrop-filter:none; backdrop-filter:none}
+  .gear-sheet .detail-card{background:#171410}
+  .gear-sheet .chips{background:rgba(12,11,9,.95); -webkit-backdrop-filter:none; backdrop-filter:none}
+}
+
 </style>
 </template>
 
@@ -3199,7 +3730,10 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
 <div class="stage">
   <div class="track" id="track"></div>
   <div class="family" id="family" aria-hidden="true">
-    <div class="family-grid" id="familyGrid" aria-label="器材全家福"></div>
+    <div class="wall-viewport" id="wallViewport" tabindex="0" role="region" aria-label="器材圆形照片墙，可拖动、双指或鼠标滚轮缩放">
+      <div class="wall-plane" id="familyGrid" aria-label="器材全家福"></div>
+    </div>
+    <div class="wall-guide" id="wallGuide" aria-hidden="true"><span class="wall-guide-dot"></span>拖动探索 · 双指 / 滚轮缩放</div>
   </div>
   <div class="detail" id="familyDetail" aria-hidden="true">
     <div class="detail-bar">
@@ -3545,6 +4079,16 @@ function initGear(root) {
     ['AA × 4','尼康 SB-700']
   ];
 
+  // 圆形墙的陈列顺序：镜头在上，机身在中间一圈，支撑/灯光在下方。
+  // 中心格固定给 6D2，首屏就能看到机身，而不是一排镜头的边缘。
+  const FAMILY_ORDER = [
+    '2470','24105','70200','100400','s70200',
+    '18200','light2','light1','stick','rs3',
+    's5ii','pocket3','6d2','pocket4','d7500',
+    'a7m3','godox','nikonflash','tripod','stand',
+    'mic','power'
+  ];
+
   /* ---------- 组装卡片数据 ---------- */
   const CARDS = [];
   KIT.forEach(sec => {
@@ -3567,6 +4111,8 @@ function initGear(root) {
   const stage = root.querySelector('.stage');
   const family = root.getElementById('family');
   const familyGrid = root.getElementById('familyGrid');
+  const wallViewport = root.getElementById('wallViewport');
+  const wallGuide = root.getElementById('wallGuide');
   const familyLabel = root.getElementById('familyLabel');
   const familyCount = root.getElementById('familyCount');
   const detail = root.getElementById('familyDetail');
@@ -3574,14 +4120,23 @@ function initGear(root) {
   const detailMeta = root.getElementById('detailMeta');
   const detailBack = root.getElementById('detailBack');
   const mq = window.matchMedia('(max-width: 860px)');
+  const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   let familyFilter = 'all';
-  let viewMode = 'carousel';
-  let mobileMode = false;
+  let viewMode = 'family';
+  let mobileMode = mq.matches;
   let lastTile = null;
+  let detailTimer = 0;
+  let ghostTimer = 0;
+  let suppressClickUntil = 0;
   const cards = [];
+  const wall = {
+    scale: .88, x: 0, y: 0, min: .6, max: 2.6,
+    pointers: new Map(), drag: null, pinch: null, moved: false
+  };
 
-  function bodyHTML(c, i){
-    return `<div class="shot"><img src="${shot(c.id)}" alt="${c.cn} ${c.name}" ${i < 2 ? '' : 'loading="lazy"'}></div>
+  function bodyHTML(c, i, detailMode){
+    const src = detailMode ? cut(c.id) : shot(c.id);
+    return `<div class="shot"><img src="${src}" alt="${c.cn} ${c.name}" ${i < 2 ? '' : 'loading="lazy"'}></div>
       <div class="info">
         <p class="grp">${c.secCn} ${c.idx} / ${c.n}</p>
         <h2 class="cn">${c.cn}</h2>
@@ -3620,17 +4175,205 @@ function initGear(root) {
     b.dataset.sec = s.id;
     b.textContent = s.cn;
     b.addEventListener('click', () => {
-      if (mq.matches) {
-        showFamily(s.id);
-        return;
-      }
-      const i = CARDS.findIndex(c => c.sec === s.id);
-      if (i >= 0) goTo(i);
+      showFamily(s.id, true);
     });
     chips.appendChild(b);
   });
 
-  /* ---------- 移动端全家福 / 单设备详情 ---------- */
+  /* ---------- 圆形设备墙 / 缩放与拖动 ---------- */
+  function wallClampPan(){
+    if (!wallViewport || !familyGrid) return;
+    const v = wallViewport.clientWidth || 1;
+    const pw = (familyGrid.offsetWidth || v) * wall.scale;
+    const ph = (familyGrid.offsetHeight || v) * wall.scale;
+    const mx = Math.max(0, (pw - v) / 2);
+    const my = Math.max(0, (ph - v) / 2);
+    wall.x = Math.max(-mx, Math.min(mx, wall.x));
+    wall.y = Math.max(-my, Math.min(my, wall.y));
+  }
+
+  let edgeRaf = 0;
+  function paintWallEdges(){
+    if (!familyGrid || !wallViewport) return;
+    const vr = wallViewport.getBoundingClientRect();
+    const cx = vr.left + vr.width / 2;
+    const cy = vr.top + vr.height / 2;
+    const r = vr.width / 2;
+    familyGrid.querySelectorAll('.tile').forEach(function(tile){
+      const thumb = tile.querySelector('.thumb');
+      const tr = (thumb || tile).getBoundingClientRect();
+      const tx = tr.left + tr.width / 2;
+      const ty = tr.top + tr.height / 2;
+      tile.classList.toggle('is-cut', Math.hypot(tx - cx, ty - cy) > r - 10);
+    });
+  }
+  function queueWallEdges(){
+    if (edgeRaf) return;
+    edgeRaf = requestAnimationFrame(function(){
+      edgeRaf = 0;
+      paintWallEdges();
+    });
+  }
+
+  function applyWall(){
+    if (!familyGrid) return;
+    wallClampPan();
+    familyGrid.style.transform =
+      'translate(-50%,-50%) translate3d(' + wall.x.toFixed(2) + 'px,' + wall.y.toFixed(2) + 'px,0) scale(' + wall.scale.toFixed(4) + ')';
+    familyGrid.dataset.scale = wall.scale.toFixed(2);
+    queueWallEdges();
+  }
+
+  function resetWallView(){
+    if (!familyGrid || !wallViewport) return;
+    const all = familyFilter === 'all';
+    wall.min = all ? .6 : .72;
+    wall.max = all ? 2.6 : 2.3;
+    wall.scale = all ? .88 : .86;
+    wall.x = 0;
+    wall.y = 0;
+    wall.moved = false;
+    applyWall();
+    if (wallGuide) wallGuide.classList.remove('is-hidden');
+  }
+
+  function zoomWallAt(factor, ax, ay){
+    if (!familyGrid) return;
+    const next = Math.max(wall.min, Math.min(wall.max, wall.scale * factor));
+    if (Math.abs(next - wall.scale) < .002) return;
+    const cx = (ax - wall.x) / wall.scale;
+    const cy = (ay - wall.y) / wall.scale;
+    wall.scale = next;
+    wall.x = ax - cx * next;
+    wall.y = ay - cy * next;
+    applyWall();
+    markWallInteracted();
+  }
+
+  function markWallInteracted(){
+    if (wallGuide) wallGuide.classList.add('is-hidden');
+  }
+
+  function setupWall(){
+    if (!wallViewport || !familyGrid) return;
+
+    wallViewport.addEventListener('wheel', function(e){
+      e.preventDefault();
+      markWallInteracted();
+      const r = wallViewport.getBoundingClientRect();
+      const ax = e.clientX - r.left - r.width / 2;
+      const ay = e.clientY - r.top - r.height / 2;
+      const d = e.deltaMode === 1 ? e.deltaY * 18 : (e.deltaMode === 2 ? e.deltaY * r.height : e.deltaY);
+      zoomWallAt(Math.exp(-d * .00145), ax, ay);
+    }, { passive: false });
+
+    wallViewport.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      wall.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (wall.pointers.size === 1) {
+        wall.drag = {
+          id: e.pointerId,
+          startX: e.clientX, startY: e.clientY,
+          baseX: wall.x, baseY: wall.y,
+          moved: false
+        };
+        wall.pinch = null;
+      } else if (wall.pointers.size === 2) {
+        const pts = Array.from(wall.pointers.values());
+        const r = wallViewport.getBoundingClientRect();
+        const mx = (pts[0].x + pts[1].x) / 2 - r.left - r.width / 2;
+        const my = (pts[0].y + pts[1].y) / 2 - r.top - r.height / 2;
+        const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
+        wall.drag = null;
+        wall.pinch = {
+          dist: dist, scale: wall.scale, mx: mx, my: my,
+          contentX: (mx - wall.x) / wall.scale,
+          contentY: (my - wall.y) / wall.scale
+        };
+        wall.pointers.forEach(function(_, id){
+          try { wallViewport.setPointerCapture(id); } catch (_) {}
+        });
+      }
+      wallViewport.classList.add('is-grabbing');
+    });
+
+    wallViewport.addEventListener('pointermove', function(e){
+      if (!wall.pointers.has(e.pointerId)) return;
+      wall.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (wall.pinch && wall.pointers.size >= 2) {
+        const pts = Array.from(wall.pointers.values());
+        const r = wallViewport.getBoundingClientRect();
+        const mx = (pts[0].x + pts[1].x) / 2 - r.left - r.width / 2;
+        const my = (pts[0].y + pts[1].y) / 2 - r.top - r.height / 2;
+        const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
+        const next = Math.max(wall.min, Math.min(wall.max, wall.pinch.scale * dist / wall.pinch.dist));
+        wall.scale = next;
+        wall.x = mx - wall.pinch.contentX * next;
+        wall.y = my - wall.pinch.contentY * next;
+        wall.moved = true;
+        applyWall();
+        markWallInteracted();
+        return;
+      }
+      if (!wall.drag || wall.drag.id !== e.pointerId) return;
+      const dx = e.clientX - wall.drag.startX;
+      const dy = e.clientY - wall.drag.startY;
+      if (!wall.drag.moved && Math.hypot(dx, dy) > 7) {
+        wall.drag.moved = true;
+        wall.moved = true;
+        try { wallViewport.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      if (wall.drag.moved) {
+        wall.x = wall.drag.baseX + dx;
+        wall.y = wall.drag.baseY + dy;
+        applyWall();
+        markWallInteracted();
+      }
+    });
+
+    function endWallPointer(e){
+      if (!wall.pointers.has(e.pointerId)) return;
+      const wasPinch = !!wall.pinch;
+      const wasDrag = !!(wall.drag && wall.drag.moved);
+      wall.pointers.delete(e.pointerId);
+      if (wasPinch || wasDrag) suppressClickUntil = Date.now() + 420;
+      wall.pinch = null;
+      wall.drag = null;
+      if (wall.pointers.size === 1) {
+        const rest = Array.from(wall.pointers.entries())[0];
+        wall.drag = {
+          id: rest[0],
+          startX: rest[1].x, startY: rest[1].y,
+          baseX: wall.x, baseY: wall.y,
+          moved: true
+        };
+      }
+      if (!wall.pointers.size) wallViewport.classList.remove('is-grabbing');
+    }
+    wallViewport.addEventListener('pointerup', endWallPointer);
+    wallViewport.addEventListener('pointercancel', endWallPointer);
+
+    wallViewport.addEventListener('dblclick', function(e){
+      if (e.target.closest && e.target.closest('.tile')) return;
+      resetWallView();
+    });
+
+    wallViewport.addEventListener('keydown', function(e){
+      const r = wallViewport.getBoundingClientRect();
+      if (e.key === '+' || e.key === '=') {
+        e.preventDefault(); e.stopPropagation();
+        zoomWallAt(1.18, 0, 0);
+      } else if (e.key === '-' || e.key === '_') {
+        e.preventDefault(); e.stopPropagation();
+        zoomWallAt(.84, 0, 0);
+      } else if (e.key === '0') {
+        e.preventDefault(); e.stopPropagation();
+        resetWallView();
+      }
+    });
+  }
+
+  /* ---------- 圆形设备墙内容 / 单设备详情 ---------- */
   function setDetailOrigin(tile){
     if (!detail || !stage || !tile) {
       if (detail) detail.style.transformOrigin = '50% 50%';
@@ -3649,7 +4392,10 @@ function initGear(root) {
   function renderFamily(filter){
     if (!familyGrid) return;
     familyFilter = filter || 'all';
-    const list = CARDS.map((c, i) => ({ c, i })).filter(x =>
+    const keyOf = c => c.power ? 'power' : c.id;
+    const pool = new Map(CARDS.map((c, i) => [keyOf(c), { c, i }]));
+    const ordered = FAMILY_ORDER.map(id => pool.get(id)).filter(Boolean);
+    const list = ordered.filter(x =>
       familyFilter === 'all' || x.c.sec === familyFilter
     );
     const secName = familyFilter === 'all' ? '全家福' :
@@ -3657,15 +4403,35 @@ function initGear(root) {
     if (familyLabel) familyLabel.textContent = secName;
     if (familyCount) familyCount.textContent = String(list.length);
     familyGrid.classList.toggle('few', familyFilter !== 'all');
+    familyGrid.classList.toggle('is-filtered', familyFilter !== 'all');
+
+    const n = list.length;
+    let cols = 5, rows = 5, pw = 1.55, ph = 1.55;
+    if (familyFilter !== 'all') {
+      if (n <= 3) {
+        cols = Math.max(1, n);
+        rows = 1;
+        pw = n === 1 ? .58 : 1.12;
+        ph = .46;
+      } else {
+        cols = 3;
+        rows = 2;
+        pw = 1.12;
+        ph = .94;
+      }
+    }
+    familyGrid.style.setProperty('--cols', String(cols));
+    familyGrid.style.setProperty('--rows', String(rows));
+    familyGrid.style.setProperty('--plane-w', (pw * 100).toFixed(1) + '%');
+    familyGrid.style.setProperty('--plane-h', (ph * 100).toFixed(1) + '%');
+
     familyGrid.innerHTML = list.map(({ c, i }) => {
       const isPower = !!c.power;
-      const isWide = !isPower && (c.id === '100400' || c.id === '2470');
       const name = isPower ? '电池 · 按数量' : c.cn;
       const media = isPower
         ? '<span class="thumb"><span class="tile-pow"><b>07</b><small>种电池</small></span></span>'
         : '<span class="thumb"><img src="' + cut(c.id) + '" alt="" draggable="false" loading="eager" decoding="async"></span>';
       return '<button type="button" class="tile sec-' + c.sec + (isPower ? ' is-power' : '') +
-        (isWide ? ' is-wide' : '') +
         '" data-index="' + i + '" aria-label="查看' + name + '详情">' + media +
         '<span class="tile-name">' + name + '</span></button>';
     }).join('');
@@ -3710,7 +4476,7 @@ function initGear(root) {
     if (!c || !detailBody) return;
     const el = document.createElement('article');
     el.className = 'card detail-card' + (c.power ? ' card--dark card--power sec-power' : ' sec-' + c.sec);
-    el.innerHTML = c.power ? powerHTML() : bodyHTML(c, i);
+    el.innerHTML = c.power ? powerHTML() : bodyHTML(c, i, true);
     detailBody.innerHTML = '';
     detailBody.appendChild(el);
     if (detailMeta) {
@@ -3718,10 +4484,12 @@ function initGear(root) {
     }
   }
 
-  function showFamily(filter){
+  function showFamily(filter, reset){
+    if (!sheet) return;
     viewMode = 'family';
     mobileMode = mq.matches;
-    if (!mobileMode || !sheet) return;
+    clearTimeout(detailTimer);
+    if (stage) stage.querySelectorAll('.zoom-ghost').forEach(function(g){ g.remove(); });
     if (typeof filter === 'string') familyFilter = filter;
     sheet.classList.add('family-mode');
     sheet.classList.remove('is-detail');
@@ -3729,79 +4497,131 @@ function initGear(root) {
     if (detail) detail.setAttribute('aria-hidden', 'true');
     renderFamily(familyFilter);
     paintChips(familyFilter);
+    familyGrid.querySelectorAll('.tile.is-picked').forEach(function(t){ t.classList.remove('is-picked'); });
+    if (wallGuide) wallGuide.classList.remove('is-hidden');
+    const shouldReset = reset !== false;
+    requestAnimationFrame(function(){
+      if (shouldReset) resetWallView();
+      else applyWall();
+      queueChipIndicator();
+    });
+  }
+
+  function flyTileToDetail(tile, c){
+    if (prefersReduce.matches || !stage || !detailBody || !tile || !c || c.power) return;
+    const srcImg = tile.querySelector('.thumb img');
+    const dstImg = detailBody.querySelector('.shot img');
+    if (!srcImg || !dstImg) return;
+    const sr = stage.getBoundingClientRect();
+    const ar = srcImg.getBoundingClientRect();
+    const br = dstImg.getBoundingClientRect();
+    if (!ar.width || !ar.height || !br.width || !br.height) return;
+    if (stage.querySelector('.zoom-ghost')) stage.querySelectorAll('.zoom-ghost').forEach(function(g){ g.remove(); });
+    const ghost = document.createElement('div');
+    ghost.className = 'zoom-ghost';
+    const img = document.createElement('img');
+    img.src = cut(c.id);
+    img.alt = '';
+    ghost.appendChild(img);
+    ghost.style.left = (ar.left - sr.left) + 'px';
+    ghost.style.top = (ar.top - sr.top) + 'px';
+    ghost.style.width = ar.width + 'px';
+    ghost.style.height = ar.height + 'px';
+    ghost.style.opacity = '1';
+    stage.appendChild(ghost);
+    void ghost.offsetWidth;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        ghost.style.left = (br.left - sr.left) + 'px';
+        ghost.style.top = (br.top - sr.top) + 'px';
+        ghost.style.width = br.width + 'px';
+        ghost.style.height = br.height + 'px';
+      });
+    });
+    clearTimeout(ghostTimer);
+    window.setTimeout(function(){ ghost.style.opacity = '0'; }, 530);
+    ghostTimer = window.setTimeout(function(){ if (ghost.parentNode) ghost.remove(); }, 780);
   }
 
   function showDetail(i, tile, focusBack){
-    if (!mq.matches || !sheet) return;
+    if (!sheet) return;
     i = Math.max(0, Math.min(CARDS.length - 1, i));
     if (tile) lastTile = tile;
     setDetailOrigin(tile || lastTile);
-    viewMode = 'detail';
-    mobileMode = true;
-    sheet.classList.add('family-mode', 'is-detail');
-    if (family) family.setAttribute('aria-hidden', 'true');
-    if (detail) detail.setAttribute('aria-hidden', 'false');
-    renderDetail(i);
-    if (familyCount) familyCount.textContent = String(CARDS.length);
-    setActive(i);
-    if (focusBack) {
-      window.setTimeout(function(){
-        if (viewMode === 'detail' && detailBack) detailBack.focus({ preventScroll: true });
-      }, 40);
+    clearTimeout(detailTimer);
+    if (stage) stage.querySelectorAll('.zoom-ghost').forEach(function(g){ g.remove(); });
+    familyGrid.querySelectorAll('.tile.is-picked').forEach(function(t){ t.classList.remove('is-picked'); });
+    const open = function(){
+      viewMode = 'detail';
+      mobileMode = mq.matches;
+      sheet.classList.add('family-mode', 'is-detail');
+      if (family) family.setAttribute('aria-hidden', 'true');
+      if (detail) detail.setAttribute('aria-hidden', 'false');
+      renderDetail(i);
+      if (familyCount) familyCount.textContent = String(CARDS.length);
+      setActive(i);
+      requestAnimationFrame(function(){
+        if (tile) flyTileToDetail(tile, CARDS[i]);
+      });
+      if (focusBack) {
+        window.setTimeout(function(){
+          if (viewMode === 'detail' && detailBack) detailBack.focus({ preventScroll: true });
+        }, 600);
+      }
+    };
+    if (tile && !prefersReduce.matches) {
+      tile.classList.add('is-picked');
+      detailTimer = window.setTimeout(open, 150);
+    } else {
+      open();
     }
   }
 
   function stepBy(delta){
-    const i = Math.max(0, Math.min(CARDS.length - 1, active + delta));
-    if (mq.matches && viewMode === 'detail') {
-      showDetail(i, lastTile);
-    } else {
-      goTo(i);
+    if (viewMode === 'detail') {
+      const i = Math.max(0, Math.min(CARDS.length - 1, active + delta));
+      showDetail(i, null);
+      return;
     }
+    if (viewMode === 'family') {
+      wall.x -= delta * 64;
+      applyWall();
+      markWallInteracted();
+      return;
+    }
+    goTo(Math.max(0, Math.min(CARDS.length - 1, active + delta)));
   }
 
   function enter(){
-    if (mq.matches) {
-      showFamily('all');
-    } else {
-      viewMode = 'carousel';
-      if (sheet) sheet.classList.remove('family-mode', 'is-detail');
-      if (family) family.setAttribute('aria-hidden', 'true');
-      if (detail) detail.setAttribute('aria-hidden', 'true');
-      goTo(active, true);
-      setActive(active);
-    }
+    showFamily('all', true);
   }
 
   function syncLayout(){
     mobileMode = mq.matches;
-    if (mobileMode) {
-      if (sheet) sheet.classList.add('family-mode');
-      if (viewMode === 'detail') showDetail(active, lastTile);
-      else showFamily(familyFilter);
-    } else {
-      viewMode = 'carousel';
-      if (sheet) sheet.classList.remove('family-mode', 'is-detail');
-      if (family) family.setAttribute('aria-hidden', 'true');
-      if (detail) detail.setAttribute('aria-hidden', 'true');
-      goTo(active, true);
-      setActive(active);
-    }
+    if (!sheet) return;
+    if (viewMode === 'detail') showDetail(active, null);
+    else showFamily(familyFilter, true);
   }
 
   if (familyGrid) {
     familyGrid.addEventListener('click', function(e){
+      if (Date.now() < suppressClickUntil && e.detail !== 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       const tile = e.target.closest ? e.target.closest('.tile') : null;
       if (!tile || !familyGrid.contains(tile)) return;
       showDetail(Number(tile.dataset.index), tile, e.detail === 0 && e.isTrusted);
     });
   }
   if (detailBack) {
-    detailBack.addEventListener('click', function(){ showFamily(); });
+    detailBack.addEventListener('click', function(){ showFamily(undefined, false); });
   }
   if (mq.addEventListener) mq.addEventListener('change', syncLayout);
   else if (mq.addListener) mq.addListener(syncLayout);
   window.addEventListener('resize', queueChipIndicator, { passive: true });
+  setupWall();
 
   /* ---------- 滚动与缩放 ---------- */
   const centerOf = el => el.offsetLeft + el.offsetWidth / 2;
@@ -3829,9 +4649,7 @@ function initGear(root) {
     bar.style.width = ((i + 1) / cards.length * 100).toFixed(1) + '%';
     prevBtn.disabled = i === 0;
     nextBtn.disabled = i === cards.length - 1;
-    if (!mq.matches) {
-      paintChips(CARDS[i].sec);
-    } else if (viewMode === 'detail') {
+    if (viewMode === 'detail') {
       if (detailMeta) {
         detailMeta.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(CARDS.length).padStart(2, '0');
       }
@@ -3870,6 +4688,14 @@ function initGear(root) {
 
   function goTo(i, instant){
     i = Math.max(0, Math.min(cards.length - 1, i));
+    if (viewMode === 'family') {
+      resetWallView();
+      return;
+    }
+    if (viewMode === 'detail') {
+      showDetail(i, null);
+      return;
+    }
     const left = centerOf(cards[i]) - track.clientWidth / 2;
     if (instant) {
       cancelAnimationFrame(animRaf);
@@ -3986,7 +4812,17 @@ function initGear(root) {
   let rz = 0;
   window.addEventListener('resize', () => {
     clearTimeout(rz);
-    rz = setTimeout(() => goTo(active, true), 120);
+    rz = setTimeout(function(){
+      if (viewMode === 'family') {
+        applyWall();
+      } else if (viewMode === 'detail') {
+        applyWall();
+        if (detailBody) showDetail(active, null);
+      } else {
+        goTo(active, true);
+      }
+      queueChipIndicator();
+    }, 120);
   });
 
   boot();
@@ -3994,6 +4830,7 @@ function initGear(root) {
     goTo,
     step: stepBy,
     enter: enter,
+    resetWall: resetWallView,
     getActive: () => active,
     getTotal: () => cards.length
   };
