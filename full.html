@@ -3788,6 +3788,39 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   opacity:0; transform:translateY(3px);
 }
 
+
+/* ---------- R23 打开边界：只保留放射蜂窝，去掉圆形裁切与圆环 ---------- */
+.gear-sheet.family-mode .family{
+  background:
+    linear-gradient(180deg,rgba(255,246,231,.10) 0%,rgba(255,246,231,.025) 28%,rgba(255,246,231,0) 56%),
+    linear-gradient(180deg,#242019 0%,#15120E 52%,#090807 100%);
+}
+.gear-sheet .family::before,
+.gear-sheet .family::after{display:none!important;}
+
+.gear-sheet.family-mode .wall-viewport,
+.gear-sheet.family-mode .family .wall-viewport{
+  position:absolute!important; inset:0!important;
+  width:auto!important; height:auto!important;
+  aspect-ratio:auto!important;
+  border:0!important; border-radius:0!important;
+  box-shadow:none!important;
+  background:none!important;
+  overflow:hidden!important;
+  z-index:2;
+}
+.gear-sheet.family-mode .wall-viewport::before,
+.gear-sheet.family-mode .wall-viewport::after{display:none!important;}
+
+/* 墙面坐标平面保持以墙心为原点的方形，不受全屏宽高比拉伸 */
+.gear-sheet.family-mode .family .wall-plane{
+  width:calc(var(--wall-size) * 2)!important;
+  height:calc(var(--wall-size) * 2)!important;
+  left:50%; top:50%;
+}
+
+.gear-sheet.family-mode .wall-guide{display:none!important;}
+
 @media(prefers-reduced-motion:reduce){
   .gear-sheet .detail-card{animation:none!important}
   .gear-sheet .detail,
@@ -4345,18 +4378,10 @@ function initGear(root) {
 
   let edgeRaf = 0;
   function paintWallEdges(){
-    if (!familyGrid || !wallViewport) return;
-    const vr = wallViewport.getBoundingClientRect();
-    const cx = vr.left + vr.width / 2;
-    const cy = vr.top + vr.height / 2;
-    const r = vr.width / 2;
-    familyGrid.querySelectorAll('.tile').forEach(function(tile){
-      const thumb = tile.querySelector('.thumb');
-      const tr = (thumb || tile).getBoundingClientRect();
-      const tx = tr.left + tr.width / 2;
-      const ty = tr.top + tr.height / 2;
-      const edge = Math.max(8, tr.width * .48);
-      tile.classList.toggle('is-cut', Math.hypot(tx - cx, ty - cy) > r - edge);
+    /* 没有圆形边界后，器材不再按“圆周外”变暗；只清掉旧状态。 */
+    if (!familyGrid) return;
+    familyGrid.querySelectorAll('.tile.is-cut').forEach(function(tile){
+      tile.classList.remove('is-cut');
     });
   }
   function queueWallEdges(){
