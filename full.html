@@ -4522,6 +4522,8 @@ function initGear(root) {
   let heroImg = null;
   let heroTile = null;
   let heroTimer = 0;
+  let detailSlideBusy = false;
+  let detailSlideTimer = 0;
   let suppressClickUntil = 0;
   const cards = [];
   function defaultWallScale(){
@@ -4529,8 +4531,10 @@ function initGear(root) {
   }
   const wall = {
     scale: defaultWallScale(), x: 0, y: 0, min: .56, max: 2.6,
+    targetScale: defaultWallScale(), targetX: 0, targetY: 0,
     pointers: new Map(), drag: null, pinch: null, moved: false
   };
+  let wallMotionRaf = 0, wallCoastRaf = 0;
 
   // 旧滚动画廊已经不再展示照片，只保留文字占位，避免同一台器材出现第二张图。
   function bodyHTML(c, i){
@@ -4662,21 +4666,100 @@ function initGear(root) {
     wall.scale = all ? defaultWallScale() : (tileCount <= 1 ? .94 : (innerWidth <= 860 ? 1.10 : 1.0));
     wall.x = 0;
     wall.y = 0;
+    wall.targetScale = wall.scale;
+    wall.targetX = 0;
+    wall.targetY = 0;
     wall.moved = false;
+    cancelWallMotion();
+    cancelWallCoast();
     applyWall();
     if (wallGuide) wallGuide.classList.remove('is-hidden');
   }
 
+  function cancelWallMotion(){
+    if (wallMotionRaf) { cancelAnimationFrame(wallMotionRaf); wallMotionRaf = 0; }
+  }
+  function cancelWallCoast(){
+    if (wallCoastRaf) { cancelAnimationFrame(wallCoastRaf); wallCoastRaf = 0; }
+  }
+  function clampWallTarget(){
+    if (!wallViewport || !familyGrid) return;
+    const v = wallViewport.clientWidth || 1;
+    const pw = (familyGrid.offsetWidth || v) * wall.targetScale;
+    const ph = (familyGrid.offsetHeight || v) * wall.targetScale;
+    const mx = Math.max(0, (pw - v) / 2);
+    const my = Math.max(0, (ph - v) / 2);
+    wall.targetX = Math.max(-mx, Math.min(mx, wall.targetX));
+    wall.targetY = Math.max(-my, Math.min(my, wall.targetY));
+  }
+  function startWallMotion(){
+    if (!familyGrid || wallMotionRaf) return;
+    let last = performance.now();
+    const step = function(now){
+      wallMotionRaf = 0;
+      const dt = Math.max(8, Math.min(34, now - last));
+      last = now;
+      const k = 1 - Math.pow(.82, dt / 16.67);
+      const ds = wall.targetScale - wall.scale;
+      const dx = wall.targetX - wall.x;
+      const dy = wall.targetY - wall.y;
+      wall.scale += ds * k;
+      wall.x += dx * k;
+      wall.y += dy * k;
+      const settled = Math.abs(ds) < .0007 && Math.abs(dx) < .4 && Math.abs(dy) < .4;
+      if (settled) {
+        wall.scale = wall.targetScale;
+        wall.x = wall.targetX;
+        wall.y = wall.targetY;
+      }
+      applyWall();
+      if (!settled) wallMotionRaf = requestAnimationFrame(step);
+    };
+    wallMotionRaf = requestAnimationFrame(step);
+  }
+  function coastWall(vx, vy){
+    cancelWallCoast();
+    if (!familyGrid) return;
+    let last = performance.now();
+    const step = function(now){
+      wallCoastRaf = 0;
+      const dt = Math.max(8, Math.min(34, now - last));
+      last = now;
+      const decay = Math.pow(.92, dt / 16.67);
+      wall.x += vx * dt;
+      wall.y += vy * dt;
+      vx *= decay;
+      vy *= decay;
+      applyWall();
+      wall.targetScale = wall.scale;
+      wall.targetX = wall.x;
+      wall.targetY = wall.y;
+      if (Math.abs(vx) > .012 || Math.abs(vy) > .012) {
+        wallCoastRaf = requestAnimationFrame(step);
+      }
+    };
+    if (Math.abs(vx) > .012 || Math.abs(vy) > .012) wallCoastRaf = requestAnimationFrame(step);
+  }
+  function settleWallNow(){
+    cancelWallMotion();
+    cancelWallCoast();
+    wall.scale = wall.targetScale;
+    wall.x = wall.targetX;
+    wall.y = wall.targetY;
+    applyWall();
+  }
   function zoomWallAt(factor, ax, ay){
     if (!familyGrid) return;
-    const next = Math.max(wall.min, Math.min(wall.max, wall.scale * factor));
-    if (Math.abs(next - wall.scale) < .002) return;
-    const cx = (ax - wall.x) / wall.scale;
-    const cy = (ay - wall.y) / wall.scale;
-    wall.scale = next;
-    wall.x = ax - cx * next;
-    wall.y = ay - cy * next;
-    applyWall();
+    const base = wall.targetScale || wall.scale;
+    const next = Math.max(wall.min, Math.min(wall.max, base * factor));
+    if (Math.abs(next - base) < .002) return;
+    const cx = (ax - wall.targetX) / base;
+    const cy = (ay - wall.targetY) / base;
+    wall.targetScale = next;
+    wall.targetX = ax - cx * next;
+    wall.targetY = ay - cy * next;
+    clampWallTarget();
+    startWallMotion();
     markWallInteracted();
   }
 
@@ -4690,6 +4773,7 @@ function initGear(root) {
     wallViewport.addEventListener('wheel', function(e){
       e.preventDefault();
       markWallInteracted();
+      cancelWallCoast();
       const r = wallViewport.getBoundingClientRect();
       const ax = e.clientX - r.left - r.width / 2;
       const ay = e.clientY - r.top - r.height / 2;
@@ -4699,13 +4783,22 @@ function initGear(root) {
 
     wallViewport.addEventListener('pointerdown', function(e){
       if (e.pointerType === 'mouse' && e.button !== 0) return;
+      cancelWallCoast();
+      if (wallMotionRaf) {
+        wall.targetScale = wall.scale;
+        wall.targetX = wall.x;
+        wall.targetY = wall.y;
+        cancelWallMotion();
+      }
       wall.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (wall.pointers.size === 1) {
         wall.drag = {
           id: e.pointerId,
           startX: e.clientX, startY: e.clientY,
           baseX: wall.x, baseY: wall.y,
-          moved: false
+          moved: false,
+          lastX: e.clientX, lastY: e.clientY, lastT: performance.now(),
+          vx: 0, vy: 0
         };
         wall.pinch = null;
       } else if (wall.pointers.size === 2) {
@@ -4741,7 +4834,12 @@ function initGear(root) {
         wall.x = mx - wall.pinch.contentX * next;
         wall.y = my - wall.pinch.contentY * next;
         wall.moved = true;
+        cancelWallMotion();
+        cancelWallCoast();
         applyWall();
+        wall.targetScale = wall.scale;
+        wall.targetX = wall.x;
+        wall.targetY = wall.y;
         markWallInteracted();
         return;
       }
@@ -4754,9 +4852,25 @@ function initGear(root) {
         try { wallViewport.setPointerCapture(e.pointerId); } catch (_) {}
       }
       if (wall.drag.moved) {
+        cancelWallCoast();
+        cancelWallMotion();
+        const now = performance.now();
+        const dt = now - wall.drag.lastT;
+        if (dt > 0) {
+          wall.drag.vx = (e.clientX - wall.drag.lastX) / dt;
+          wall.drag.vy = (e.clientY - wall.drag.lastY) / dt;
+          wall.drag.vx = Math.max(-2.2, Math.min(2.2, wall.drag.vx));
+          wall.drag.vy = Math.max(-2.2, Math.min(2.2, wall.drag.vy));
+        }
+        wall.drag.lastX = e.clientX;
+        wall.drag.lastY = e.clientY;
+        wall.drag.lastT = now;
         wall.x = wall.drag.baseX + dx;
         wall.y = wall.drag.baseY + dy;
         applyWall();
+        wall.targetScale = wall.scale;
+        wall.targetX = wall.x;
+        wall.targetY = wall.y;
         markWallInteracted();
       }
     });
@@ -4764,9 +4878,11 @@ function initGear(root) {
     function endWallPointer(e){
       if (!wall.pointers.has(e.pointerId)) return;
       const wasPinch = !!wall.pinch;
+      const releaseDrag = wall.drag;
       const wasDrag = !!(wall.drag && wall.drag.moved);
       wall.pointers.delete(e.pointerId);
       if (wasPinch || wasDrag) suppressClickUntil = Date.now() + 420;
+      if (wasDrag && releaseDrag) coastWall(releaseDrag.vx || 0, releaseDrag.vy || 0);
       wall.pinch = null;
       wall.drag = null;
       if (wall.pointers.size === 1) {
@@ -4930,7 +5046,8 @@ function initGear(root) {
     st.style.setProperty('--photo-right', pad + 'px');
   }
 
-  function mountHeroFromTile(tile, c){
+  function mountHeroFromTile(tile, c, opts){
+    const inPlace = !!(opts && opts.inPlace);
     const src = tile ? tile.querySelector('.thumb img') : null;
     if (!src || !detail || !detailPhoto) {
       const img = document.createElement('img');
@@ -4942,6 +5059,19 @@ function initGear(root) {
         if (card) card.classList.add('is-ready');
       }, { once: true });
       detailPhoto.appendChild(img);
+      layoutPhotoRails();
+      return;
+    }
+    if (inPlace) {
+      heroImg = src;
+      heroTile = tile;
+      src.classList.remove('r25-hero');
+      src.classList.add('is-hero');
+      src.removeAttribute('style');
+      detailPhoto.appendChild(src);
+      detailPhoto.classList.remove('is-waiting');
+      const card = detailBody.querySelector('.r25-detail');
+      if (card) card.classList.add('is-ready');
       layoutPhotoRails();
       return;
     }
@@ -5006,6 +5136,15 @@ function initGear(root) {
 
   function closeDetail(){
     if (!sheet || viewMode !== 'detail') return;
+    if (detailSlideBusy) {
+      clearTimeout(detailSlideTimer);
+      detailSlideBusy = false;
+      if (detailBody) {
+        detailBody.style.transition = '';
+        detailBody.style.transform = '';
+        detailBody.style.opacity = '';
+      }
+    }
     const img = heroImg || (detailPhoto && detailPhoto.querySelector('img'));
     const tile = heroTile || (familyGrid && familyGrid.querySelector('.tile[data-index="' + active + '"]'));
     const box = tile && tile.querySelector('.thumb');
@@ -5077,10 +5216,63 @@ function initGear(root) {
   }
 
 
-  function showDetail(i, tile, focusBack){
+  function slideDetailTo(i, dir, tile){
+    if (!detailBody || detailSlideBusy || viewMode !== 'detail') return;
+    if (!dir) return;
+    i = Math.max(0, Math.min(CARDS.length - 1, i));
+    if (!tile && familyGrid) tile = familyGrid.querySelector('.tile[data-index="' + i + '"]');
+    if (tile) lastTile = tile;
+    detailSlideBusy = true;
+    clearTimeout(detailSlideTimer);
+    const outgoing = dir > 0 ? -1 : 1;
+    detailBody.style.transition = 'transform .24s cubic-bezier(.4,0,.2,1), opacity .2s ease';
+    detailBody.style.transform = 'translate3d(' + (outgoing * 18) + '%,0,0)';
+    detailBody.style.opacity = '.88';
+    detailSlideTimer = window.setTimeout(function(){
+      if (viewMode !== 'detail') {
+        detailSlideBusy = false;
+        detailBody.style.transition = '';
+        detailBody.style.transform = '';
+        detailBody.style.opacity = '';
+        return;
+      }
+      if (heroImg || (detailPhoto && detailPhoto.querySelector('img'))) returnHeroToTile(false);
+      renderDetail(i);
+      const incoming = dir > 0 ? 1 : -1;
+      detailBody.style.transition = 'none';
+      detailBody.style.transform = 'translate3d(' + (incoming * 18) + '%,0,0)';
+      detailBody.style.opacity = '.88';
+      if (familyCount) familyCount.textContent = String(CARDS.length);
+      setActive(i);
+      mountHeroFromTile(tile, CARDS[i], { inPlace: true });
+      requestAnimationFrame(function(){
+        detailBody.style.transition = 'transform .4s cubic-bezier(.2,.9,.24,1), opacity .22s ease-out';
+        requestAnimationFrame(function(){
+          detailBody.style.transform = 'translate3d(0,0,0)';
+          detailBody.style.opacity = '1';
+        });
+        detailSlideTimer = window.setTimeout(function(){
+          detailBody.style.transition = '';
+          detailBody.style.transform = '';
+          detailBody.style.opacity = '';
+          detailSlideBusy = false;
+        }, 430);
+      });
+    }, 210);
+  }
+
+  function showDetail(i, tile, focusBack, slideDir){
     if (!sheet) return;
     i = Math.max(0, Math.min(CARDS.length - 1, i));
-    if (viewMode === 'detail') returnHeroToTile(false);
+    if (viewMode !== 'detail') settleWallNow();
+    if (viewMode === 'detail') {
+      if (slideDir) {
+        slideDetailTo(i, slideDir, tile);
+        return;
+      }
+      if (detailSlideBusy) return;
+      returnHeroToTile(false);
+    }
     if (!tile && familyGrid) {
       tile = familyGrid.querySelector('.tile[data-index="' + i + '"]');
     }
@@ -5118,12 +5310,17 @@ function initGear(root) {
   function stepBy(delta){
     if (viewMode === 'detail') {
       const i = Math.max(0, Math.min(CARDS.length - 1, active + delta));
-      showDetail(i, null);
+      showDetail(i, null, false, delta > 0 ? 1 : -1);
       return;
     }
     if (viewMode === 'family') {
+      cancelWallMotion();
+      cancelWallCoast();
       wall.x -= delta * 64;
       applyWall();
+      wall.targetScale = wall.scale;
+      wall.targetX = wall.x;
+      wall.targetY = wall.y;
       markWallInteracted();
       return;
     }
@@ -5137,6 +5334,7 @@ function initGear(root) {
   function syncLayout(){
     mobileMode = mq.matches;
     if (!sheet) return;
+    if (detailSlideBusy) return;
     if (viewMode === 'detail') showDetail(active, null);
     else showFamily(familyFilter, true);
   }
