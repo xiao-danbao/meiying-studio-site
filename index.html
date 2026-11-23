@@ -12,8 +12,8 @@
 (function(){
   var entry = document.getElementById('meiying-entry');
   var mirror = entry ? entry.getAttribute('data-mirror') : '';
-  if (!mirror) { location.replace('./full.html'); return; }
-  if (location.protocol === 'file:') { location.replace('./full.html'); return; }
+  if (!mirror) { location.replace('./full.html?v=20261123b'); return; }
+  if (location.protocol === 'file:') { location.replace('./full.html?v=20261123b'); return; }
 
   var isFallback = /(^|[?&])fallback=1(&|$)/.test(location.search);
   if (isFallback) { location.replace(mirror); return; }
@@ -29,7 +29,7 @@
   var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
   var abortTimer = controller ? setTimeout(function(){ controller.abort(); }, 2000) : null;
 
-  fetch('./full.html', {
+  fetch('./full.html?v=20261123b', {
     method: 'HEAD',
     cache: 'no-store',
     signal: controller ? controller.signal : undefined
@@ -37,7 +37,7 @@
     if (done) return;
     clearTimeout(timer);
     if (abortTimer) clearTimeout(abortTimer);
-    go(res && res.ok ? './full.html' : mirror);
+    go(res && res.ok ? './full.html?v=20261123b' : mirror);
   }).catch(function(){
     if (done) return;
     clearTimeout(timer);
@@ -46,7 +46,7 @@
   });
 })();
 </script>
-<noscript><meta http-equiv="refresh" content="0;url=./full.html"></noscript>
+<noscript><meta http-equiv="refresh" content="0;url=./full.html?v=20261123b"></noscript>
 </head>
 <body></body>
 </html>
