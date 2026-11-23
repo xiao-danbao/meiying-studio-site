@@ -5,15 +5,61 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>魅影工作室</title>
 <meta name="robots" content="noindex">
-<style>html,body{margin:0;width:100%;height:100%;background:#f4f0e8}</style>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#0d0c0b;overflow:hidden}
+.boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,246,233,.55);font:600 11px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.18em}
+.boot i{width:14px;height:14px;border:1.5px solid rgba(255,246,233,.18);border-top-color:#b4432e;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.boot i{animation:none}}
+</style>
 <script>
 (function () {
-  var entry = './full-r30.html';
-  location.replace(entry);
+  var entry = './full-r31.html';
+  var mirror = 'https://aka.doubaocdn.com/s/iZAIr7OZ1J'; // 7 天有效，2026-11-30 22:56 CST 到期
+  var hash = location.hash || '';
+  var q = new URLSearchParams(location.search);
+  var navigated = false;
+
+  function go(url) {
+    if (navigated) return;
+    navigated = true;
+    location.replace(url + hash);
+  }
+
+  // 直接带 fallback=1 时不再探测，直达国内加速站。
+  if (q.get('fallback') === '1') {
+    go(mirror);
+    return;
+  }
+  // 本地直接打开时没有 CDN 探测条件，直接进正文。
+  if (location.protocol === 'file:') {
+    go(entry);
+    return;
+  }
+
+  var controller = new AbortController();
+  var timer = setTimeout(function () {
+    controller.abort();
+    go(mirror);
+  }, 2000);
+
+  fetch(entry, {
+    cache: 'default',
+    credentials: 'same-origin',
+    signal: controller.signal
+  }).then(function (res) {
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.text(); // 实测整页正文，避免 HEAD 秒回但正文仍要 100 秒
+  }).then(function () {
+    clearTimeout(timer);
+    go(entry);
+  }).catch(function () {
+    clearTimeout(timer);
+    go(mirror);
+  });
 })();
 </script>
-<noscript><meta http-equiv="refresh" content="0;url=./full-r30.html"></noscript>
+<noscript><meta http-equiv="refresh" content="0;url=./full-r31.html"></noscript>
 </head>
-<body></body>
+<body><div class="boot" aria-hidden="true"><i></i><span>魅影工作室</span></div></body>
 </html>
-
