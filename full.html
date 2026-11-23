@@ -3670,6 +3670,124 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .gear-sheet .detail-card .specs dd{font-size:9.2px}
   .gear-sheet .chip{font-size:9px; padding:4px 6px}
 }
+
+/* ---------- R22 放射蜂窝：以中心为原点，向外一圈圈扩散 ---------- */
+.gear-sheet.family-mode .family .wall-plane{
+  width:200%!important; height:200%!important;
+  display:block!important;
+  padding:0!important; gap:0;
+  overflow:visible;
+}
+
+/* 圆形图标绝对落在蜂窝坐标上，禁用旧网格的错位旋转 */
+.gear-sheet.family-mode .family .tile,
+.gear-sheet.family-mode .family .tile:nth-child(n){
+  position:absolute;
+  left:calc(50% + var(--wall-size) * var(--rx,0));
+  top:calc(50% + var(--wall-size) * var(--ry,0));
+  width:calc(var(--wall-size) * var(--ts,.245));
+  height:calc(var(--wall-size) * var(--ts,.245));
+  display:block;
+  margin:0; padding:0;
+  border-radius:50%;
+  border:1px solid rgba(255,246,233,.16);
+  background:
+    radial-gradient(circle at 50% 28%,rgba(255,246,233,.13) 0%,rgba(255,246,233,.045) 42%,rgba(0,0,0,.32) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.15),
+    inset 0 -28px 34px -28px rgba(0,0,0,.9),
+    0 26px 42px -28px rgba(0,0,0,.96);
+  color:rgba(255,255,255,.88);
+  overflow:hidden;
+  isolation:isolate;
+  z-index:3;
+  transform:translate(-50%,-50%)!important;
+  transition:transform .24s var(--wall-ease),opacity .24s var(--ease),filter .24s var(--ease);
+  -webkit-tap-highlight-color:transparent;
+}
+.gear-sheet.family-mode .family .tile::before{display:none}
+.gear-sheet.family-mode .family .tile::after{
+  content:""; position:absolute; inset:7%; z-index:2; border-radius:50%;
+  border:1px solid rgba(255,246,233,.055); pointer-events:none;
+}
+.gear-sheet.family-mode .family .tile .thumb{
+  position:absolute; inset:4% 5% 14%;
+  display:grid; place-items:center;
+  padding:0; border:0; border-radius:0; background:none; box-shadow:none;
+  overflow:visible;
+}
+.gear-sheet.family-mode .family .tile .thumb img{
+  display:block; width:100%; height:100%;
+  object-fit:contain; border-radius:0;
+  filter:drop-shadow(0 16px 12px rgba(0,0,0,.62)) drop-shadow(0 2px 3px rgba(0,0,0,.32));
+  transform:translateZ(0);
+}
+.gear-sheet.family-mode .family .tile .tile-name{
+  position:absolute; left:7%; right:7%; bottom:3%; z-index:4;
+  display:block; margin:0; padding:7px 1px 2px;
+  color:rgba(255,255,255,.91); font-size:clamp(7px,2vw,9px);
+  font-weight:650; line-height:1.02; letter-spacing:-.015em;
+  text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  text-shadow:0 1px 3px rgba(0,0,0,.92);
+  background:linear-gradient(0deg,rgba(4,4,3,.78) 0%,rgba(4,4,3,.4) 66%,rgba(4,4,3,0) 100%);
+  border-radius:0 0 42% 42%;
+}
+.gear-sheet.family-mode .family .tile .tile-name::before{display:none}
+.gear-sheet.family-mode .family .tile.is-center{
+  z-index:5;
+  border-color:rgba(255,246,233,.28);
+  box-shadow:
+    0 0 0 1px rgba(255,246,233,.16),
+    0 0 0 8px rgba(255,246,233,.035),
+    inset 0 1px 0 rgba(255,255,255,.2),
+    inset 0 -28px 34px -28px rgba(0,0,0,.9),
+    0 30px 48px -28px rgba(0,0,0,.98);
+}
+.gear-sheet.family-mode .family .tile.is-center .tile-name{
+  color:#FFF9EE; font-size:clamp(7.5px,2.1vw,9.8px);
+}
+.gear-sheet.family-mode .family .tile.is-power{
+  background:
+    radial-gradient(circle at 50% 32%,rgba(255,246,233,.17) 0%,rgba(255,246,233,.055) 48%,rgba(0,0,0,.3) 100%);
+}
+.gear-sheet.family-mode .family .tile.is-power .thumb{
+  inset:8% 8% 18%; background:none; border:0; box-shadow:none;
+}
+.gear-sheet.family-mode .family .tile.is-power .tile-pow{
+  align-items:center; justify-content:center; padding-left:0; text-align:center;
+}
+.gear-sheet.family-mode .family .tile.is-power .tile-pow b{font-size:clamp(19px,5.4vw,26px)}
+.gear-sheet.family-mode .family .tile.is-power .tile-pow small{font-size:clamp(6px,1.7vw,7px)}
+
+@media(min-width:861px){
+  /* 桌面上环形墙已经铺满，鼠标提示不压在器材上 */
+  .gear-sheet.family-mode .wall-guide{display:none}
+}
+
+@media(hover:hover) and (pointer:fine){
+  .gear-sheet.family-mode .family .tile:hover{
+    transform:translate(-50%,-50%) scale(1.075)!important;
+    filter:brightness(1.08) drop-shadow(0 0 18px rgba(255,246,233,.11));
+    z-index:9;
+  }
+}
+.gear-sheet.family-mode .family .tile:active{
+  transform:translate(-50%,-50%) scale(.95)!important;
+  transition-duration:.1s;
+}
+.gear-sheet.family-mode .family .tile.is-picked{
+  transform:translate(-50%,-50%) scale(1.18)!important;
+  filter:brightness(1.1) drop-shadow(0 0 20px rgba(255,246,233,.16));
+  transition-duration:.18s;
+  z-index:10;
+}
+.gear-sheet.family-mode .family .tile.is-cut{
+  opacity:.5; filter:saturate(.78) brightness(.76);
+}
+.gear-sheet.family-mode .family .tile.is-cut .tile-name{
+  opacity:0; transform:translateY(3px);
+}
+
 @media(prefers-reduced-motion:reduce){
   .gear-sheet .detail-card{animation:none!important}
   .gear-sheet .detail,
@@ -4079,15 +4197,48 @@ function initGear(root) {
     ['AA × 4','尼康 SB-700']
   ];
 
-  // 圆形墙的陈列顺序：镜头在上，机身在中间一圈，支撑/灯光在下方。
-  // 中心格固定给 6D2，首屏就能看到机身，而不是一排镜头的边缘。
-  const FAMILY_ORDER = [
-    '2470','24105','70200','100400','s70200',
-    '18200','light2','light1','stick','rs3',
-    's5ii','pocket3','6d2','pocket4','d7500',
-    'a7m3','godox','nikonflash','tripod','stand',
-    'mic','power'
+  // R22 放射蜂窝：中心机身，向外一圈机身/云台，再外一圈镜头/灯光，最外支撑与电池。
+  const RADIAL_ORDER = [
+    '6d2',
+    'd7500','a7m3','s5ii','pocket3','pocket4','rs3',
+    '2470','24105','70200','100400','s70200','18200',
+    'light1','light2','stick','godox','nikonflash','tripod',
+    'stand','mic','power'
   ];
+  const RADIAL_D = .245;
+  const HEX_Y = Math.sqrt(3) / 2;
+  const RING1 = [[0,-1],[1,-1],[1,0],[0,1],[-1,1],[-1,0]];
+  function hexCells(k){
+    const out = [];
+    for (let q = -k; q <= k; q++) {
+      for (let r = -k; r <= k; r++) {
+        if (Math.max(Math.abs(q), Math.abs(r), Math.abs(q + r)) === k) out.push([q, r]);
+      }
+    }
+    return out.sort((a, b) => {
+      const aa = Math.atan2(a[1] * HEX_Y, a[0] + a[1] / 2);
+      const bb = Math.atan2(b[1] * HEX_Y, b[0] + b[1] / 2);
+      return aa - bb;
+    });
+  }
+  const RING2 = hexCells(2);
+  const RING3 = hexCells(3).filter((_, i) => i % 6 === 0);
+  const toSlot = p => ({
+    x: (p[0] + p[1] / 2) * RADIAL_D,
+    y: p[1] * HEX_Y * RADIAL_D
+  });
+  const RADIAL_SLOTS = [[0,0]].concat(RING1, RING2, RING3).map(toSlot);
+  function filterSlots(n){
+    if (n <= 1) return [{ x: 0, y: 0 }];
+    const out = [{ x: 0, y: 0 }];
+    const ringN = n - 1;
+    const radius = 1.55 * RADIAL_D;
+    for (let k = 0; k < ringN; k++) {
+      const a = -Math.PI / 2 + k * Math.PI * 2 / ringN;
+      out.push({ x: Math.cos(a) * radius, y: Math.sin(a) * radius });
+    }
+    return out;
+  }
 
   /* ---------- 组装卡片数据 ---------- */
   const CARDS = [];
@@ -4130,7 +4281,7 @@ function initGear(root) {
   let suppressClickUntil = 0;
   const cards = [];
   const wall = {
-    scale: .88, x: 0, y: 0, min: .6, max: 2.6,
+    scale: .88, x: 0, y: 0, min: .56, max: 2.6,
     pointers: new Map(), drag: null, pinch: null, moved: false
   };
 
@@ -4204,7 +4355,8 @@ function initGear(root) {
       const tr = (thumb || tile).getBoundingClientRect();
       const tx = tr.left + tr.width / 2;
       const ty = tr.top + tr.height / 2;
-      tile.classList.toggle('is-cut', Math.hypot(tx - cx, ty - cy) > r - 10);
+      const edge = Math.max(8, tr.width * .48);
+      tile.classList.toggle('is-cut', Math.hypot(tx - cx, ty - cy) > r - edge);
     });
   }
   function queueWallEdges(){
@@ -4227,7 +4379,7 @@ function initGear(root) {
   function resetWallView(){
     if (!familyGrid || !wallViewport) return;
     const all = familyFilter === 'all';
-    wall.min = all ? .6 : .72;
+    wall.min = all ? .56 : .72;
     wall.max = all ? 2.6 : 2.3;
     wall.scale = all ? .88 : .86;
     wall.x = 0;
@@ -4394,7 +4546,7 @@ function initGear(root) {
     familyFilter = filter || 'all';
     const keyOf = c => c.power ? 'power' : c.id;
     const pool = new Map(CARDS.map((c, i) => [keyOf(c), { c, i }]));
-    const ordered = FAMILY_ORDER.map(id => pool.get(id)).filter(Boolean);
+    const ordered = RADIAL_ORDER.map(id => pool.get(id)).filter(Boolean);
     const list = ordered.filter(x =>
       familyFilter === 'all' || x.c.sec === familyFilter
     );
@@ -4406,33 +4558,23 @@ function initGear(root) {
     familyGrid.classList.toggle('is-filtered', familyFilter !== 'all');
 
     const n = list.length;
-    let cols = 5, rows = 5, pw = 1.55, ph = 1.55;
-    if (familyFilter !== 'all') {
-      if (n <= 3) {
-        cols = Math.max(1, n);
-        rows = 1;
-        pw = n === 1 ? .58 : 1.12;
-        ph = .46;
-      } else {
-        cols = 3;
-        rows = 2;
-        pw = 1.12;
-        ph = .94;
-      }
-    }
-    familyGrid.style.setProperty('--cols', String(cols));
-    familyGrid.style.setProperty('--rows', String(rows));
-    familyGrid.style.setProperty('--plane-w', (pw * 100).toFixed(1) + '%');
-    familyGrid.style.setProperty('--plane-h', (ph * 100).toFixed(1) + '%');
+    const slots = familyFilter === 'all' ? RADIAL_SLOTS : filterSlots(n);
+    const tileD = (familyFilter !== 'all' && n === 1) ? .34 : RADIAL_D;
+    familyGrid.dataset.layout = 'radial';
+    familyGrid.style.setProperty('--plane-w', '200%');
+    familyGrid.style.setProperty('--plane-h', '200%');
 
-    familyGrid.innerHTML = list.map(({ c, i }) => {
+    familyGrid.innerHTML = list.map(({ c, i }, idx) => {
       const isPower = !!c.power;
       const name = isPower ? '电池 · 按数量' : c.cn;
+      const slot = slots[idx] || { x: 0, y: 0 };
       const media = isPower
         ? '<span class="thumb"><span class="tile-pow"><b>07</b><small>种电池</small></span></span>'
         : '<span class="thumb"><img src="' + cut(c.id) + '" alt="" draggable="false" loading="eager" decoding="async"></span>';
+      const style = '--rx:' + slot.x.toFixed(4) + ';--ry:' + slot.y.toFixed(4) + ';--ts:' + tileD;
       return '<button type="button" class="tile sec-' + c.sec + (isPower ? ' is-power' : '') +
-        '" data-index="' + i + '" aria-label="查看' + name + '详情">' + media +
+        (idx === 0 ? ' is-center' : '') +
+        '" data-index="' + i + '" style="' + style + '" aria-label="查看' + name + '详情">' + media +
         '<span class="tile-name">' + name + '</span></button>';
     }).join('');
   }
