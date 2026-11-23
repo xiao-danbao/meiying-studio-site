@@ -3671,6 +3671,16 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .gear-sheet .chip{font-size:9px; padding:4px 6px}
 }
 
+@media(min-width:341px) and (max-width:430px){
+  .gear-sheet.family-mode .family .tile .tile-name{font-size:8.4px; letter-spacing:0}
+}
+@media(max-width:380px){
+  .gear-sheet .r25-anno{width:min(31vw,108px)}
+  .gear-sheet .r25-anno span{font-size:9px; line-height:1.3}
+  .gear-sheet .r25-anno.left{left:calc(var(--photo-left, 0px) + 4px)}
+  .gear-sheet .r25-anno.right{right:calc(var(--photo-right, 0px) + 4px)}
+}
+
 /* ---------- R22 放射蜂窝：以中心为原点，向外一圈圈扩散 ---------- */
 .gear-sheet.family-mode .family .wall-plane{
   width:200%!important; height:200%!important;
@@ -4149,7 +4159,7 @@ function initGear(root) {
             ['画幅', '全画幅 CMOS，2620 万有效像素'],
             ['对焦', '45 点全十字型 AF，双像素 CMOS AF'],
             ['视频', '1080/60p，支持 4K 延时短片'],
-            ['机身', '144 × 110.5 × 74.8 mm / 765 g'],
+            ['机身', '144 × 110.5 × 74.8 mm / 765 g（含电池和卡）'],
             ['电池', 'LP-E6N'],
           ],
           note: 'EF 卡口通用机身，六支 EF 镜头全部可用。'
@@ -4161,8 +4171,8 @@ function initGear(root) {
             ['画幅', '全画幅 CMOS，2420 万有效像素'],
             ['对焦', '779 点相位检测 AF（S5 II 新增）'],
             ['视频', '6K 30p / C4K 60p，双原生 ISO'],
-            ['机身', '134.3 × 102.3 × 90.1 mm / 740 g'],
-            ['防抖', '机身五轴，最高 6.5 档'],
+            ['机身', '134.3 × 102.3 × 90.1 mm / 740 g（含电池和卡）'],
+            ['防抖', '机身五轴约 5 档；Dual I.S. 2 最高约 6.5 档'],
           ],
           note: '拍视频首选，机内散热与防抖都稳。'
         },
@@ -4173,8 +4183,8 @@ function initGear(root) {
             ['画幅', '全画幅背照式 CMOS，2420 万有效像素'],
             ['对焦', '693 点相位 + 425 点对比检测'],
             ['视频', '4K 30p，全像素读取无裁切'],
-            ['机身', '126.9 × 95.6 × 73.7 mm / 650 g'],
-            ['电池', 'NP-FZ100，单块可拍约 710 张'],
+            ['机身', '126.9 × 95.6 × 73.7 mm / 650 g（含电池和卡）'],
+            ['电池', 'NP-FZ100，LCD 约 710 张 / EVF 约 610 张'],
           ],
           note: '配索尼 70-200 时对焦最快。'
         },
@@ -4185,7 +4195,7 @@ function initGear(root) {
             ['画幅', 'DX 格式 CMOS，2088 万有效像素'],
             ['对焦', '51 点 AF，其中 15 点为十字型'],
             ['视频', '4K 30p，支持间隔拍摄'],
-            ['机身', '135.5 × 104 × 72.5 mm / 720 g'],
+            ['机身', '135.5 × 104 × 72.5 mm / 720 g（含电池和卡）'],
             ['电池', 'EN-EL15a'],
           ],
           note: '尼康 18-200 只能装这台，别拿错。'
@@ -4206,11 +4216,11 @@ function initGear(root) {
           id: 'pocket4', name: 'DJI Osmo Pocket 4', cn: '大疆 Pocket 4',
           spec: '1 英寸 CMOS · 4K/240 · 107GB 内置',
           specs: [
-            ['传感器', '1 英寸 CMOS，等效 20mm f/2.0'],
-            ['视频', '4K 240fps 慢动作，10-bit'],
+            ['传感器', '1 英寸 CMOS，等效 20mm f/2.0，14 档动态范围'],
+            ['视频', '4K 240fps 慢动作，10-bit D-Log'],
             ['存储', '107GB 内置存储，免带卡'],
-            ['云台', '三轴机械增稳，智能跟随'],
-            ['机身', '约 190 g'],
+            ['云台', '三轴机械增稳，2 英寸旋转 OLED 屏'],
+            ['机身', '144.2 × 44.4 × 33.5 mm / 190.5 g'],
           ],
           note: '慢动作素材用这台，240fps 能撑 8 倍放慢。'
         },
@@ -4227,7 +4237,7 @@ function initGear(root) {
           spec: '恒定 f/2.8 · 82mm 滤镜 · 805 g',
           specs: [
             ['焦段', '24-70mm，恒定 f/2.8'],
-            ['结构', '13 组 18 片，含 1 片超级 UD'],
+            ['结构', '13 组 18 片（1 片超级 UD、2 片 UD、3 片非球面）'],
             ['最近对焦', '0.38 m'],
             ['尺寸', 'φ88.5 × 113 mm / 805 g'],
           ],
@@ -4238,9 +4248,10 @@ function initGear(root) {
           spec: '恒定 f/4 · 4 级防抖 · 795 g',
           specs: [
             ['焦段', '24-105mm，恒定 f/4'],
+            ['结构', '12 组 17 片'],
             ['防抖', 'IS 光学防抖，约 4 级'],
             ['最近对焦', '0.45 m'],
-            ['尺寸', 'φ83.5 × 107 mm / 795 g'],
+            ['尺寸', 'φ83.5 × 118 mm / 795 g'],
           ],
           note: '一镜走全场的长焦段标准镜，配 6D2 最顺手。'
         },
@@ -4262,7 +4273,7 @@ function initGear(root) {
             ['焦段', '100-400mm，f/4.5-5.6'],
             ['防抖', 'IS 光学防抖，约 4 级'],
             ['最近对焦', '0.98 m'],
-            ['尺寸', 'φ94 × 193 mm / 1570 g'],
+            ['尺寸', 'φ94 × 193 mm / 1570 g（不含脚架环）'],
           ],
           note: '运动会、远处抓拍。白镜，注意别磕碰。'
         },
@@ -4271,19 +4282,20 @@ function initGear(root) {
           spec: 'DX 专用 · 11 倍变焦 · 565 g',
           specs: [
             ['焦段', '18-200mm，f/3.5-5.6'],
-            ['画幅', 'DX 专用，全画幅机身不可用'],
+            ['画幅', 'DX 专用；全画幅机身仅 DX 裁切可用'],
             ['防抖', 'VR II 光学防抖'],
+            ['最近对焦', '0.5 m'],
             ['尺寸', 'φ77 × 96.5 mm / 565 g'],
           ],
-          note: '只配 D7500。装上其他机身会被裁切或打板。'
+          note: '只配 D7500。装到全画幅机身只能用 DX 裁切模式。'
         },
         {
           id: 's70200', name: 'Sony FE 70-200mm f/4 G OSS II', cn: '索尼 70-200',
-          spec: '恒定 f/4 · 全焦段微距 · 794 g',
+          spec: '恒定 f/4 · 全焦段 0.5× · 794 g',
           specs: [
             ['焦段', '70-200mm，恒定 f/4'],
             ['防抖', 'OSS 光学防抖'],
-            ['最近对焦', '0.4 m（微距模式）'],
+            ['最近对焦', '0.26–0.42 m，最大放大 0.5×'],
             ['尺寸', 'φ82.2 × 149 mm / 794 g'],
           ],
           note: '配 a7m3。第二代体积小，手持一天不累。'
@@ -4334,8 +4346,8 @@ function initGear(root) {
           specs: [
             ['指数', 'GN60（ISO100，200mm）'],
             ['兼容', '佳能 E-TTL II，2.4G 无线主从'],
-            ['回电', '全光约 0.9 s'],
-            ['电池', 'VB-26 锂电，全光约 480 次'],
+            ['回电', '全光约 1.5 s（官方最大值）'],
+            ['电池', 'VB-26 锂电（2600mAh），全光约 480 次'],
           ],
           note: '佳能口。尼康机身装不上，别硬插。'
         },
@@ -4347,6 +4359,7 @@ function initGear(root) {
             ['兼容', '尼康 i-TTL，CLS 创意闪光系统'],
             ['变焦', '24-120mm 自动变焦'],
             ['供电', '4 节 AA 电池'],
+            ['尺寸', '71 × 126 × 104.5 mm / 360 g（不含电池）'],
           ],
           note: '配 D7500。带扩散罩与色片，柔化直闪。'
         },
@@ -4360,12 +4373,12 @@ function initGear(root) {
       items: [
         {
           id: 'rs3', name: 'DJI RS 3', cn: '大疆 RS 3 稳定器',
-          spec: '三轴稳定 · 负载 3kg · 12h 续航',
+          spec: '三轴稳定 · 负载 3kg · 12h 待机',
           specs: [
-            ['负载', '最大 3 kg，适配主流微单 + 24-70'],
+            ['负载', '最大 3 kg（测试负载），适配主流微单 + 24-70'],
             ['轴数', '三轴机械增稳，自动轴锁'],
-            ['屏幕', '1.8 英寸触摸屏'],
-            ['续航', '约 12 小时，支持快充'],
+            ['屏幕', '1.8 英寸 OLED 触摸屏'],
+            ['续航', '最长待机约 12 小时，支持快充'],
           ],
           note: 'S5 II / a7m3 上稳定器前先拆手柄，否则调不平。'
         },
@@ -4404,9 +4417,9 @@ function initGear(root) {
           spec: '一拖二无线 · 32-bit 内录 · 250m',
           specs: [
             ['配置', '双发射器 + 接收器，含充电盒'],
-            ['内录', '32-bit 浮点，单机可独立录音'],
+            ['内录', '32-bit 浮点；24-bit 约 14 小时 / 32-bit 约 11 小时'],
             ['传输', '最远 250 m，抗干扰'],
-            ['续航', '内录 14 小时 / 综合 18 小时'],
+            ['续航', '单机约 6 小时；充电盒综合约 18 小时'],
           ],
           note: '采访、口播、走拍都用它。开录前先确认内录在跑。'
         },
@@ -4462,10 +4475,25 @@ function initGear(root) {
     x: (p[0] + p[1] / 2) * RADIAL_D,
     y: p[1] * HEX_Y * RADIAL_D
   });
-  // 21 件：手机保留左、下两个外圈落点填满竖屏；桌面保留左、上两个落点，避免器材被底栏压住。
+  // 21 件：手机压缩外圈横向半径，把最后两件放到下方空区，尽量全显；
+  // 桌面保留左、上两个外圈落点，避免器材被底栏压住。
   const radialSlots = () => {
-    const outer = innerWidth <= 860 ? [RING3[0], RING3[2]] : [RING3[0], RING3[1]];
-    return [[0,0]].concat(RING1, RING2, outer).map(toSlot);
+    if (innerWidth <= 860) {
+      const ring1 = RING1.map(p => {
+        const s = toSlot(p);
+        return { x: s.x * .828, y: s.y };
+      });
+      const mid = [];
+      for (let k = 0; k < 11; k++) {
+        const a = -Math.PI / 2 + k * Math.PI * 2 / 11;
+        mid.push({ x: Math.cos(a) * .47, y: Math.sin(a) * .60 });
+      }
+      return [{ x: 0, y: 0 }].concat(ring1, mid, [
+        { x: -.39, y: .84 }, { x: 0, y: .84 }, { x: .39, y: .84 }
+      ]);
+    }
+    const outer = [RING3[0], RING3[1]];
+    return [[0, 0]].concat(RING1, RING2, outer).map(toSlot);
   };
   function filterSlots(n){
     if (n <= 1) return [{ x: 0, y: 0 }];
@@ -4522,12 +4550,15 @@ function initGear(root) {
   let heroImg = null;
   let heroTile = null;
   let heroTimer = 0;
+  let closeFlight = null;
+  let heroFlightSeq = 0;
   let detailSlideBusy = false;
   let detailSlideTimer = 0;
+  let detailSlideSeq = 0;
   let suppressClickUntil = 0;
   const cards = [];
   function defaultWallScale(){
-    return innerWidth >= 861 ? .80 : innerWidth <= 340 ? .90 : innerWidth >= 431 ? .88 : 1.08;
+    return innerWidth >= 861 ? .80 : innerWidth <= 340 ? 1.0 : innerWidth >= 431 ? .88 : .96;
   }
   const wall = {
     scale: defaultWallScale(), x: 0, y: 0, min: .56, max: 2.6,
@@ -4936,6 +4967,7 @@ function initGear(root) {
   }
 
   function renderFamily(filter){
+    if (closeFlight) settleCloseFlight();
     if (!familyGrid) return;
     familyFilter = filter || 'all';
     const keyOf = c => c.id;
@@ -4953,7 +4985,8 @@ function initGear(root) {
 
     const n = list.length;
     const slots = familyFilter === 'all' ? radialSlots() : filterSlots(n);
-    const tileD = (familyFilter !== 'all' && n === 1) ? .34 : TILE_D;
+    const mobileAll = familyFilter === 'all' && innerWidth <= 860;
+    const tileD = (familyFilter !== 'all' && n === 1) ? .34 : (mobileAll ? .195 : TILE_D);
     familyGrid.dataset.layout = 'radial';
     familyGrid.style.setProperty('--plane-w', '200%');
     familyGrid.style.setProperty('--plane-h', '200%');
@@ -5046,7 +5079,30 @@ function initGear(root) {
     st.style.setProperty('--photo-right', pad + 'px');
   }
 
+  // 返回动画收尾：快速重开/切分类时先把飞行图放回 tile，杜绝悬空图与重复图。
+  function settleCloseFlight(){
+    const flight = closeFlight;
+    if (!flight) return;
+    closeFlight = null;
+    clearTimeout(flight.timer);
+    if (flight.raf1) cancelAnimationFrame(flight.raf1);
+    if (flight.raf2) cancelAnimationFrame(flight.raf2);
+    const img = flight.img;
+    if (!img) return;
+    img.classList.remove('is-hero', 'r25-hero');
+    img.removeAttribute('style');
+    if (flight.box && flight.box.isConnected) {
+      if (img.parentNode !== flight.box) flight.box.appendChild(img);
+    } else {
+      img.remove();
+    }
+  }
+
   function mountHeroFromTile(tile, c, opts){
+    const token = ++heroFlightSeq;
+    clearTimeout(heroTimer);
+    heroTimer = 0;
+    if (token !== heroFlightSeq || viewMode !== 'detail' || !detailPhoto || !detailBody) return;
     const inPlace = !!(opts && opts.inPlace);
     const src = tile ? tile.querySelector('.thumb img') : null;
     if (!src || !detail || !detailPhoto) {
@@ -5055,10 +5111,13 @@ function initGear(root) {
       img.alt = c.cn;
       img.src = cut(c.id);
       img.addEventListener('load', function(){
+        if (token !== heroFlightSeq || viewMode !== 'detail' || !detailPhoto) return;
         const card = detailBody.querySelector('.r25-detail');
         if (card) card.classList.add('is-ready');
       }, { once: true });
       detailPhoto.appendChild(img);
+      heroImg = img;
+      heroTile = tile || null;
       layoutPhotoRails();
       return;
     }
@@ -5080,6 +5139,8 @@ function initGear(root) {
     if (!from.width || !to) {
       detailPhoto.appendChild(src);
       src.classList.add('is-hero');
+      heroImg = src;
+      heroTile = tile;
       const card = detailBody.querySelector('.r25-detail');
       if (card) card.classList.add('is-ready');
       layoutPhotoRails();
@@ -5100,6 +5161,7 @@ function initGear(root) {
     void src.offsetWidth;
     requestAnimationFrame(function(){
       requestAnimationFrame(function(){
+        if (token !== heroFlightSeq || viewMode !== 'detail' || !detailPhoto || !src.isConnected) return;
         src.style.left = (to.left - dr.left) + 'px';
         src.style.top = (to.top - dr.top) + 'px';
         src.style.width = to.width + 'px';
@@ -5108,7 +5170,8 @@ function initGear(root) {
     });
     clearTimeout(heroTimer);
     heroTimer = window.setTimeout(function(){
-      if (!detailPhoto || !src) return;
+      if (token !== heroFlightSeq || viewMode !== 'detail' || !detailPhoto || !src) return;
+      heroTimer = 0;
       detailPhoto.appendChild(src);
       src.classList.remove('r25-hero');
       src.classList.add('is-hero');
@@ -5121,10 +5184,12 @@ function initGear(root) {
   }
 
   function returnHeroToTile(animate){
+    heroFlightSeq++;
+    clearTimeout(heroTimer);
+    heroTimer = 0;
     const img = heroImg || (detailPhoto && detailPhoto.querySelector('img'));
     const tile = heroTile;
     if (!img || !tile) return;
-    clearTimeout(heroTimer);
     const box = tile.querySelector('.thumb');
     if (!box) return;
     img.classList.remove('is-hero', 'r25-hero');
@@ -5136,14 +5201,18 @@ function initGear(root) {
 
   function closeDetail(){
     if (!sheet || viewMode !== 'detail') return;
-    if (detailSlideBusy) {
-      clearTimeout(detailSlideTimer);
-      detailSlideBusy = false;
-      if (detailBody) {
-        detailBody.style.transition = '';
-        detailBody.style.transform = '';
-        detailBody.style.opacity = '';
-      }
+    settleCloseFlight();
+    clearTimeout(detailTimer);
+    clearTimeout(heroTimer);
+    heroTimer = 0;
+    heroFlightSeq++;
+    detailSlideSeq++;
+    clearTimeout(detailSlideTimer);
+    detailSlideBusy = false;
+    if (detailBody) {
+      detailBody.style.transition = '';
+      detailBody.style.transform = '';
+      detailBody.style.opacity = '';
     }
     const img = heroImg || (detailPhoto && detailPhoto.querySelector('img'));
     const tile = heroTile || (familyGrid && familyGrid.querySelector('.tile[data-index="' + active + '"]'));
@@ -5158,6 +5227,8 @@ function initGear(root) {
     if (detail) detail.setAttribute('aria-hidden', 'true');
     if (wallGuide) wallGuide.classList.remove('is-hidden');
     if (img && box && from && to && sr && !prefersReduce.matches) {
+      const flight = { img: img, box: box, raf1: 0, raf2: 0, timer: 0 };
+      closeFlight = flight;
       img.classList.remove('is-hero');
       img.classList.add('r25-hero');
       stage.appendChild(img);
@@ -5167,23 +5238,32 @@ function initGear(root) {
       img.style.width = from.width + 'px';
       img.style.height = from.height + 'px';
       void img.offsetWidth;
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){
+      flight.raf1 = requestAnimationFrame(function(){
+        flight.raf1 = 0;
+        flight.raf2 = requestAnimationFrame(function(){
+          flight.raf2 = 0;
+          if (closeFlight !== flight) return;
           img.style.left = (to.left - sr.left) + 'px';
           img.style.top = (to.top - sr.top) + 'px';
           img.style.width = to.width + 'px';
           img.style.height = to.height + 'px';
         });
       });
-      window.setTimeout(function(){
+      flight.timer = window.setTimeout(function(){
+        if (closeFlight !== flight) return;
+        closeFlight = null;
         img.classList.remove('r25-hero');
         img.removeAttribute('style');
-        if (box && img.parentNode !== box) box.appendChild(img);
+        if (box.isConnected) {
+          if (img.parentNode !== box) box.appendChild(img);
+        } else {
+          img.remove();
+        }
       }, 600);
     } else if (img && box) {
       img.classList.remove('is-hero', 'r25-hero');
       img.removeAttribute('style');
-      box.appendChild(img);
+      if (img.parentNode !== box) box.appendChild(img);
     }
     detailBody.innerHTML = '';
     detailPhoto = null;
@@ -5194,6 +5274,7 @@ function initGear(root) {
 
   function showFamily(filter, reset){
     if (!sheet) return;
+    if (closeFlight) settleCloseFlight();
     viewMode = 'family';
     mobileMode = mq.matches;
     clearTimeout(detailTimer);
@@ -5222,6 +5303,7 @@ function initGear(root) {
     i = Math.max(0, Math.min(CARDS.length - 1, i));
     if (!tile && familyGrid) tile = familyGrid.querySelector('.tile[data-index="' + i + '"]');
     if (tile) lastTile = tile;
+    const slideToken = ++detailSlideSeq;
     detailSlideBusy = true;
     clearTimeout(detailSlideTimer);
     const outgoing = dir > 0 ? -1 : 1;
@@ -5229,6 +5311,7 @@ function initGear(root) {
     detailBody.style.transform = 'translate3d(' + (outgoing * 18) + '%,0,0)';
     detailBody.style.opacity = '.88';
     detailSlideTimer = window.setTimeout(function(){
+      if (slideToken !== detailSlideSeq) return;
       if (viewMode !== 'detail') {
         detailSlideBusy = false;
         detailBody.style.transition = '';
@@ -5246,12 +5329,15 @@ function initGear(root) {
       setActive(i);
       mountHeroFromTile(tile, CARDS[i], { inPlace: true });
       requestAnimationFrame(function(){
+        if (slideToken !== detailSlideSeq || viewMode !== 'detail') return;
         detailBody.style.transition = 'transform .4s cubic-bezier(.2,.9,.24,1), opacity .22s ease-out';
         requestAnimationFrame(function(){
+          if (slideToken !== detailSlideSeq || viewMode !== 'detail') return;
           detailBody.style.transform = 'translate3d(0,0,0)';
           detailBody.style.opacity = '1';
         });
         detailSlideTimer = window.setTimeout(function(){
+          if (slideToken !== detailSlideSeq || viewMode !== 'detail') return;
           detailBody.style.transition = '';
           detailBody.style.transform = '';
           detailBody.style.opacity = '';
@@ -5264,7 +5350,10 @@ function initGear(root) {
   function showDetail(i, tile, focusBack, slideDir){
     if (!sheet) return;
     i = Math.max(0, Math.min(CARDS.length - 1, i));
-    if (viewMode !== 'detail') settleWallNow();
+    if (viewMode !== 'detail') {
+      settleCloseFlight();
+      settleWallNow();
+    }
     if (viewMode === 'detail') {
       if (slideDir) {
         slideDetailTo(i, slideDir, tile);
@@ -5567,6 +5656,7 @@ function initGear(root) {
     step: stepBy,
     enter: enter,
     resetWall: resetWallView,
+    closeDetail: closeDetail,
     getActive: () => active,
     getTotal: () => cards.length
   };
@@ -5685,6 +5775,7 @@ function initGear(root) {
 
   function close(){
     if (!isOpen) return;
+    if (gear && gear.closeDetail) gear.closeDetail();
     isOpen = false;
     host.classList.remove('is-open');
     host.setAttribute('aria-hidden', 'true');
