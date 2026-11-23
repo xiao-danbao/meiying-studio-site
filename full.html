@@ -2066,6 +2066,12 @@ paint();
   --ease:cubic-bezier(.32,.72,0,1);
 }
 
+/* 关闭后彻底退出命中测试：内部 .family / .top / 底栏会显式恢复 pointer-events:auto，必须整树压掉 */
+:host(:not(.is-open)) .gear-root,
+:host(:not(.is-open)) .gear-root *{
+  pointer-events:none!important;
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
 .gear-root{height:100%}
 .gear-root{
