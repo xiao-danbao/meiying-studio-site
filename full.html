@@ -3030,6 +3030,130 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .gear-sheet .nav-capsule{background:rgba(255,255,255,.08); -webkit-backdrop-filter:none; backdrop-filter:none}
 }
 
+/* ===== R20 · 抠图照片墙 + 单独设备页回退 ===== */
+.gear-sheet .family{
+  gap:0;
+  padding:10px 10px 5px;
+  background:
+    radial-gradient(115% 68% at 50% -14%,rgba(255,246,231,.17) 0%,rgba(255,246,231,.045) 44%,rgba(255,246,231,0) 70%),
+    linear-gradient(180deg,#2A2621 0%,#1B1916 46%,#0D0C0B 100%);
+}
+.gear-sheet .family::before{
+  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 1px,rgba(255,255,255,0) 1px 88px),
+    radial-gradient(92% 62% at 50% 108%,rgba(0,0,0,.52) 0%,rgba(0,0,0,0) 68%);
+  box-shadow:inset 0 0 96px rgba(0,0,0,.58);
+}
+.gear-sheet .family-grid{
+  position:relative; z-index:1;
+  grid-template-columns:.94fr 1.08fr 1fr .96fr;
+  grid-auto-flow:row dense;
+  gap:6px 10px;
+}
+.gear-sheet .family-grid.few{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px}
+.gear-sheet .family-grid > .tile.is-wide{grid-column:span 2}
+.gear-sheet .family-grid.few > .tile.is-wide{grid-column:auto}
+.gear-sheet .family .tile{
+  padding:0 2px 2px;
+  border:0; border-radius:0; background:none; box-shadow:none;
+  color:rgba(255,255,255,.8); overflow:visible;
+  transition:transform .2s var(--ease), opacity .2s var(--ease);
+}
+.gear-sheet .family .tile::before{display:none}
+.gear-sheet .family .tile .thumb{
+  flex:1; min-height:0; display:grid; place-items:center;
+  padding:2px 0 3px;
+  background:none; border:0; border-radius:0; box-shadow:none; overflow:visible;
+}
+.gear-sheet .family .tile .thumb img{
+  width:100%; height:100%; min-width:0; min-height:0; max-width:100%; max-height:100%;
+  display:block; object-fit:contain; border-radius:0;
+  filter:drop-shadow(0 17px 13px rgba(0,0,0,.58)) drop-shadow(0 2px 3px rgba(0,0,0,.28));
+  transform:translateZ(0);
+}
+.gear-sheet .family .tile .tile-name{
+  display:flex; align-items:center; gap:5px;
+  margin-top:1px; padding:0 1px 1px;
+  color:rgba(255,255,255,.78); font-size:clamp(8.5px,2.4vw,10px);
+  font-weight:600; line-height:1.15; letter-spacing:.005em;
+  text-shadow:0 1px 3px rgba(0,0,0,.7);
+  white-space:nowrap; overflow:hidden;
+}
+.gear-sheet .family .tile .tile-name::before{
+  width:4px; height:4px; background:var(--tile-accent,#8E877A);
+}
+.gear-sheet .family .tile.is-power .thumb{
+  background:radial-gradient(circle at 50% 32%,rgba(255,255,255,.12) 0%,rgba(255,255,255,.035) 52%,rgba(255,255,255,0) 69%);
+  border:1px solid rgba(255,246,233,.16); border-radius:50%;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 16px 30px -22px rgba(0,0,0,.9);
+}
+.gear-sheet .family .tile.is-power .tile-pow{
+  align-items:center; justify-content:center; padding-left:0; text-align:center;
+}
+.gear-sheet .family .tile.is-power .tile-pow b{font-size:clamp(18px,5vw,24px)}
+.gear-sheet .family-grid > .tile:nth-child(4n+1){transform:translateY(3px) rotate(-.55deg)}
+.gear-sheet .family-grid > .tile:nth-child(4n+2){transform:translateY(-2px) rotate(.42deg)}
+.gear-sheet .family-grid > .tile:nth-child(4n+3){transform:translateY(1px) rotate(-.28deg)}
+.gear-sheet .family-grid > .tile:nth-child(4n+4){transform:translateY(-3px) rotate(.62deg)}
+.gear-sheet .family-grid > .tile:nth-last-child(-n+2){transform:translateY(-1px) rotate(0deg)}
+@media(hover:hover){
+  .gear-sheet .family-grid > .tile:hover{transform:translateY(-4px) rotate(0deg)}
+}
+.gear-sheet .family-grid > .tile:active{transform:scale(.94) rotate(0deg);transition-duration:.1s}
+
+/* 单独设备页：回到 R18 的白卡、无分类色点、无馆藏页脚 */
+.gear-sheet .card:not(.card--dark){
+  background-color:#fff;
+  background-image:none;
+}
+.gear-sheet .card .cn{font-weight:800;letter-spacing:-.035em}
+.gear-sheet .card .grp{font-size:11px;letter-spacing:.2em}
+.gear-sheet .card .grp,
+.gear-sheet .card--dark .grp{gap:0}
+.gear-sheet .card .grp::before,
+.gear-sheet .card--dark .grp::before{display:none}
+.gear-sheet .detail-card{
+  border-radius:22px;
+  box-shadow:0 22px 48px -26px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.08);
+  --ink:#17181B; --ink-2:#54565C; --ink-3:#8A8C92;
+}
+.gear-sheet .detail-card .shot{padding:10px 14px 0}
+.gear-sheet .detail-card .info{padding:12px 16px 16px}
+.gear-sheet .detail-card .grp{font-size:9px;margin-bottom:6px;letter-spacing:.16em}
+.gear-sheet .detail-card .cn{
+  font-size:clamp(20px,6vw,28px); font-weight:800;
+  line-height:1.05; letter-spacing:-.035em;
+}
+.gear-sheet .detail-card .en{font-size:10px;margin-top:5px}
+.gear-sheet .detail-card .specs{margin-top:10px;padding-top:8px;gap:4px 10px}
+.gear-sheet .detail-card .specs dt{font-size:10px}
+.gear-sheet .detail-card .specs dd{font-size:11px;line-height:1.4}
+.gear-sheet .detail-card .note{font-size:10px;line-height:1.45;margin-top:10px;gap:10px}
+.gear-sheet .detail-card .detail-foot{display:none}
+
+@media(max-width:420px){
+  .gear-sheet .family{padding:6px 7px 4px}
+  .gear-sheet .family-grid{gap:5px 7px}
+  .gear-sheet .family .tile{padding:0 1px 1px}
+  .gear-sheet .family .tile .thumb{padding:1px 0 2px}
+  .gear-sheet .family .tile .tile-name{font-size:8.5px;gap:4px;margin-top:1px}
+  .gear-sheet .detail-card{border-radius:18px;grid-template-rows:minmax(0,.78fr) minmax(0,1fr)}
+  .gear-sheet .detail-card .shot{padding:8px 10px 0}
+  .gear-sheet .detail-card .info{padding:10px 12px 13px}
+  .gear-sheet .detail-card .cn{font-size:22px}
+  .gear-sheet .detail-card .specs dt{font-size:9px}
+  .gear-sheet .detail-card .specs dd{font-size:10.5px}
+}
+@media(max-width:340px){
+  .gear-sheet .family{padding:4px 5px 3px}
+  .gear-sheet .family-grid{gap:4px 5px}
+  .gear-sheet .family .tile .tile-name{font-size:7.8px;gap:3px}
+  .gear-sheet .detail-card{grid-template-rows:minmax(0,.72fr) minmax(0,1fr)}
+  .gear-sheet .detail-card .info{padding:8px 10px 11px}
+  .gear-sheet .detail-card .cn{font-size:20px}
+}
+
 </style>
 </template>
 
@@ -3403,11 +3527,12 @@ function initGear(root) {
     'pocket3':'body-pocket3','pocket4':'body-pocket4',
     '2470':'lens-2470','24105':'lens-24105','70200':'lens-70200','100400':'lens-100400',
     '18200':'lens-18200','s70200':'lens-s70200',
-    'light2':'acc-light','light1':'acc-light','stick':'acc-stick','godox':'acc-godox',
+    'light2':'acc-light-wide','light1':'acc-light','stick':'acc-stick','godox':'acc-godox',
     'nikonflash':'acc-nikonflash','rs3':'acc-rs3','tripod':'acc-tripod','stand':'acc-stand',
     'mic':'acc-mic'
   };
   const shot = id => `assets/equipment/${FILE[id]}.webp`;
+  const cut = id => `assets/equipment/cut/${FILE[id]}.webp`;
 
   const SECS = [
     { id:'body', cn:'机身' }, { id:'lens', cn:'镜头' }, { id:'light', cn:'灯光' },
@@ -3534,11 +3659,13 @@ function initGear(root) {
     familyGrid.classList.toggle('few', familyFilter !== 'all');
     familyGrid.innerHTML = list.map(({ c, i }) => {
       const isPower = !!c.power;
+      const isWide = !isPower && (c.id === '100400' || c.id === '2470');
       const name = isPower ? '电池 · 按数量' : c.cn;
       const media = isPower
         ? '<span class="thumb"><span class="tile-pow"><b>07</b><small>种电池</small></span></span>'
-        : '<span class="thumb"><img src="' + shot(c.id) + '" alt="" draggable="false"></span>';
+        : '<span class="thumb"><img src="' + cut(c.id) + '" alt="" draggable="false" loading="eager" decoding="async"></span>';
       return '<button type="button" class="tile sec-' + c.sec + (isPower ? ' is-power' : '') +
+        (isWide ? ' is-wide' : '') +
         '" data-index="' + i + '" aria-label="查看' + name + '详情">' + media +
         '<span class="tile-name">' + name + '</span></button>';
     }).join('');
@@ -3584,11 +3711,6 @@ function initGear(root) {
     const el = document.createElement('article');
     el.className = 'card detail-card' + (c.power ? ' card--dark card--power sec-power' : ' sec-' + c.sec);
     el.innerHTML = c.power ? powerHTML() : bodyHTML(c, i);
-    const info = el.querySelector('.info');
-    if (info) {
-      info.insertAdjacentHTML('beforeend',
-        `<div class="detail-foot"><span>馆藏档案 · 魅影工作室</span><span>MEIYING / ${String(i + 1).padStart(2, '0')}</span></div>`);
-    }
     detailBody.innerHTML = '';
     detailBody.appendChild(el);
     if (detailMeta) {
@@ -3609,7 +3731,7 @@ function initGear(root) {
     paintChips(familyFilter);
   }
 
-  function showDetail(i, tile){
+  function showDetail(i, tile, focusBack){
     if (!mq.matches || !sheet) return;
     i = Math.max(0, Math.min(CARDS.length - 1, i));
     if (tile) lastTile = tile;
@@ -3622,9 +3744,11 @@ function initGear(root) {
     renderDetail(i);
     if (familyCount) familyCount.textContent = String(CARDS.length);
     setActive(i);
-    window.setTimeout(function(){
-      if (viewMode === 'detail' && detailBack) detailBack.focus({ preventScroll: true });
-    }, 40);
+    if (focusBack) {
+      window.setTimeout(function(){
+        if (viewMode === 'detail' && detailBack) detailBack.focus({ preventScroll: true });
+      }, 40);
+    }
   }
 
   function stepBy(delta){
@@ -3669,7 +3793,7 @@ function initGear(root) {
     familyGrid.addEventListener('click', function(e){
       const tile = e.target.closest ? e.target.closest('.tile') : null;
       if (!tile || !familyGrid.contains(tile)) return;
-      showDetail(Number(tile.dataset.index), tile);
+      showDetail(Number(tile.dataset.index), tile, e.detail === 0 && e.isTrusted);
     });
   }
   if (detailBack) {
