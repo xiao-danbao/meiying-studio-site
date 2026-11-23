@@ -5,48 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>魅影工作室</title>
 <meta name="robots" content="noindex">
-<!-- MIRROR_URL:https://aka.doubaocdn.com/s/zdjygfc43a -->
 <style>html,body{margin:0;width:100%;height:100%;background:#f4f0e8}</style>
-<script id="meiying-entry" data-mirror="https://aka.doubaocdn.com/s/zdjygfc43a"></script>
 <script>
-(function(){
-  var entry = document.getElementById('meiying-entry');
-  var mirror = entry ? entry.getAttribute('data-mirror') : '';
-  if (!mirror) { location.replace('./full.html?v=20261123b'); return; }
-  if (location.protocol === 'file:') { location.replace('./full.html?v=20261123b'); return; }
-
-  var isFallback = /(^|[?&])fallback=1(&|$)/.test(location.search);
-  if (isFallback) { location.replace(mirror); return; }
-
-  var done = false;
-  function go(url){
-    if (done) return;
-    done = true;
-    location.replace(url);
-  }
-
-  var timer = setTimeout(function(){ go(mirror); }, 2000);
-  var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
-  var abortTimer = controller ? setTimeout(function(){ controller.abort(); }, 2000) : null;
-
-  fetch('./full.html?v=20261123b', {
-    method: 'HEAD',
-    cache: 'no-store',
-    signal: controller ? controller.signal : undefined
-  }).then(function(res){
-    if (done) return;
-    clearTimeout(timer);
-    if (abortTimer) clearTimeout(abortTimer);
-    go(res && res.ok ? './full.html?v=20261123b' : mirror);
-  }).catch(function(){
-    if (done) return;
-    clearTimeout(timer);
-    if (abortTimer) clearTimeout(abortTimer);
-    go(mirror);
-  });
+(function () {
+  var entry = './full.html?v=20261123d';
+  location.replace(entry);
 })();
 </script>
-<noscript><meta http-equiv="refresh" content="0;url=./full.html?v=20261123b"></noscript>
+<noscript><meta http-equiv="refresh" content="0;url=./full.html?v=20261123d"></noscript>
 </head>
 <body></body>
 </html>

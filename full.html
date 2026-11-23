@@ -2,15 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<!-- MEIYING_GITHUB_FALLBACK: 2s -->
-<script id="meiying-github-fallback">
-(function(){
-  if (!/github\.io$/.test(location.hostname)) return;
-  var timer = setTimeout(function(){ location.replace('./?fallback=1'); }, 2000);
-  document.addEventListener('DOMContentLoaded', function(){ clearTimeout(timer); }, {once:true});
-  window.addEventListener('load', function(){ clearTimeout(timer); }, {once:true});
-})();
-</script><meta name="referrer" content="no-referrer">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20797%22%3E%3Cpath%20fill%3D%22%2314130F%22%20fill-rule%3D%22evenodd%22%20d%3D%22M357.0%200.0%20L437.0%200.0%20L502.0%2012.0%20L568.0%2036.0%20L585.0%2047.0%20L597.0%2051.0%20L643.0%2082.0%20L699.0%20134.0%20L717.0%20155.0%20L742.0%20191.0%20L771.0%20246.0%20L785.0%20284.0%20L797.0%20334.0%20L800.0%20356.0%20L800.0%20441.0%20L793.0%20482.0%20L781.0%20523.0%20L768.0%20556.0%20L731.0%20625.0%20L711.0%20654.0%20L687.0%20680.0%20L623.0%20732.0%20L596.0%20750.0%20L550.0%20775.0%20L516.0%20789.0%20L488.0%20797.0%20L463.0%20796.0%20L457.0%20792.0%20L456.0%20784.0%20L476.0%20768.0%20L526.0%20719.0%20L563.0%20677.0%20L594.0%20636.0%20L628.0%20582.0%20L651.0%20538.0%20L671.0%20477.0%20L679.0%20422.0%20L676.0%20372.0%20L669.0%20339.0%20L661.0%20315.0%20L651.0%20291.0%20L630.0%20255.0%20L625.0%20256.0%20L620.0%20285.0%20L609.0%20313.0%20L587.0%20349.0%20L560.0%20383.0%20L534.0%20407.0%20L512.0%20422.0%20L482.0%20437.0%20L455.0%20446.0%20L459.0%20516.0%20L455.0%20569.0%20L447.0%20619.0%20L436.0%20663.0%20L422.0%20705.0%20L400.0%20754.0%20L393.0%20764.0%20L390.0%20764.0%20L382.0%20753.0%20L367.0%20718.0%20L353.0%20672.0%20L342.0%20618.0%20L337.0%20571.0%20L336.0%20530.0%20L338.0%20485.0%20L346.0%20447.0%20L343.0%20444.0%20L338.0%20444.0%20L314.0%20434.0%20L290.0%20420.0%20L271.0%20404.0%20L245.0%20372.0%20L234.0%20354.0%20L216.0%20314.0%20L202.0%20270.0%20L195.0%20229.0%20L181.0%20242.0%20L159.0%20273.0%20L145.0%20299.0%20L131.0%20334.0%20L123.0%20366.0%20L119.0%20396.0%20L119.0%20441.0%20L123.0%20471.0%20L141.0%20531.0%20L182.0%20613.0%20L233.0%20687.0%20L256.0%20715.0%20L317.0%20775.0%20L317.0%20784.0%20L310.0%20789.0%20L288.0%20786.0%20L250.0%20775.0%20L224.0%20764.0%20L173.0%20735.0%20L124.0%20696.0%20L79.0%20648.0%20L57.0%20618.0%20L36.0%20583.0%20L14.0%20527.0%20L3.0%20479.0%20L3.0%20467.0%20L0.0%20458.0%20L0.0%20360.0%20L11.0%20301.0%20L22.0%20265.0%20L36.0%20231.0%20L51.0%20202.0%20L76.0%20163.0%20L108.0%20125.0%20L143.0%2091.0%20L176.0%2066.0%20L211.0%2045.0%20L271.0%2019.0%20L323.0%205.0%20Z%20M380.0%20138.0%20L346.0%20143.0%20L308.0%20153.0%20L262.0%20174.0%20L225.0%20200.0%20L238.0%20225.0%20L274.0%20266.0%20L299.0%20285.0%20L331.0%20302.0%20L365.0%20313.0%20L390.0%20317.0%20L428.0%20317.0%20L465.0%20310.0%20L504.0%20295.0%20L535.0%20277.0%20L561.0%20256.0%20L594.0%20219.0%20L594.0%20214.0%20L588.0%20208.0%20L560.0%20186.0%20L539.0%20173.0%20L500.0%20155.0%20L471.0%20146.0%20L427.0%20138.0%20Z%22%2F%3E%3C%2Fsvg%3E">
 <title>魅影工作室 — 让每一帧都留下魅影</title>
@@ -68,9 +60,17 @@ body{
   letter-spacing:.16em; color:var(--soft); margin-top:3px;
 }
 .nav .brand:hover .logo{opacity:.8}
-.nav ul{display:flex; gap:clamp(14px,2.4vw,32px); list-style:none; margin:0; padding:0}
-.nav ul a{color:var(--soft); text-decoration:none; transition:color .2s var(--ease)}
+.nav ul{display:flex; gap:clamp(3px,1.2vw,12px); list-style:none; margin:0; padding:0}
+.nav ul a{
+  display:inline-flex; align-items:center; min-height:30px; padding:0 10px;
+  border-radius:999px; color:var(--soft); text-decoration:none;
+  transition:color .2s var(--ease), background .24s var(--ease), box-shadow .24s var(--ease);
+}
 .nav ul a:hover{color:var(--ink)}
+.nav ul a.on{
+  color:#fff; background:var(--accent); font-weight:600;
+  box-shadow:0 6px 16px -8px rgba(180,67,46,.72);
+}
 .nav .cta{
   color:var(--ink); text-decoration:none;
   padding:7px 15px; border-radius:99px;
@@ -1413,7 +1413,9 @@ body{
   #general .rows-sheet .row{padding:5px 0; font-size:10.5px; gap:6px}
   #general .row .v{font-size:9.5px}
   #general .rows-sheet .r-top, #general .rows-sheet .r-bottom{font-size:9px}
-  #general .gear-entry{min-height:24px; padding:0 7px; font-size:9px; gap:5px}
+  #general .rows-sheet .r-bottom > span{display:none}
+  #general .rows-sheet .r-bottom{justify-content:flex-end; padding-top:4px}
+  #general .gear-entry{min-height:30px; padding:0 10px 0 9px; font-size:10px; gap:5px}
 }
 
 /* ===== 器材库入口与全屏覆盖层（2026-11-23） ===== */
@@ -1424,33 +1426,54 @@ body{
 .gear-entry{
   flex:0 0 auto; margin-left:auto;
   display:inline-flex; align-items:center; gap:7px;
-  min-height:28px; padding:0 9px; border:0; border-radius:8px;
-  background:#17181B; color:#fff; cursor:pointer;
-  font:600 10px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  min-height:38px; padding:0 14px 0 12px;
+  border:1px solid rgba(255,255,255,.18); border-radius:999px;
+  background:linear-gradient(135deg,#D51C39 0%,#A90D24 100%);
+  color:#fff; cursor:pointer;
+  font:700 12px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
   letter-spacing:.03em; white-space:nowrap;
-  box-shadow:0 5px 12px -8px rgba(0,0,0,.55);
-  transition:background .22s var(--ease), transform .18s var(--ease);
+  box-shadow:0 14px 30px -12px rgba(200,16,46,.82), inset 0 1px 0 rgba(255,255,255,.2);
+  animation:gearEntryGlow 3.4s ease-in-out infinite;
+  transition:transform .2s var(--ease), background .24s var(--ease), box-shadow .24s var(--ease);
 }
-.gear-entry:hover{background:#C8102E}
-.gear-entry:active{transform:scale(.97)}
+.gear-entry:hover{
+  transform:translateY(-1px);
+  background:linear-gradient(135deg,#E52342 0%,#B20F28 100%);
+  box-shadow:0 18px 36px -12px rgba(200,16,46,.9), inset 0 1px 0 rgba(255,255,255,.24);
+}
+.gear-entry:active{transform:scale(.96)}
 .gear-entry .gear-entry-dot{
-  width:5px; height:5px; border-radius:50%; background:#C8102E;
-  box-shadow:0 0 0 2px rgba(255,255,255,.1);
+  width:7px; height:7px; border-radius:50%; background:#fff;
+  box-shadow:0 0 0 3px rgba(255,255,255,.18);
+  animation:gearEntryDot 2.2s ease-in-out infinite;
 }
-.gear-entry:hover .gear-entry-dot{background:#fff; box-shadow:none}
-.gear-entry .gear-entry-num{opacity:.56; font-variant-numeric:tabular-nums}
+.gear-entry .gear-entry-num{opacity:.86; font-size:11px; font-variant-numeric:tabular-nums}
+.gear-entry .gear-entry-arrow{font-size:14px; line-height:1; opacity:.86; margin-left:1px}
+@keyframes gearEntryGlow{
+  0%,100%{box-shadow:0 14px 30px -12px rgba(200,16,46,.72), inset 0 1px 0 rgba(255,255,255,.2)}
+  50%{box-shadow:0 18px 40px -10px rgba(200,16,46,.94), inset 0 1px 0 rgba(255,255,255,.26)}
+}
+@keyframes gearEntryDot{
+  0%,100%{transform:scale(1); opacity:.92}
+  50%{transform:scale(1.35); opacity:1}
+}
 #gearOverlay{
   position:fixed; inset:0; z-index:120;
   visibility:hidden; opacity:0; pointer-events:none;
-  background:#131315; color-scheme:dark;
-  transition:opacity .34s var(--ease), visibility 0s linear .34s;
+  background:rgba(10,10,12,.24); color-scheme:dark;
+  -webkit-backdrop-filter:blur(10px) saturate(.92);
+  backdrop-filter:blur(10px) saturate(.92);
+  transition:opacity .42s var(--ease), visibility 0s linear .62s;
 }
+html.gear-open{scrollbar-width:none}
+html.gear-open::-webkit-scrollbar{display:none}
 #gearOverlay.is-open{
   visibility:visible; opacity:1; pointer-events:auto;
-  transition:opacity .34s var(--ease), visibility 0s linear 0s;
+  transition:opacity .42s var(--ease), visibility 0s linear 0s;
 }
 @media(prefers-reduced-motion:reduce){
   #gearOverlay{transition:none!important}
+  .gear-entry,.gear-entry .gear-entry-dot{animation:none!important}
 }
 </style>
 </head>
@@ -1651,8 +1674,8 @@ body{
           </div>
           <div class="r-bottom">
             <span>临时的事，当天再排。</span>
-            <button class="gear-entry" type="button" data-gear-open aria-haspopup="dialog" aria-label="打开器材库，共 23 件器材">
-              <span class="gear-entry-dot" aria-hidden="true"></span>器材库 <span class="gear-entry-num">23</span>
+            <button class="gear-entry" type="button" data-gear-open aria-haspopup="dialog" aria-label="打开器材库，共 22 件器材">
+              <span class="gear-entry-dot" aria-hidden="true"></span><span>器材库</span><span class="gear-entry-num">22</span><span class="gear-entry-arrow" aria-hidden="true">→</span>
             </button>
           </div>
         </div>
@@ -1740,10 +1763,26 @@ body{
   var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
   var railBtns = Array.prototype.slice.call(document.querySelectorAll('#rail button'));
   var dots = Array.prototype.slice.call(document.querySelectorAll('#dock .dot'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav ul a'));
 
   function setActive(index) {
     railBtns.forEach(function (b, i) { b.classList.toggle('on', i === index); });
     dots.forEach(function (d, i) { d.classList.toggle('on', i === index); });
+    navLinks.forEach(function (a) {
+      var on = index >= 0 && panels[index] && a.getAttribute('href') === '#' + panels[index].id;
+      a.classList.toggle('on', on);
+      if (on) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+  }
+
+  function currentPanelIndex() {
+    var current = 0, best = 1e9;
+    panels.forEach(function (p, i) {
+      var d = Math.abs(p.getBoundingClientRect().top);
+      if (d < best) { best = d; current = i; }
+    });
+    return current;
   }
 
   if (!('IntersectionObserver' in window)) {
@@ -1776,16 +1815,44 @@ body{
     if (e.key !== 'PageDown' && e.key !== 'PageUp' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
     var target = document.activeElement;
     if (target && /INPUT|TEXTAREA/.test(target.tagName)) return;
-    var current = 0, best = 1e9;
-    panels.forEach(function (p, i) {
-      var d = Math.abs(p.getBoundingClientRect().top);
-      if (d < best) { best = d; current = i; }
-    });
+    if (window.MeiyingGear && window.MeiyingGear.isOpen && window.MeiyingGear.isOpen()) return;
+    var current = currentPanelIndex();
     var next = (e.key === 'PageDown' || e.key === 'ArrowDown') ? current + 1 : current - 1;
     if (next < 0 || next >= panels.length) return;
     e.preventDefault();
     panels[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+
+  // 桌面鼠标滚轮：一屏一屏切换，不跟随中间滚动的碎步
+  var wheelLockUntil = 0;
+  var wheelAccum = 0;
+  var wheelResetTimer = 0;
+  function canWheelPage() {
+    if (!window.matchMedia || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return false;
+    if (window.MeiyingGear && window.MeiyingGear.isOpen && window.MeiyingGear.isOpen()) return false;
+    return true;
+  }
+  window.addEventListener('wheel', function (e) {
+    if (!canWheelPage() || e.ctrlKey) return;
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    if (e.composedPath && e.composedPath().indexOf(document.getElementById('gearOverlay')) !== -1) return;
+    e.preventDefault();
+    if (Date.now() < wheelLockUntil) return;
+    var delta = e.deltaY;
+    if (e.deltaMode === 1) delta *= 24;
+    else if (e.deltaMode === 2) delta *= window.innerHeight;
+    wheelAccum += delta;
+    clearTimeout(wheelResetTimer);
+    wheelResetTimer = setTimeout(function () { wheelAccum = 0; }, 220);
+    if (Math.abs(wheelAccum) < 26) return;
+    var dir = wheelAccum > 0 ? 1 : -1;
+    wheelAccum = 0;
+    var current = currentPanelIndex();
+    var next = current + dir;
+    if (next < 0 || next >= panels.length) return;
+    wheelLockUntil = Date.now() + 820;
+    panels[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, { passive: false });
 })();
 </script>
 
@@ -2318,13 +2385,158 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .chip{padding:8px 12px;font-size:12px}
 }
 
+/* ===== R17 · Liquid Glass 悬浮卡面 ===== */
+.gear-root{
+  --cardw:min(1040px,calc(100vw - 220px));
+  display:grid; place-items:center;
+  padding:clamp(10px,2.4vh,24px) clamp(10px,2.4vw,28px);
+  background:transparent;
+}
+.gear-root::after{display:none}
+.gear-sheet{
+  position:relative;
+  width:min(1260px,calc(100vw - 56px));
+  height:min(820px,calc(100svh - 56px));
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  border-radius:clamp(24px,3.2vw,40px);
+  background:linear-gradient(155deg,rgba(34,34,39,.82) 0%,rgba(15,15,17,.76) 100%);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 50px 120px -36px rgba(0,0,0,.9), 0 18px 48px -24px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.16);
+  -webkit-backdrop-filter:blur(34px) saturate(1.15);
+  backdrop-filter:blur(34px) saturate(1.15);
+  transform:scale(.84) translateY(20px);
+  transform-origin:50% 50%;
+  opacity:0; filter:blur(10px);
+  transition:transform .58s cubic-bezier(.2,.9,.2,1), opacity .42s var(--ease), filter .5s var(--ease);
+  will-change:transform,opacity,filter;
+}
+:host(.is-open) .gear-sheet{
+  transform:scale(1) translateY(0); opacity:1; filter:blur(0);
+}
+.gear-sheet::after{
+  content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04), inset 0 80px 90px -90px rgba(255,255,255,.18);
+}
+.gear-sheet .top{
+  position:relative; top:auto; left:auto; right:auto; z-index:20;
+  height:72px; flex:none; gap:clamp(10px,1.8vw,26px);
+  padding:0 clamp(14px,2.4vw,28px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(19,19,21,.62),rgba(19,19,21,.16));
+}
+.gear-sheet .stage{
+  position:relative; inset:auto; flex:1; min-height:0; width:100%;
+  display:block; padding:0 0 clamp(6px,1.3vh,12px);
+}
+.gear-sheet .track{height:100%;}
+.gear-sheet .card{height:100%;}
+.gear-sheet .hud{
+  position:relative; left:auto; right:auto; bottom:auto;
+  flex:none; height:auto;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:6px; padding:8px 0 10px;
+  background:none;
+}
+.gear-sheet .nav-capsule{
+  display:flex; align-items:center; justify-content:center; gap:clamp(9px,1.2vw,15px);
+  padding:6px 9px;
+  border-radius:999px;
+  background:rgba(255,255,255,.075);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 20px 50px -24px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);
+  backdrop-filter:blur(18px) saturate(1.2);
+}
+.gear-sheet .nav-capsule .round{
+  width:38px; height:38px;
+  background:rgba(255,255,255,.06);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);
+}
+.gear-sheet .nav-capsule .round:hover{background:rgba(255,255,255,.16)}
+.gear-sheet .nav-capsule .meter{gap:clamp(9px,1.1vw,14px)}
+.gear-sheet .nav-capsule .num{font-size:12px; min-width:20px}
+.gear-sheet .nav-capsule .bar{width:clamp(84px,16vw,190px); height:2px}
+.gear-sheet .disclaimer{
+  position:static; left:auto; right:auto; bottom:auto;
+  z-index:21; font-size:9.5px; letter-spacing:.06em;
+  color:rgba(255,255,255,.34); line-height:1.3;
+}
+.gear-sheet .hint{bottom:auto; top:auto}
+.gear-sheet .gear-exit{height:34px}
+.gear-sheet .gear-exit span{display:inline}
+@media(max-width:1100px){
+  .gear-sheet{width:calc(100vw - 40px); height:min(800px,calc(100svh - 40px))}
+  .gear-sheet .brand span{display:none}
+  .gear-sheet .chips{margin-left:auto}
+}
+@media(max-width:860px){
+  .gear-root{--cardw:calc(100vw - 48px); padding:10px}
+  .gear-sheet{
+    width:calc(100vw - 20px);
+    height:calc(100svh - 20px);
+    border-radius:28px;
+  }
+  .gear-sheet .top{height:64px; padding:0 12px; gap:8px}
+  .gear-sheet .brand{font-size:14px}
+  .gear-sheet .chip{font-size:12px; padding:7px 11px}
+  .gear-sheet .chips{padding:3px}
+  .gear-sheet .gear-exit{width:34px; height:32px; padding:0; gap:0; border-radius:999px}
+  .gear-sheet .gear-exit span{display:none}
+  .gear-sheet .stage{min-height:0}
+  .gear-sheet .card{height:100%}
+  .gear-sheet .hud{padding:6px 0 8px; gap:5px}
+  .gear-sheet .nav-capsule{padding:5px 7px; gap:8px}
+  .gear-sheet .nav-capsule .round{width:34px; height:34px}
+  .gear-sheet .nav-capsule .bar{width:clamp(68px,24vw,150px)}
+  .gear-sheet .nav-capsule .num{font-size:11px}
+  .gear-sheet .disclaimer{font-size:9px}
+}
+@media(max-width:420px){
+  .gear-sheet{border-radius:24px}
+  .gear-sheet .top{height:58px; padding:0 9px}
+  .gear-sheet .brand{font-size:12px}
+  .gear-sheet .chip{padding:5px 7px; font-size:10px; letter-spacing:.01em}
+  .gear-sheet .chips{padding:2px; gap:1px}
+  .gear-sheet .gear-exit{width:30px; height:30px}
+  .gear-sheet .stage{padding:0 0 6px}
+  .gear-sheet .info{padding:14px 18px 16px}
+  .gear-sheet .shot{padding:10px 16px 0}
+  .gear-sheet .hud{padding:4px 0 6px}
+  .gear-sheet .nav-capsule{padding:4px 6px; gap:7px}
+  .gear-sheet .nav-capsule .round{width:30px; height:30px}
+  .gear-sheet .nav-capsule .bar{width:62px}
+  .gear-sheet .disclaimer{font-size:8.5px}
+}
+@media(max-height:640px) and (max-width:860px){
+  .gear-sheet .top{height:52px}
+  .gear-sheet .stage{min-height:0}
+  .gear-sheet .hud{padding:3px 0 5px}
+  .gear-sheet .nav-capsule{padding:4px 6px}
+  .gear-sheet .nav-capsule .round{width:28px;height:28px}
+  .gear-sheet .disclaimer{display:none}
+}
+@media(max-width:340px){
+  .gear-sheet .brand{display:none}
+  .gear-sheet .chips{margin-left:0; margin-right:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .gear-sheet{transition:opacity .2s ease!important; transform:none!important; filter:none!important}
+}
+@media(prefers-reduced-transparency:reduce){
+  #gearOverlay{background:rgba(10,10,12,.72); -webkit-backdrop-filter:none; backdrop-filter:none}
+  .gear-sheet{background:#17171a; -webkit-backdrop-filter:none; backdrop-filter:none; border-color:rgba(255,255,255,.25)}
+  .gear-sheet .nav-capsule{background:rgba(255,255,255,.12); -webkit-backdrop-filter:none; backdrop-filter:none}
+}
+
 </style>
 </template>
 
 <template id="gearOverlayMarkup">
 <div class="gear-root">
+<div class="gear-sheet">
 <header class="top">
-  <div class="brand">器材<b>库</b><span>MEIYING STUDIO · 23 件</span></div>
+  <div class="brand">器材<b>库</b><span>MEIYING STUDIO · 22 件</span></div>
   <nav class="chips" id="chips" aria-label="分区"></nav>
   <button class="gear-exit" id="gearClose" type="button" aria-label="关闭器材库，返回工作室">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -2345,8 +2557,6 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
 <img src="assets/equipment/body-6d2.webp" alt="">
 <img src="assets/equipment/body-a7m3.webp" alt="">
 <img src="assets/equipment/body-d7500.webp" alt="">
-<img src="assets/equipment/body-dv-wide.webp" alt="">
-<img src="assets/equipment/body-dv.webp" alt="">
 <img src="assets/equipment/body-pocket3.webp" alt="">
 <img src="assets/equipment/body-pocket4.webp" alt="">
 <img src="assets/equipment/body-s5ii.webp" alt="">
@@ -2361,20 +2571,22 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
 </div>
 
 <footer class="hud">
-  <button class="round" id="prev" aria-label="上一件">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M9.6 3L4.8 8l4.8 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-  </button>
-  <div class="meter">
-    <span class="num" id="cur">01</span>
-    <i class="bar"><b id="bar"></b></i>
-    <span class="num dim" id="tot">23</span>
+  <div class="nav-capsule">
+    <button class="round" id="prev" aria-label="上一件">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M9.6 3L4.8 8l4.8 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+    <div class="meter">
+      <span class="num" id="cur">01</span>
+      <i class="bar"><b id="bar"></b></i>
+      <span class="num dim" id="tot">22</span>
+    </div>
+    <button class="round" id="next" aria-label="下一件">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.4 3l4.8 5-4.8 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
   </div>
-  <button class="round" id="next" aria-label="下一件">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.4 3l4.8 5-4.8 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-  </button>
+  <p class="disclaimer">图片仅供参考 · 具体型号以工作室实物为准</p>
 </footer>
-
-<p class="disclaimer">图片仅供参考 · 具体型号以工作室实物为准</p>
+</div>
 </div>
 </template>
 
@@ -2386,7 +2598,7 @@ function initGear(root) {
       id: 'body',
       cn: '机身',
       en: 'BODY',
-      hint: '七台机身，从全画幅单反到口袋云台。',
+      hint: '六台机身，从全画幅单反到口袋云台。',
       items: [
         {
           id: '6d2', name: 'Canon EOS 6D Mark II', cn: '佳能 6D2',
@@ -2459,17 +2671,6 @@ function initGear(root) {
             ['机身', '约 190 g'],
           ],
           note: '慢动作素材用这台，240fps 能撑 8 倍放慢。'
-        },
-        {
-          id: 'dv', name: 'Panasonic NV-GS5EN', cn: '录像机',
-          spec: 'MiniDV 磁带 · 10 倍光变 · 标清',
-          specs: [
-            ['格式', 'MiniDV 磁带，标清 720×480'],
-            ['镜头', '10 倍光学变焦，电子防抖'],
-            ['取景', '2.5 英寸 LCD 翻转屏'],
-            ['接口', 'IEEE 1394 / AV 输出'],
-          ],
-          note: '老素材机。导出需要采集卡，别指望直接拷文件。'
         },
       ]
     },
@@ -2680,7 +2881,7 @@ function initGear(root) {
 
   const FILE = {
     '6d2':'body-6d2','s5ii':'body-s5ii','a7m3':'body-a7m3','d7500':'body-d7500',
-    'pocket3':'body-pocket3','pocket4':'body-pocket4','dv':'body-dv',
+    'pocket3':'body-pocket3','pocket4':'body-pocket4',
     '2470':'lens-2470','24105':'lens-24105','70200':'lens-70200','100400':'lens-100400',
     '18200':'lens-18200','s70200':'lens-s70200',
     'light2':'acc-light','light1':'acc-light','stick':'acc-stick','godox':'acc-godox',
@@ -2958,11 +3159,30 @@ function initGear(root) {
     trackEl.setAttribute('aria-label', '器材横向陈列，可用左右方向键浏览');
   }
   var closeBtn = shadow.getElementById('gearClose');
+  var sheet = shadow.querySelector('.gear-sheet');
   var isOpen = false;
   var lastTrigger = null;
   var oldOverflow = '';
   var oldHtmlOverflow = '';
   var oldScrollY = 0;
+
+  function setOrigin(trigger){
+    if (!sheet) return;
+    if (!trigger || !trigger.getBoundingClientRect) {
+      sheet.style.transformOrigin = '50% 50%';
+      return;
+    }
+    var tr = trigger.getBoundingClientRect();
+    var sw = sheet.offsetWidth || 1;
+    var sh = sheet.offsetHeight || 1;
+    var left = (window.innerWidth - sw) / 2;
+    var top = (window.innerHeight - sh) / 2;
+    var ox = ((tr.left + tr.width / 2) - left) / sw * 100;
+    var oy = ((tr.top + tr.height / 2) - top) / sh * 100;
+    ox = Math.max(10, Math.min(90, ox));
+    oy = Math.max(10, Math.min(90, oy));
+    sheet.style.transformOrigin = ox.toFixed(1) + '% ' + oy.toFixed(1) + '%';
+  }
 
   function focusables(){
     return Array.prototype.slice.call(shadow.querySelectorAll(
@@ -3016,11 +3236,13 @@ function initGear(root) {
     if (isOpen) return;
     isOpen = true;
     lastTrigger = trigger || document.activeElement;
+    setOrigin(lastTrigger);
     oldOverflow = document.body.style.overflow;
     oldHtmlOverflow = document.documentElement.style.overflow;
     oldScrollY = window.scrollY || document.documentElement.scrollTop || 0;
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
+    document.documentElement.classList.add('gear-open');
     host.classList.add('is-open');
     host.setAttribute('aria-hidden', 'false');
     window.addEventListener('keydown', onKey, true);
@@ -3037,14 +3259,24 @@ function initGear(root) {
     window.removeEventListener('keydown', onKey, true);
     document.body.style.overflow = oldOverflow;
     document.documentElement.style.overflow = oldHtmlOverflow;
+    document.documentElement.classList.remove('gear-open');
     document.documentElement.scrollTop = oldScrollY;
     window.scrollTo({ top: oldScrollY, left: 0, behavior: 'instant' });
-    if (lastTrigger && typeof lastTrigger.focus === 'function') {
-      lastTrigger.focus({ preventScroll: true });
-    }
+    window.setTimeout(function(){
+      if (isOpen) return;
+      if (lastTrigger && typeof lastTrigger.focus === 'function') {
+        lastTrigger.focus({ preventScroll: true });
+      }
+    }, 420);
   }
 
   if (closeBtn) closeBtn.addEventListener('click', close);
+  host.addEventListener('click', function(e){
+    if (!isOpen) return;
+    var path = e.composedPath ? e.composedPath() : [];
+    if (path.indexOf(sheet) !== -1) return;
+    if (e.target === host) close();
+  });
   Array.prototype.forEach.call(document.querySelectorAll('[data-gear-open]'), function(btn){
     btn.addEventListener('click', function(e){
       e.preventDefault();
