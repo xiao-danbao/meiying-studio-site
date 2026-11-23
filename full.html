@@ -3683,8 +3683,8 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
 .gear-sheet.family-mode .family .tile,
 .gear-sheet.family-mode .family .tile:nth-child(n){
   position:absolute;
-  left:calc(50% + var(--wall-size) * var(--rx,0));
-  top:calc(50% + var(--wall-size) * var(--ry,0));
+  left:calc(50% + var(--wall-size) * var(--rx,0) * var(--wall-x,1));
+  top:calc(50% + var(--wall-size) * var(--ry,0) * var(--wall-y,1));
   width:calc(var(--wall-size) * var(--ts,.245));
   height:calc(var(--wall-size) * var(--ts,.245));
   display:block;
@@ -3820,6 +3820,79 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
 }
 
 .gear-sheet.family-mode .wall-guide{display:none!important;}
+/* ---------- R24 浮空器材：去掉圆盘边框，拉开呼吸，减少整版留白 ---------- */
+.gear-sheet.family-mode .family{--wall-x:1;--wall-y:1;}
+@media(max-width:860px){
+  .gear-sheet.family-mode .family{--wall-x:.90;--wall-y:1;}
+}
+@media(min-width:861px){
+  .gear-sheet.family-mode .family{--wall-x:1.08;--wall-y:1;}
+}
+
+.gear-sheet.family-mode .family{
+  background:
+    linear-gradient(180deg,rgba(255,242,222,.055) 0%,rgba(255,242,222,.018) 27%,rgba(255,242,222,0) 52%),
+    linear-gradient(180deg,#201B16 0%,#14110E 44%,#070606 100%);
+}
+.gear-sheet.family-mode .family .tile,
+.gear-sheet.family-mode .family .tile:nth-child(n){
+  border:0!important; border-radius:0!important;
+  background:none!important; box-shadow:none!important;
+  overflow:visible!important;
+}
+.gear-sheet.family-mode .family .tile::after{display:none!important;}
+.gear-sheet.family-mode .family .tile.is-center,
+.gear-sheet.family-mode .family .tile.is-power{
+  border:0!important; background:none!important; box-shadow:none!important;
+}
+.gear-sheet.family-mode .family .tile,
+.gear-sheet.family-mode .family .tile:nth-child(n){
+  transform:translate(-50%,-50%) translateY(var(--tile-dy,0)) rotate(var(--tile-rot,0))!important;
+}
+.gear-sheet.family-mode .family .tile:nth-child(5n+1){--tile-dy:-4px;--tile-rot:-.5deg}
+.gear-sheet.family-mode .family .tile:nth-child(5n+2){--tile-dy:3px;--tile-rot:.35deg}
+.gear-sheet.family-mode .family .tile:nth-child(5n+3){--tile-dy:-2px;--tile-rot:-.3deg}
+.gear-sheet.family-mode .family .tile:nth-child(5n+4){--tile-dy:5px;--tile-rot:.55deg}
+.gear-sheet.family-mode .family .tile:nth-child(5n){--tile-dy:1px;--tile-rot:0deg}
+.gear-sheet.family-mode .family .tile.is-center .thumb img{
+  filter:drop-shadow(0 24px 22px rgba(0,0,0,.66)) drop-shadow(0 3px 5px rgba(0,0,0,.32)) brightness(1.035);
+}
+.gear-sheet.family-mode .family .tile .thumb{
+  position:absolute!important; inset:0 2% 13%!important;
+  padding:1% 3% 0!important;
+  border:0!important; border-radius:0!important; background:none!important; box-shadow:none!important;
+  z-index:2;
+}
+.gear-sheet.family-mode .family .tile .thumb::before{
+  content:""; position:absolute; left:17%; right:17%; bottom:1%; z-index:-1;
+  height:13%; border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.44) 0%,rgba(0,0,0,.16) 48%,rgba(0,0,0,0) 78%);
+  filter:blur(5px);
+}
+.gear-sheet.family-mode .family .tile .thumb img{
+  filter:drop-shadow(0 14px 15px rgba(0,0,0,.5)) drop-shadow(0 2px 3px rgba(0,0,0,.28));
+}
+.gear-sheet.family-mode .family .tile .tile-name{
+  left:2%!important; right:2%!important; bottom:0!important;
+  padding:0!important; background:none!important; border-radius:0!important;
+  color:rgba(255,250,240,.72)!important; font-size:clamp(7.4px,1.9vw,8.8px)!important;
+  font-weight:560!important; line-height:1.22!important; letter-spacing:.035em!important;
+  text-align:center; text-shadow:0 1px 5px rgba(0,0,0,.82);
+}
+.gear-sheet.family-mode .family .tile.is-center .tile-name{
+  color:rgba(255,251,242,.94)!important; font-size:clamp(8px,2.05vw,9.4px)!important;
+  font-weight:650!important; letter-spacing:.015em!important;
+}
+.gear-sheet.family-mode .family .tile.is-power .thumb{
+  inset:6% 8% 15%!important; background:none!important; border:0!important; box-shadow:none!important;
+}
+.gear-sheet.family-mode .family .tile.is-power .tile-pow b{
+  color:#FFF9EA; font-weight:650; letter-spacing:-.04em;
+}
+.gear-sheet.family-mode .family .tile.is-power .tile-pow small{
+  color:rgba(255,247,232,.55);
+}
+
 
 @media(prefers-reduced-motion:reduce){
   .gear-sheet .detail-card{animation:none!important}
@@ -4238,7 +4311,7 @@ function initGear(root) {
     'light1','light2','stick','godox','nikonflash','tripod',
     'stand','mic','power'
   ];
-  const RADIAL_D = .245;
+  const RADIAL_D = .29;
   const HEX_Y = Math.sqrt(3) / 2;
   const RING1 = [[0,-1],[1,-1],[1,0],[0,1],[-1,1],[-1,0]];
   function hexCells(k){
@@ -4265,10 +4338,12 @@ function initGear(root) {
     if (n <= 1) return [{ x: 0, y: 0 }];
     const out = [{ x: 0, y: 0 }];
     const ringN = n - 1;
-    const radius = 1.55 * RADIAL_D;
+    const portrait = innerWidth <= 860;
+    const rx = portrait ? .28 : .48;
+    const ry = portrait ? .72 : .38;
     for (let k = 0; k < ringN; k++) {
       const a = -Math.PI / 2 + k * Math.PI * 2 / ringN;
-      out.push({ x: Math.cos(a) * radius, y: Math.sin(a) * radius });
+      out.push({ x: Math.cos(a) * rx, y: Math.sin(a) * ry });
     }
     return out;
   }
@@ -4313,8 +4388,11 @@ function initGear(root) {
   let ghostTimer = 0;
   let suppressClickUntil = 0;
   const cards = [];
+  function defaultWallScale(){
+    return innerWidth >= 861 ? .80 : innerWidth <= 340 ? .90 : innerWidth >= 431 ? .88 : 1.08;
+  }
   const wall = {
-    scale: .88, x: 0, y: 0, min: .56, max: 2.6,
+    scale: defaultWallScale(), x: 0, y: 0, min: .56, max: 2.6,
     pointers: new Map(), drag: null, pinch: null, moved: false
   };
 
@@ -4406,7 +4484,8 @@ function initGear(root) {
     const all = familyFilter === 'all';
     wall.min = all ? .56 : .72;
     wall.max = all ? 2.6 : 2.3;
-    wall.scale = all ? .88 : .86;
+    const tileCount = familyGrid.querySelectorAll('.tile').length;
+    wall.scale = all ? defaultWallScale() : (tileCount <= 1 ? .94 : (innerWidth <= 860 ? 1.10 : 1.0));
     wall.x = 0;
     wall.y = 0;
     wall.moved = false;
