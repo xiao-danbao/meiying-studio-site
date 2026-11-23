@@ -343,6 +343,7 @@ body{
 .pick span:not(.pick-thumb):not(.pick-copy):not(.pick-no):not(.pick-cat){position:absolute; left:9px; bottom:6px; font-size:10px; letter-spacing:.04em; color:#fff; text-shadow:0 1px 6px rgba(0,0,0,.6)}
 .pick.on{border-color:#A8432F}
 .pick.on img{opacity:1}
+.pick-thumb::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64%;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0));pointer-events:none;z-index:1}
 .pick:hover{transform:translateY(-1px)}
 .film-note{margin:0; font-size:10px; letter-spacing:.08em; color:rgba(20,19,15,.46); text-align:center}
 
