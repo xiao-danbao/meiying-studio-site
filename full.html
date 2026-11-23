@@ -4296,15 +4296,15 @@ function initGear(root) {
           note: '只配 D7500。装到全画幅机身只能用 DX 裁切模式。'
         },
         {
-          id: 's70200', name: 'Sony FE 70-200mm f/4 G OSS II', cn: '索尼 70-200',
-          spec: '恒定 f/4 · 全焦段 0.5× · 794 g',
+          id: 's70200', name: 'Nikon AF-S NIKKOR 70-200mm f/2.8G ED VR II', cn: '尼康 70-200',
+          spec: '恒定 f/2.8 · VR II 防抖 · 1540 g',
           specs: [
-            ['焦段', '70-200mm，恒定 f/4'],
-            ['防抖', 'OSS 光学防抖'],
-            ['最近对焦', '0.26–0.42 m，最大放大 0.5×'],
-            ['尺寸', 'φ82.2 × 149 mm / 794 g'],
+            ['焦段', '70-200mm，恒定 f/2.8'],
+            ['防抖', 'VR II 光学防抖，约 3.5 级'],
+            ['最近对焦', '1.4 m，最大放大 0.12×'],
+            ['尺寸', 'φ87 × 205.5 mm / 1540 g'],
           ],
-          note: '配 a7m3。第二代体积小，手持一天不累。'
+          note: '配 D7500，等效 105-300mm。N 纳米结晶镀膜，室内舞台也够用。'
         },
       ]
     },
@@ -4442,8 +4442,9 @@ function initGear(root) {
     'nikonflash':'acc-nikonflash','rs3':'acc-rs3','tripod':'acc-tripod','stand':'acc-stand',
     'mic':'acc-mic'
   };
-  const shot = id => `assets/equipment/${FILE[id]}.webp`;
-  const cut = id => `assets/equipment/cut/${FILE[id]}.webp`;
+  const IMG_V = { '70200':'?v=r30', 's70200':'?v=r30' };
+  const shot = id => `assets/equipment/${FILE[id]}.webp${IMG_V[id] || ''}`;
+  const cut = id => `assets/equipment/cut/${FILE[id]}.webp${IMG_V[id] || ''}`;
 
   const SECS = [
     { id:'body', cn:'机身' }, { id:'lens', cn:'镜头' }, { id:'light', cn:'灯光' },
