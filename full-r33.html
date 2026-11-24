@@ -1890,21 +1890,26 @@ body.pv-open{overflow:hidden!important}
     box-shadow:0 0 0 1px rgba(224,180,130,.9),0 4px 14px -8px rgba(0,0,0,.7)!important;
   }
   .film-swipe-hint{
-    display:block!important;margin-top:4px!important;
-    text-align:right!important;font-size:10px!important;
-    line-height:1.2!important;letter-spacing:.03em!important;
-    color:rgba(20,19,15,.46)!important;
+    display:inline-flex!important;align-self:center!important;align-items:center!important;
+    justify-content:center!important;flex:0 0 auto!important;width:auto!important;
+    gap:4px!important;margin:4px auto 0!important;padding:4px 8px!important;
+    background:rgba(255,251,244,.9)!important;
+    border:1px solid rgba(169,120,76,.3)!important;border-radius:999px!important;
+    text-align:center!important;font-size:10px!important;font-weight:500!important;box-shadow:0 2px 8px -6px rgba(0,0,0,.35)!important;
+    line-height:1.15!important;letter-spacing:.02em!important;
+    color:#4f3a29!important;white-space:nowrap!important;
   }
+  .film-swipe-hint::before{content:"↔";font-size:10px;color:#b07a4f;line-height:1}
 }
 
 @media(max-width:560px){
-  #video .p-card{flex:0 0 auto!important;min-height:clamp(380px,46svh,430px)!important;height:auto!important}
+  #video .p-card{flex:0 0 auto!important;min-height:420px!important;height:auto!important}
 }
 @media(max-width:380px){
-  #video .p-card{min-height:400px!important;height:auto!important}
+  #video .p-card{min-height:420px!important;height:auto!important}
   #video .film{padding:8px!important}
   #video .film-list{gap:4px!important}
-  .film-swipe-hint{font-size:8px!important}
+  .film-swipe-hint{font-size:9px!important;padding:3px 7px!important}
 }
 
 /* ===== R34 · 摄影部：主图 + 竖幅 + 全景的编辑式拼贴 ===== */
@@ -2050,7 +2055,7 @@ body.pv-open{overflow:hidden!important}
             <div class="film-bar"><i id="reelProg"></i></div>
           </div>
           <div class="film-list" id="reelPick" aria-label="精选成片列表"></div>
-          <div class="film-swipe-hint" aria-hidden="true">左右滑动 / 点封面 · 10 条</div>
+          <div class="film-swipe-hint" aria-hidden="true">左右滑动视频 / 点封面</div>
         </div>
       
       </div>
