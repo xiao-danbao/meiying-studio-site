@@ -5031,8 +5031,8 @@ function initGear(root) {
           id: 'pocket4', name: 'DJI Osmo Pocket 4', cn: '大疆 Pocket 4',
           spec: '1 英寸 CMOS · 4K/240 · 107GB 内置',
           specs: [
-            ['传感器', '1 英寸 CMOS，等效 20mm f/2.0，14 档动态范围'],
-            ['视频', '4K 240fps 慢动作，10-bit D-Log'],
+            ['传感器', '1 英寸堆栈式 CMOS，等效 20mm f/2.0，14 档动态范围'],
+            ['视频', '4K 240fps 慢动作；普通视频支持 10-bit D-Log'],
             ['存储', '107GB 内置存储，免带卡'],
             ['云台', '三轴机械增稳，2 英寸旋转 OLED 屏'],
             ['机身', '144.2 × 44.4 × 33.5 mm / 190.5 g'],
@@ -5065,10 +5065,13 @@ function initGear(root) {
           spec: '恒定 f/4 · 4 级防抖 · 795 g',
           specs: [
             ['焦段', '24-105mm，恒定 f/4'],
-            ['结构', '12 组 17 片'],
+            ['画幅/卡口', '全画幅 · 佳能 EF 卡口'],
+            ['结构', '12 组 17 片（4 片非球面，ASC 镀膜）'],
+            ['光圈', '10 片圆形光圈，最小 f/22'],
             ['防抖', 'IS 光学防抖，约 4 级'],
-            ['最近对焦', '0.45 m'],
-            ['尺寸', 'φ83.5 × 118 mm / 795 g'],
+            ['最近对焦', '0.45 m；最大放大倍率 0.24×'],
+            ['滤镜/尺寸', '77 mm；φ83.5 × 118 mm / 795 g'],
+            ['防护', '防尘防滴'],
           ],
           note: '一镜走全场的长焦段标准镜，配 6D2 最顺手。'
         },
@@ -5264,8 +5267,8 @@ function initGear(root) {
     'rs3':'acc-rs3','tripod':'acc-tripod','stand':'acc-stand',
     'mic':'acc-mic'
   };
-  const IMG_V = { '2470':'?v=r38', '70200':'?v=r38b', '70200c':'?v=r39', '18200':'?v=r39', '2060':'?v=r38', 'stick':'?v=r38', 'mic':'?v=r38', 'light2':'?v=r31', 'light1':'?v=r31' };
-  const CUTS = {'body-6d2':'https://aka.doubaocdn.com/s/GA3fZQHzkB','body-s5ii':'https://aka.doubaocdn.com/s/vhonfIMBnD','body-a7m3':'https://aka.doubaocdn.com/s/VgUydhQShU','body-d7500':'https://aka.doubaocdn.com/s/7enm3wgvN9','body-pocket3':'https://aka.doubaocdn.com/s/vbPEQw7TYw','body-pocket4':'https://aka.doubaocdn.com/s/KuNNwyECsm','lens-2470':'https://aka.doubaocdn.com/s/eTTkRJ1Q2s','lens-24105':'https://aka.doubaocdn.com/s/j9loH6wu2O','lens-70200':'https://aka.doubaocdn.com/s/k4QdHVdZpb','lens-70200c':'https://aka.doubaocdn.com/s/VZFTfTBYCB','lens-18200':'https://aka.doubaocdn.com/s/uQQHE6PmvS','lens-100400':'https://aka.doubaocdn.com/s/ilaLLNpFyv','lens-2060':'https://aka.doubaocdn.com/s/lsZfsPAw39','acc-light-wide':'https://aka.doubaocdn.com/s/50NzMK41Xj','acc-light':'https://aka.doubaocdn.com/s/jtLyGEuUXt','acc-stick':'https://aka.doubaocdn.com/s/ZIferbzd6U','acc-godox':'https://aka.doubaocdn.com/s/VpaP2VRC9q','acc-rs3':'https://aka.doubaocdn.com/s/Zydr4xgoMy','acc-tripod':'https://aka.doubaocdn.com/s/6oDb4zdX1U','acc-stand':'https://aka.doubaocdn.com/s/RpFLpY4uJH','acc-mic':'https://aka.doubaocdn.com/s/wq6WKMDzrK'};
+  const IMG_V = { '2470':'?v=r38', '70200':'?v=r38b', '70200c':'?v=r39', '18200':'?v=r39', '2060':'?v=r38', '24105':'?v=r40', 'pocket3':'?v=r40', 'pocket4':'?v=r40', 'stick':'?v=r38', 'mic':'?v=r38', 'light2':'?v=r31', 'light1':'?v=r31' };
+  const CUTS = {'body-6d2':'https://aka.doubaocdn.com/s/GA3fZQHzkB','body-s5ii':'https://aka.doubaocdn.com/s/vhonfIMBnD','body-a7m3':'https://aka.doubaocdn.com/s/VgUydhQShU','body-d7500':'https://aka.doubaocdn.com/s/7enm3wgvN9','body-pocket3':'https://aka.doubaocdn.com/s/tqAvJ8Gu4Q','body-pocket4':'https://aka.doubaocdn.com/s/6HWVbRDBXa','lens-2470':'https://aka.doubaocdn.com/s/eTTkRJ1Q2s','lens-24105':'https://aka.doubaocdn.com/s/KJ7f3U0Mw5','lens-70200':'https://aka.doubaocdn.com/s/k4QdHVdZpb','lens-70200c':'https://aka.doubaocdn.com/s/VZFTfTBYCB','lens-18200':'https://aka.doubaocdn.com/s/uQQHE6PmvS','lens-100400':'https://aka.doubaocdn.com/s/ilaLLNpFyv','lens-2060':'https://aka.doubaocdn.com/s/lsZfsPAw39','acc-light-wide':'https://aka.doubaocdn.com/s/50NzMK41Xj','acc-light':'https://aka.doubaocdn.com/s/jtLyGEuUXt','acc-stick':'https://aka.doubaocdn.com/s/ZIferbzd6U','acc-godox':'https://aka.doubaocdn.com/s/VpaP2VRC9q','acc-rs3':'https://aka.doubaocdn.com/s/Zydr4xgoMy','acc-tripod':'https://aka.doubaocdn.com/s/6oDb4zdX1U','acc-stand':'https://aka.doubaocdn.com/s/RpFLpY4uJH','acc-mic':'https://aka.doubaocdn.com/s/wq6WKMDzrK'};
   const shot = id => CUTS[FILE[id]] || CUTS['body-6d2'];
   const cut = id => CUTS[FILE[id]] || CUTS['body-6d2'];
   
