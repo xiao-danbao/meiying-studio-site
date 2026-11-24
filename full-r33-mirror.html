@@ -2318,8 +2318,8 @@ body.pv-open{overflow:hidden!important}
           </div>
           <div class="r-bottom">
             <span>临时的事，当天再排。</span>
-            <button class="gear-entry" type="button" data-gear-open aria-haspopup="dialog" aria-label="打开器材库，共 19 件器材">
-              <span class="gear-entry-dot" aria-hidden="true"></span><span>器材库</span><span class="gear-entry-num">19</span><span class="gear-entry-arrow" aria-hidden="true">→</span>
+            <button class="gear-entry" type="button" data-gear-open aria-haspopup="dialog" aria-label="打开器材库，共 21 件器材">
+              <span class="gear-entry-dot" aria-hidden="true"></span><span>器材库</span><span class="gear-entry-num">21</span><span class="gear-entry-arrow" aria-hidden="true">→</span>
             </button>
           </div>
         </div>
@@ -4664,7 +4664,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   .gear-sheet.family-mode .family{--wall-x:.90;--wall-y:1;}
 }
 @media(min-width:861px){
-  .gear-sheet.family-mode .family{--wall-x:1.08;--wall-y:1;}
+  .gear-sheet.family-mode .family{--wall-x:1.08;--wall-y:.82;}
 }
 
 .gear-sheet.family-mode .family{
@@ -4909,7 +4909,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
     <small class="brand-sub">影像器材</small>
   </div>
   <div class="top-tools">
-    <span class="top-count"><b id="familyCount">19</b><i>件</i></span>
+    <span class="top-count"><b id="familyCount">21</b><i>件</i></span>
     <button class="gear-exit" id="gearClose" type="button" aria-label="关闭器材库，返回工作室">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
       <span>返回</span>
@@ -4928,7 +4928,7 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   <div class="detail" id="familyDetail" aria-hidden="true">
     <div class="detail-bar">
       <button class="detail-back" id="detailBack" type="button">← 全家福</button>
-      <span class="detail-meta" id="detailMeta">01 / 19</span>
+      <span class="detail-meta" id="detailMeta">01 / 21</span>
     </div>
     <div class="detail-body" id="detailBody"></div>
   </div>
@@ -5045,7 +5045,7 @@ function initGear(root) {
       id: 'lens',
       cn: '镜头',
       en: 'LENS',
-      hint: '五支镜头，焦段从 20mm 铺到 400mm。',
+      hint: '七支镜头，焦段从 18mm 铺到 400mm。',
       items: [
         {
           id: '2470', name: 'Canon EF 24-70mm f/4L IS USM', cn: '佳能 24-70',
@@ -5073,6 +5073,20 @@ function initGear(root) {
           note: '一镜走全场的长焦段标准镜，配 6D2 最顺手。'
         },
         {
+          id: '70200c', name: 'Canon EF 70-200mm f/2.8L IS II USM', cn: '佳能 70-200',
+          spec: '恒定 f/2.8 · 4 级防抖 · 1490 g',
+          specs: [
+            ['焦段', '70-200mm，恒定 f/2.8'],
+            ['画幅/卡口', '全画幅 · 佳能 EF 卡口'],
+            ['结构', '19 组 23 片（1 片萤石、5 片 UD）'],
+            ['防抖', 'IS 光学防抖，约 4 级'],
+            ['最近对焦', '1.2 m；最大放大倍率 0.21×'],
+            ['滤镜/尺寸', '77 mm；φ88.8 × 199 mm / 1490 g（不含脚架环）'],
+            ['防护', '防尘防滴'],
+          ],
+          note: '佳能 EF 卡口的舞台长焦，压缩背景和合影都稳；重，记得托脚架环。'
+        },
+        {
           id: '70200', name: 'Sony 70-200mm f/2.8 G SSM', cn: '索尼 70-200',
           spec: '恒定 f/2.8 · 77mm · 1340 g',
           specs: [
@@ -5095,6 +5109,19 @@ function initGear(root) {
             ['尺寸', 'φ94 × 193 mm / 1570 g（不含脚架环）'],
           ],
           note: '运动会、远处抓拍。白镜，注意别磕碰。'
+        },
+        {
+          id: '18200', name: 'Nikon AF-S DX NIKKOR 18-200mm f/3.5-5.6G ED VR II', cn: '尼康 18-200',
+          spec: 'DX 专用 · 11.1 倍变焦 · 565 g',
+          specs: [
+            ['焦段', '18-200mm，f/3.5-5.6'],
+            ['画幅/卡口', 'DX 专用 · 尼康 F 卡口；全画幅机身仅 DX 裁切可用'],
+            ['结构', '12 组 16 片（2 片 ED、3 片非球面）'],
+            ['防抖', 'VR II 光学防抖'],
+            ['最近对焦', '0.5 m；最大放大倍率 0.22×'],
+            ['滤镜/尺寸', '72 mm；φ77 × 96.5 mm / 565 g'],
+          ],
+          note: '只配 D7500。装到全画幅机身只能用 DX 裁切模式。'
         },
         {
           id: '2060', name: 'Panasonic LUMIX S 20-60mm f/3.5-5.6', cn: '松下 20-60',
@@ -5230,14 +5257,15 @@ function initGear(root) {
   const FILE = {
     '6d2':'body-6d2','s5ii':'body-s5ii','a7m3':'body-a7m3','d7500':'body-d7500',
     'pocket3':'body-pocket3','pocket4':'body-pocket4',
-    '2470':'lens-2470','24105':'lens-24105','70200':'lens-70200','100400':'lens-100400',
+    '2470':'lens-2470','24105':'lens-24105','70200c':'lens-70200c','70200':'lens-70200',
+    '100400':'lens-100400','18200':'lens-18200',
     '2060':'lens-2060',
     'light2':'acc-light-wide','light1':'acc-light','stick':'acc-stick','godox':'acc-godox',
     'rs3':'acc-rs3','tripod':'acc-tripod','stand':'acc-stand',
     'mic':'acc-mic'
   };
-  const IMG_V = { '2470':'?v=r38', '70200':'?v=r38b', '2060':'?v=r38', 'stick':'?v=r38', 'mic':'?v=r38', 'light2':'?v=r31', 'light1':'?v=r31' };
-  const CUTS = {'body-6d2':'https://aka.doubaocdn.com/s/GA3fZQHzkB','body-s5ii':'https://aka.doubaocdn.com/s/vhonfIMBnD','body-a7m3':'https://aka.doubaocdn.com/s/VgUydhQShU','body-d7500':'https://aka.doubaocdn.com/s/7enm3wgvN9','body-pocket3':'https://aka.doubaocdn.com/s/vbPEQw7TYw','body-pocket4':'https://aka.doubaocdn.com/s/KuNNwyECsm','lens-2470':'https://aka.doubaocdn.com/s/eTTkRJ1Q2s','lens-24105':'https://aka.doubaocdn.com/s/j9loH6wu2O','lens-70200':'https://aka.doubaocdn.com/s/k4QdHVdZpb','lens-100400':'https://aka.doubaocdn.com/s/ilaLLNpFyv','lens-2060':'https://aka.doubaocdn.com/s/lsZfsPAw39','acc-light-wide':'https://aka.doubaocdn.com/s/50NzMK41Xj','acc-light':'https://aka.doubaocdn.com/s/jtLyGEuUXt','acc-stick':'https://aka.doubaocdn.com/s/ZIferbzd6U','acc-godox':'https://aka.doubaocdn.com/s/VpaP2VRC9q','acc-rs3':'https://aka.doubaocdn.com/s/Zydr4xgoMy','acc-tripod':'https://aka.doubaocdn.com/s/6oDb4zdX1U','acc-stand':'https://aka.doubaocdn.com/s/RpFLpY4uJH','acc-mic':'https://aka.doubaocdn.com/s/wq6WKMDzrK'};
+  const IMG_V = { '2470':'?v=r38', '70200':'?v=r38b', '70200c':'?v=r39', '18200':'?v=r39', '2060':'?v=r38', 'stick':'?v=r38', 'mic':'?v=r38', 'light2':'?v=r31', 'light1':'?v=r31' };
+  const CUTS = {'body-6d2':'https://aka.doubaocdn.com/s/GA3fZQHzkB','body-s5ii':'https://aka.doubaocdn.com/s/vhonfIMBnD','body-a7m3':'https://aka.doubaocdn.com/s/VgUydhQShU','body-d7500':'https://aka.doubaocdn.com/s/7enm3wgvN9','body-pocket3':'https://aka.doubaocdn.com/s/vbPEQw7TYw','body-pocket4':'https://aka.doubaocdn.com/s/KuNNwyECsm','lens-2470':'https://aka.doubaocdn.com/s/eTTkRJ1Q2s','lens-24105':'https://aka.doubaocdn.com/s/j9loH6wu2O','lens-70200':'https://aka.doubaocdn.com/s/k4QdHVdZpb','lens-70200c':'https://aka.doubaocdn.com/s/VZFTfTBYCB','lens-18200':'https://aka.doubaocdn.com/s/uQQHE6PmvS','lens-100400':'https://aka.doubaocdn.com/s/ilaLLNpFyv','lens-2060':'https://aka.doubaocdn.com/s/lsZfsPAw39','acc-light-wide':'https://aka.doubaocdn.com/s/50NzMK41Xj','acc-light':'https://aka.doubaocdn.com/s/jtLyGEuUXt','acc-stick':'https://aka.doubaocdn.com/s/ZIferbzd6U','acc-godox':'https://aka.doubaocdn.com/s/VpaP2VRC9q','acc-rs3':'https://aka.doubaocdn.com/s/Zydr4xgoMy','acc-tripod':'https://aka.doubaocdn.com/s/6oDb4zdX1U','acc-stand':'https://aka.doubaocdn.com/s/RpFLpY4uJH','acc-mic':'https://aka.doubaocdn.com/s/wq6WKMDzrK'};
   const shot = id => CUTS[FILE[id]] || CUTS['body-6d2'];
   const cut = id => CUTS[FILE[id]] || CUTS['body-6d2'];
   
@@ -5251,12 +5279,12 @@ function initGear(root) {
   const RADIAL_ORDER = [
     '6d2',
     'd7500','a7m3','s5ii','pocket3','pocket4','rs3',
-    '2470','24105','70200','100400','2060',
+    '2470','24105','70200c','70200','100400','18200','2060',
     'light1','light2','stick','godox','tripod',
     'stand','mic'
   ];
   const RADIAL_D = .29;
-  const TILE_D = .255;
+  const TILE_D = .22;
   const HEX_Y = Math.sqrt(3) / 2;
   const RING1 = [[0,-1],[1,-1],[1,0],[0,1],[-1,1],[-1,0]];
   function hexCells(k){
@@ -5278,33 +5306,35 @@ function initGear(root) {
     x: (p[0] + p[1] / 2) * RADIAL_D,
     y: p[1] * HEX_Y * RADIAL_D
   });
-  // 19 件：手机端按 3 / 4 / 5 / 4 / 3 五排错位铺开，中心留给 6D2，避免删件后出现空槽。
+  // 21 件：手机端按 3 / 5 / 5 / 4 / 4 五排错位铺开，中心留给 6D2，佳能与索尼 70-200 分开占位。
   const MOBILE_SLOTS = {
     'tripod': { x:-.28, y:-.62 },
     '2470':   { x: 0,   y:-.62 },
     '24105':  { x: .28, y:-.62 },
-    'godox':  { x:-.335,y:-.31 },
-    'd7500':  { x:-.112,y:-.31 },
-    'a7m3':   { x: .112,y:-.31 },
-    '70200':  { x: .335,y:-.31 },
+    '70200c': { x:-.40, y:-.31 },
+    'd7500':  { x:-.20, y:-.31 },
+    'a7m3':   { x: 0,   y:-.31 },
+    '70200':  { x: .20, y:-.31 },
+    'godox':  { x: .40, y:-.31 },
     'rs3':    { x:-.40, y: 0   },
     's5ii':   { x:-.20, y: 0   },
     '6d2':    { x: 0,   y: 0   },
     'pocket3':{ x: .20, y: 0   },
     'pocket4':{ x: .40, y: 0   },
-    'stick':  { x:-.335,y: .31 },
-    'light1': { x:-.112,y: .31 },
-    'light2': { x: .112,y: .31 },
-    '100400': { x: .335,y: .31 },
-    'stand':  { x:-.28, y: .62 },
-    'mic':    { x: 0,   y: .62 },
-    '2060':   { x: .28, y: .62 }
+    'stick':  { x:-.30, y: .31 },
+    'light1': { x:-.10, y: .31 },
+    'light2': { x: .10, y: .31 },
+    '100400': { x: .30, y: .31 },
+    'stand':  { x:-.30, y: .62 },
+    '18200':  { x:-.10, y: .62 },
+    '2060':   { x: .10, y: .62 },
+    'mic':    { x: .30, y: .62 }
   };
   const radialSlots = () => {
     if (innerWidth <= 860) {
       return RADIAL_ORDER.map(id => MOBILE_SLOTS[id]).filter(Boolean);
     }
-    const outer = [RING3[0]];
+    const outer = [RING3[0], RING3[1]];
     return [[0, 0]].concat(RING1, RING2, outer).map(toSlot);
   };
   function filterSlots(n){
