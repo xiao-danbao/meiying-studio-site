@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://aka.doubaocdn.com" crossorigin>
+<link rel="dns-prefetch" href="https://aka.doubaocdn.com">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20797%22%3E%3Cpath%20fill%3D%22%2314130F%22%20fill-rule%3D%22evenodd%22%20d%3D%22M357.0%200.0%20L437.0%200.0%20L502.0%2012.0%20L568.0%2036.0%20L585.0%2047.0%20L597.0%2051.0%20L643.0%2082.0%20L699.0%20134.0%20L717.0%20155.0%20L742.0%20191.0%20L771.0%20246.0%20L785.0%20284.0%20L797.0%20334.0%20L800.0%20356.0%20L800.0%20441.0%20L793.0%20482.0%20L781.0%20523.0%20L768.0%20556.0%20L731.0%20625.0%20L711.0%20654.0%20L687.0%20680.0%20L623.0%20732.0%20L596.0%20750.0%20L550.0%20775.0%20L516.0%20789.0%20L488.0%20797.0%20L463.0%20796.0%20L457.0%20792.0%20L456.0%20784.0%20L476.0%20768.0%20L526.0%20719.0%20L563.0%20677.0%20L594.0%20636.0%20L628.0%20582.0%20L651.0%20538.0%20L671.0%20477.0%20L679.0%20422.0%20L676.0%20372.0%20L669.0%20339.0%20L661.0%20315.0%20L651.0%20291.0%20L630.0%20255.0%20L625.0%20256.0%20L620.0%20285.0%20L609.0%20313.0%20L587.0%20349.0%20L560.0%20383.0%20L534.0%20407.0%20L512.0%20422.0%20L482.0%20437.0%20L455.0%20446.0%20L459.0%20516.0%20L455.0%20569.0%20L447.0%20619.0%20L436.0%20663.0%20L422.0%20705.0%20L400.0%20754.0%20L393.0%20764.0%20L390.0%20764.0%20L382.0%20753.0%20L367.0%20718.0%20L353.0%20672.0%20L342.0%20618.0%20L337.0%20571.0%20L336.0%20530.0%20L338.0%20485.0%20L346.0%20447.0%20L343.0%20444.0%20L338.0%20444.0%20L314.0%20434.0%20L290.0%20420.0%20L271.0%20404.0%20L245.0%20372.0%20L234.0%20354.0%20L216.0%20314.0%20L202.0%20270.0%20L195.0%20229.0%20L181.0%20242.0%20L159.0%20273.0%20L145.0%20299.0%20L131.0%20334.0%20L123.0%20366.0%20L119.0%20396.0%20L119.0%20441.0%20L123.0%20471.0%20L141.0%20531.0%20L182.0%20613.0%20L233.0%20687.0%20L256.0%20715.0%20L317.0%20775.0%20L317.0%20784.0%20L310.0%20789.0%20L288.0%20786.0%20L250.0%20775.0%20L224.0%20764.0%20L173.0%20735.0%20L124.0%20696.0%20L79.0%20648.0%20L57.0%20618.0%20L36.0%20583.0%20L14.0%20527.0%20L3.0%20479.0%20L3.0%20467.0%20L0.0%20458.0%20L0.0%20360.0%20L11.0%20301.0%20L22.0%20265.0%20L36.0%20231.0%20L51.0%20202.0%20L76.0%20163.0%20L108.0%20125.0%20L143.0%2091.0%20L176.0%2066.0%20L211.0%2045.0%20L271.0%2019.0%20L323.0%205.0%20Z%20M380.0%20138.0%20L346.0%20143.0%20L308.0%20153.0%20L262.0%20174.0%20L225.0%20200.0%20L238.0%20225.0%20L274.0%20266.0%20L299.0%20285.0%20L331.0%20302.0%20L365.0%20313.0%20L390.0%20317.0%20L428.0%20317.0%20L465.0%20310.0%20L504.0%20295.0%20L535.0%20277.0%20L561.0%20256.0%20L594.0%20219.0%20L594.0%20214.0%20L588.0%20208.0%20L560.0%20186.0%20L539.0%20173.0%20L500.0%20155.0%20L471.0%20146.0%20L427.0%20138.0%20Z%22%2F%3E%3C%2Fsvg%3E">
 <title>魅影工作室 — 让每一帧都留下魅影</title>
 <script id="meiying-github-fallback">
@@ -2007,6 +2009,14 @@ body.pv-open{overflow:hidden!important}
 #video .film-list .pick.on{
   box-shadow:0 0 0 1px rgba(224,180,130,.9),0 4px 14px -8px rgba(0,0,0,.7)!important;
 }
+#video .film-list .pick{
+  transition:transform .34s cubic-bezier(.34,1.56,.64,1),box-shadow .3s var(--ease),border-color .3s var(--ease);
+}
+#video .film-list .pick:active{
+  transform:scale(.955)!important;
+  transition-duration:.1s!important;
+  transition-timing-function:ease-out!important;
+}
 .film-swipe-hint{display:none!important}
 
 /* card follows the single-row strip instead of leaving an empty well */
@@ -2027,7 +2037,11 @@ body.pv-open{overflow:hidden!important}
 }
 .film-frame .film-play{
   left:12px!important;right:auto!important;top:auto!important;bottom:12px!important;transform:none!important;
+  box-shadow:0 12px 34px rgba(0,0,0,.34)!important;
 }
+/* one clean outer edge; no second hairline ring inside the button */
+.film-frame .film-play::before{content:none!important;display:none!important}
+.film-frame .film-play::after{content:none!important;display:none!important}
 .film-mute{
   left:auto!important;right:12px!important;top:auto!important;bottom:12px!important;
 }
@@ -2183,7 +2197,7 @@ body.pv-open{overflow:hidden!important}
     <div class="p-copy">
         <p class="tag">02 / 摄影部</p>
       <h2 class="title"><em>活动当天。</em><br><span>我们在场。</span></h2>
-      <p class="body">从迎新晚会、招新拍摄，到结业与来访。8 个现场瞬间，来自部门这一年的成片；点开任意一张看大图。</p>
+      <p class="body">从迎新晚会、社团现场，到参观与来访。8 个现场瞬间，来自部门这一年的成片；点开任意一张看大图。</p>
       <div class="p-notes">
         <div class="note"><h3>一场活动的流程</h3><p>提前踩点 → 全程跟拍 → 选片 → 修图 → 交付。合影和领导镜头，一定留够备份。</p></div>
         <div class="note"><h3>会用到什么</h3><p>相机与镜头、补光、修图与调色软件。设备可以借，先把构图练稳。</p></div>
@@ -2199,7 +2213,7 @@ body.pv-open{overflow:hidden!important}
       <div class="card-visual">
         <div class="photo-wall">
           <figure class="ph ph-hero" data-i="1">
-            <img class="ph-fg" src="assets/photos/scene/finale-stage-1600.webp" srcset="assets/photos/scene/finale-stage-480.webp 480w, assets/photos/scene/finale-stage-960.webp 960w, assets/photos/scene/finale-stage-1600.webp 1600w" sizes="(max-width:899px) 50vw, 32vw" alt="2026 部门现场 · 迎新晚会 · 谢幕 · 全场" loading="lazy" decoding="async">
+            <img class="ph-fg" src="assets/photos/scene/finale-stage-1600.webp" srcset="assets/photos/scene/finale-stage-480.webp 480w, assets/photos/scene/finale-stage-960.webp 960w, assets/photos/scene/finale-stage-1600.webp 1600w" sizes="(max-width:899px) 50vw, 32vw" alt="2026 部门现场 · 迎新晚会 · 谢幕 · 全场" loading="eager" fetchpriority="high" decoding="async">
             <figcaption>谢幕 · 全场</figcaption>
           </figure>
           <figure class="ph ph-wide" data-i="2">
@@ -2215,16 +2229,16 @@ body.pv-open{overflow:hidden!important}
             <figcaption>独舞 · 金</figcaption>
           </figure>
           <figure class="ph" data-i="5">
-            <img class="ph-fg" src="assets/photos/scene/zhaoxin-power-1600.webp" srcset="assets/photos/scene/zhaoxin-power-480.webp 480w, assets/photos/scene/zhaoxin-power-960.webp 960w, assets/photos/scene/zhaoxin-power-1600.webp 1600w" sizes="(max-width:899px) 23vw, 16vw" alt="2026 部门现场 · 招新宣传 · 力量" loading="lazy" decoding="async">
-            <figcaption>招新 · 力量</figcaption>
+            <img class="ph-fg" src="assets/photos/scene/club-vocal-1600.webp" data-full="assets/photos/scene/club-vocal-2400.webp" srcset="assets/photos/scene/club-vocal-480.webp 480w, assets/photos/scene/club-vocal-960.webp 960w, assets/photos/scene/club-vocal-1600.webp 1600w" sizes="(max-width:899px) 23vw, 16vw" alt="2026 部门现场 · 说唱社街舞社 · 主唱" loading="lazy" decoding="async">
+            <figcaption>说唱 · 主唱</figcaption>
           </figure>
           <figure class="ph" data-i="6">
-            <img class="ph-fg" src="assets/photos/scene/campus-ship-1600.webp" srcset="assets/photos/scene/campus-ship-480.webp 480w, assets/photos/scene/campus-ship-960.webp 960w, assets/photos/scene/campus-ship-1600.webp 1600w" sizes="(max-width:899px) 23vw, 16vw" alt="2026 部门现场 · 招新宣传 · 校园船坞" loading="lazy" decoding="async">
-            <figcaption>校园 · 船坞</figcaption>
+            <img class="ph-fg" src="assets/photos/scene/club-dance-1600.webp" data-full="assets/photos/scene/club-dance-2400.webp" srcset="assets/photos/scene/club-dance-480.webp 480w, assets/photos/scene/club-dance-960.webp 960w, assets/photos/scene/club-dance-1600.webp 1600w" sizes="(max-width:899px) 23vw, 16vw" alt="2026 部门现场 · 说唱社街舞社 · 齐舞" loading="lazy" decoding="async">
+            <figcaption>街舞 · 齐舞</figcaption>
           </figure>
           <figure class="ph" data-i="7">
-            <img class="ph-fg" src="assets/photos/scene/graduation-group-1600.webp" srcset="assets/photos/scene/graduation-group-480.webp 480w, assets/photos/scene/graduation-group-960.webp 960w, assets/photos/scene/graduation-group-1600.webp 1600w" sizes="(max-width:899px) 23vw, 16vw" alt="2026 部门现场 · 结业仪式 · 合影" loading="lazy" decoding="async">
-            <figcaption>结业 · 合影</figcaption>
+            <img class="ph-fg" src="assets/photos/scene/campus-group-1600.webp" data-full="assets/photos/scene/campus-group-2400.webp" srcset="assets/photos/scene/campus-group-480.webp 480w, assets/photos/scene/campus-group-960.webp 960w, assets/photos/scene/campus-group-1600.webp 1600w" sizes="(max-width:899px) 23vw, 16vw" alt="2026 部门现场 · 参观校园 · 合影" loading="lazy" decoding="async">
+            <figcaption>校园 · 合影</figcaption>
           </figure>
           <figure class="ph" data-i="8">
             <img class="ph-fg" src="assets/photos/scene/visit-briefing-1600.webp" srcset="assets/photos/scene/visit-briefing-480.webp 480w, assets/photos/scene/visit-briefing-960.webp 960w, assets/photos/scene/visit-briefing-1600.webp 1600w" sizes="(max-width:899px) 23vw, 16vw" alt="2026 部门现场 · 来访接待 · 讲解" loading="lazy" decoding="async">
@@ -2426,7 +2440,8 @@ body.pv-open{overflow:hidden!important}
     var pic = fig.querySelector('img');
     if (!pic) return;
     lastFocus = document.activeElement;
-    img.src = pic.getAttribute('src');
+    img.decoding = 'async';
+img.src = pic.getAttribute('data-full') || pic.getAttribute('src');
     img.alt = pic.getAttribute('alt') || '';
     var fc = fig.querySelector('figcaption');
     cap.textContent = fc ? fc.textContent.trim() : (pic.getAttribute('alt') || '现场照片');
@@ -4090,6 +4105,9 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
   transform-origin:center center;
   will-change:transform;
 }
+.wall-plane.is-wall-moving > .tile,
+.wall-plane.is-wall-dragging > .tile{transition:none!important}
+.wall-plane.is-wall-dragging > .tile{pointer-events:none}
 .wall-plane > .tile{grid-column:auto}
 .wall-plane > .tile.is-wide{grid-column:span 2}
 
@@ -5450,6 +5468,7 @@ function initGear(root) {
   }
 
   let edgeRaf = 0;
+  let wallMoveTimer = 0;
   function paintWallEdges(){
     /* 没有圆形边界后，器材不再按“圆周外”变暗；只清掉旧状态。 */
     if (!familyGrid) return;
@@ -5471,6 +5490,11 @@ function initGear(root) {
     familyGrid.style.transform =
       'translate(-50%,-50%) translate3d(' + wall.x.toFixed(2) + 'px,' + wall.y.toFixed(2) + 'px,0) scale(' + wall.scale.toFixed(4) + ')';
     familyGrid.dataset.scale = wall.scale.toFixed(2);
+    familyGrid.classList.add('is-wall-moving');
+    clearTimeout(wallMoveTimer);
+    wallMoveTimer = window.setTimeout(function(){
+      familyGrid.classList.remove('is-wall-moving');
+    }, 180);
     queueWallEdges();
   }
 
@@ -5582,6 +5606,9 @@ function initGear(root) {
 
   function markWallInteracted(){
     if (wallGuide) wallGuide.classList.add('is-hidden');
+    /* if the user swipes immediately after leaving a device page,
+       finish the return flight now instead of letting it fight the wall */
+    if (closeFlight) settleCloseFlight();
   }
 
   function setupWall(){
@@ -5666,6 +5693,7 @@ function initGear(root) {
       if (!wall.drag.moved && Math.hypot(dx, dy) > 7) {
         wall.drag.moved = true;
         wall.moved = true;
+        familyGrid.classList.add('is-wall-dragging');
         try { wallViewport.setPointerCapture(e.pointerId); } catch (_) {}
       }
       if (wall.drag.moved) {
@@ -5694,6 +5722,7 @@ function initGear(root) {
 
     function endWallPointer(e){
       if (!wall.pointers.has(e.pointerId)) return;
+      if (familyGrid) familyGrid.classList.remove('is-wall-dragging');
       const wasPinch = !!wall.pinch;
       const releaseDrag = wall.drag;
       const wasDrag = !!(wall.drag && wall.drag.moved);
