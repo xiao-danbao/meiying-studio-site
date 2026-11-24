@@ -1841,10 +1841,132 @@ body.pv-open{overflow:hidden!important}
   #video .p-card{min-height:380px!important; height:auto!important}
 }
 
+
+/* ===== R34 · 移动端 5×2 封面总览 + 主画面滑动切换 ===== */
+@media(max-width:899px){
+  #video .p-card{min-height:clamp(400px,50svh,460px)!important;height:auto!important}
+  #video .film{padding:9px!important;gap:9px!important}
+  .film-frame{touch-action:pan-y}
+  #video .film-list{
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    grid-auto-rows:auto!important;
+    gap:5px!important;
+    height:auto!important;
+    min-height:0!important;
+    flex:0 0 auto!important;
+    overflow:visible!important;
+    padding:0!important;
+  }
+  #video .film-list .pick{
+    position:relative!important;display:block!important;
+    width:100%!important;height:auto!important;aspect-ratio:16/9;
+    flex:none!important;padding:0!important;border-radius:5px!important;
+    background:#0b0a08!important;overflow:hidden!important;
+  }
+  #video .film-list .pick-thumb{
+    position:absolute!important;inset:0!important;
+    width:auto!important;height:auto!important;border-radius:0!important;
+    background:#0b0a08;
+  }
+  #video .film-list .pick-thumb::after{display:none!important}
+  #video .film-list .pick-thumb img{
+    width:100%!important;height:100%!important;
+    object-fit:contain!important;opacity:.62!important;transform:none!important;
+  }
+  #video .film-list .pick.on .pick-thumb img{opacity:1!important}
+  #video .film-list .pick-copy{display:none!important}
+  #video .film-list .pick-no{
+    display:grid!important;position:absolute!important;
+    left:3px!important;top:3px!important;
+    min-width:14px!important;height:13px!important;
+    padding:0 3px!important;border-radius:2px!important;
+    background:rgba(8,7,6,.62)!important;
+    border:1px solid rgba(255,255,255,.18)!important;
+    font-size:7px!important;line-height:1!important;
+    color:rgba(255,255,255,.8)!important;z-index:2!important;
+  }
+  #video .film-list .pick.on{
+    box-shadow:0 0 0 1px rgba(224,180,130,.9),0 4px 14px -8px rgba(0,0,0,.7)!important;
+  }
+  .film-swipe-hint{
+    display:block!important;margin-top:4px!important;
+    text-align:right!important;font-size:10px!important;
+    line-height:1.2!important;letter-spacing:.03em!important;
+    color:rgba(20,19,15,.46)!important;
+  }
+}
+
+@media(max-width:560px){
+  #video .p-card{flex:0 0 auto!important;min-height:clamp(380px,46svh,430px)!important;height:auto!important}
+}
+@media(max-width:380px){
+  #video .p-card{min-height:400px!important;height:auto!important}
+  #video .film{padding:8px!important}
+  #video .film-list{gap:4px!important}
+  .film-swipe-hint{font-size:8px!important}
+}
+
+/* ===== R34 · 摄影部：主图 + 竖幅 + 全景的编辑式拼贴 ===== */
+.photo-wall{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  grid-template-rows:repeat(6,minmax(0,1fr))!important;
+  grid-auto-flow:dense;
+  gap:6px!important;padding:6px!important;
+}
+.photo-wall .ph{min-height:0!important;border-radius:8px!important}
+.photo-wall .ph img{
+  width:100%!important;height:100%!important;object-fit:cover!important;
+  transition:transform .55s var(--ease), opacity .4s;
+}
+.photo-wall .ph:hover img{transform:scale(1.035)}
+.photo-wall .ph-hero{grid-column:span 2!important;grid-row:span 2!important;order:-3;box-shadow:inset 0 0 0 1px rgba(224,180,130,.38)!important}
+.photo-wall .ph-wide{grid-column:span 2!important;order:-2}
+.photo-wall .ph-tall{grid-row:span 2!important;order:-1}
+.photo-wall .ph-hero figcaption,
+.photo-wall .ph-wide figcaption,
+.photo-wall .ph-tall figcaption{
+  display:block!important;left:0!important;right:0!important;bottom:0!important;
+  padding:22px 9px 8px!important;
+  background:linear-gradient(to top,rgba(8,7,6,.82),rgba(8,7,6,0))!important;
+  font-size:10px!important;letter-spacing:.04em!important;color:rgba(255,255,255,.88)!important;
+  text-shadow:0 1px 5px rgba(0,0,0,.65)!important;
+}
+.photo-wall .ph-hero figcaption{font-size:12px!important;font-weight:600!important;letter-spacing:.06em!important;padding:30px 11px 10px!important}
+.photo-wall .ph-hero::before{
+  content:"OPENING / 2026";position:absolute;left:9px;top:9px;z-index:3;
+  font-size:8px;letter-spacing:.14em;color:rgba(255,246,233,.78);
+  text-shadow:0 1px 5px rgba(0,0,0,.7);
+}
+@media(max-width:899px){
+  .photo-wall{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    grid-template-rows:repeat(7,minmax(0,1fr))!important;
+    gap:4px!important;padding:4px!important;
+  }
+  .photo-wall .ph-wide{grid-column:span 1!important}
+  .photo-wall .ph-hero figcaption{font-size:10px!important;padding:22px 8px 7px!important}
+  .photo-wall .ph-wide figcaption,
+  .photo-wall .ph-tall figcaption{font-size:9px!important;padding:18px 7px 6px!important}
+  .photo-wall .ph-hero::before{font-size:7px;left:7px;top:7px}
+}
+@media(max-width:560px){
+  .photo-wall{gap:3px!important;padding:3px!important}
+  .photo-wall .ph{border-radius:6px!important}
+}
+
+@media (min-width:900px) and (max-width:1200px), (min-width:900px) and (max-height:800px){
+  .ph-count{padding:8px!important}
+  .ph-count b{font-size:18px!important}
+  .ph-count span{font-size:9px!important;margin-top:2px!important}
+  .ph-count i{display:none!important}
+}
+
+
 </style>
 </head>
 <body>
-<!-- MEIYING R33 · 2026-11-24 · 24 张直播成片 / 视频片单重排 -->
+<!-- MEIYING R34 · 2026-11-24 · 移动端封面总览 / 摄影部拼贴 -->
 
 <svg class="mark-defs" width="0" height="0" aria-hidden="true" focusable="false"><symbol id="meiying-mark" viewBox="0 0 800 797"><path fill="currentColor" fill-rule="evenodd" d="M357.0 0.0 L437.0 0.0 L502.0 12.0 L568.0 36.0 L585.0 47.0 L597.0 51.0 L643.0 82.0 L699.0 134.0 L717.0 155.0 L742.0 191.0 L771.0 246.0 L785.0 284.0 L797.0 334.0 L800.0 356.0 L800.0 441.0 L793.0 482.0 L781.0 523.0 L768.0 556.0 L731.0 625.0 L711.0 654.0 L687.0 680.0 L623.0 732.0 L596.0 750.0 L550.0 775.0 L516.0 789.0 L488.0 797.0 L463.0 796.0 L457.0 792.0 L456.0 784.0 L476.0 768.0 L526.0 719.0 L563.0 677.0 L594.0 636.0 L628.0 582.0 L651.0 538.0 L671.0 477.0 L679.0 422.0 L676.0 372.0 L669.0 339.0 L661.0 315.0 L651.0 291.0 L630.0 255.0 L625.0 256.0 L620.0 285.0 L609.0 313.0 L587.0 349.0 L560.0 383.0 L534.0 407.0 L512.0 422.0 L482.0 437.0 L455.0 446.0 L459.0 516.0 L455.0 569.0 L447.0 619.0 L436.0 663.0 L422.0 705.0 L400.0 754.0 L393.0 764.0 L390.0 764.0 L382.0 753.0 L367.0 718.0 L353.0 672.0 L342.0 618.0 L337.0 571.0 L336.0 530.0 L338.0 485.0 L346.0 447.0 L343.0 444.0 L338.0 444.0 L314.0 434.0 L290.0 420.0 L271.0 404.0 L245.0 372.0 L234.0 354.0 L216.0 314.0 L202.0 270.0 L195.0 229.0 L181.0 242.0 L159.0 273.0 L145.0 299.0 L131.0 334.0 L123.0 366.0 L119.0 396.0 L119.0 441.0 L123.0 471.0 L141.0 531.0 L182.0 613.0 L233.0 687.0 L256.0 715.0 L317.0 775.0 L317.0 784.0 L310.0 789.0 L288.0 786.0 L250.0 775.0 L224.0 764.0 L173.0 735.0 L124.0 696.0 L79.0 648.0 L57.0 618.0 L36.0 583.0 L14.0 527.0 L3.0 479.0 L3.0 467.0 L0.0 458.0 L0.0 360.0 L11.0 301.0 L22.0 265.0 L36.0 231.0 L51.0 202.0 L76.0 163.0 L108.0 125.0 L143.0 91.0 L176.0 66.0 L211.0 45.0 L271.0 19.0 L323.0 5.0 Z M380.0 138.0 L346.0 143.0 L308.0 153.0 L262.0 174.0 L225.0 200.0 L238.0 225.0 L274.0 266.0 L299.0 285.0 L331.0 302.0 L365.0 313.0 L390.0 317.0 L428.0 317.0 L465.0 310.0 L504.0 295.0 L535.0 277.0 L561.0 256.0 L594.0 219.0 L594.0 214.0 L588.0 208.0 L560.0 186.0 L539.0 173.0 L500.0 155.0 L471.0 146.0 L427.0 138.0 Z"/></symbol></svg>
 
@@ -1928,7 +2050,7 @@ body.pv-open{overflow:hidden!important}
             <div class="film-bar"><i id="reelProg"></i></div>
           </div>
           <div class="film-list" id="reelPick" aria-label="精选成片列表"></div>
-          <div class="film-swipe-hint" aria-hidden="true">左右滑动 · 10 条</div>
+          <div class="film-swipe-hint" aria-hidden="true">左右滑动 / 点封面 · 10 条</div>
         </div>
       
       </div>
@@ -1954,7 +2076,7 @@ body.pv-open{overflow:hidden!important}
       </div>
       <div class="card-visual">
         <div class="photo-wall">
-          <figure class="ph" data-i="1">
+          <figure class="ph ph-hero" data-i="1">
             <img class="ph-fg" src="assets/photos/yingxin/finale-stage-1600.webp" srcset="assets/photos/yingxin/finale-stage-800.webp 800w, assets/photos/yingxin/finale-stage-1600.webp 1600w" sizes="(max-width:560px) 25vw, 18vw" alt="2026迎新晚会现场 · 谢幕 · 全场" loading="eager" decoding="async" fetchpriority="high">
             <figcaption>谢幕 · 全场</figcaption>
           </figure>
@@ -1962,7 +2084,7 @@ body.pv-open{overflow:hidden!important}
             <img class="ph-fg" src="assets/photos/yingxin/stage-title-1600.webp" srcset="assets/photos/yingxin/stage-title-800.webp 800w, assets/photos/yingxin/stage-title-1600.webp 1600w" sizes="(max-width:560px) 25vw, 18vw" alt="2026迎新晚会现场 · 舞台 · 主视觉" loading="eager" decoding="async" fetchpriority="high">
             <figcaption>舞台 · 主视觉</figcaption>
           </figure>
-          <figure class="ph" data-i="3">
+          <figure class="ph ph-wide" data-i="3">
             <img class="ph-fg" src="assets/photos/yingxin/audience-wide-1600.webp" srcset="assets/photos/yingxin/audience-wide-800.webp 800w, assets/photos/yingxin/audience-wide-1600.webp 1600w" sizes="(max-width:560px) 25vw, 18vw" alt="2026迎新晚会现场 · 观众席 · 全景" loading="eager" decoding="async">
             <figcaption>观众席 · 全景</figcaption>
           </figure>
@@ -2046,7 +2168,7 @@ body.pv-open{overflow:hidden!important}
             <img class="ph-fg" src="assets/photos/yingxin/hosts-1600.webp" srcset="assets/photos/yingxin/hosts-800.webp 800w, assets/photos/yingxin/hosts-1600.webp 1600w" sizes="(max-width:560px) 25vw, 18vw" alt="2026迎新晚会现场 · 主持 · 双人" loading="lazy" decoding="async">
             <figcaption>主持 · 双人</figcaption>
           </figure>
-          <figure class="ph" data-i="24">
+          <figure class="ph ph-tall" data-i="24">
             <img class="ph-fg" src="assets/photos/yingxin/stage-hosts-1600.webp" srcset="assets/photos/yingxin/stage-hosts-800.webp 800w, assets/photos/yingxin/stage-hosts-1600.webp 1600w" sizes="(max-width:560px) 25vw, 18vw" alt="2026迎新晚会现场 · 舞台 · 竖幅" loading="lazy" decoding="async">
             <figcaption>舞台 · 竖幅</figcaption>
           </figure>
@@ -2609,12 +2731,30 @@ body.pv-open{overflow:hidden!important}
     }
   }
 
+
+  // R34: 主画面左右滑动切换（手机）
+  var swipeX = null, swipeY = 0, swipeAt = 0;
+  frame.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) return;
+    swipeX = e.touches[0].clientX; swipeY = e.touches[0].clientY;
+  }, {passive:true});
+  frame.addEventListener('touchend', function (e) {
+    if (swipeX === null) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - swipeX, dy = t.clientY - swipeY;
+    swipeX = null;
+    if (Math.abs(dx) > 46 && Math.abs(dy) < 36) {
+      swipeAt = Date.now();
+      select((cur + (dx < 0 ? 1 : -1) + reels.length) % reels.length, true);
+    }
+  }, {passive:true});
+
   btn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); toggle(); });
   muteBtn.addEventListener('click', function (e) {
     e.preventDefault(); e.stopPropagation();
     muted = !muted; paintMute();
   });
-  video.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); toggle(); });
+  video.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); if (Date.now() - swipeAt < 480) return; toggle(); });
 
   ['loadedmetadata', 'durationchange', 'timeupdate', 'play', 'pause', 'seeked', 'ended'].forEach(function (ev) {
     video.addEventListener(ev, function () {
