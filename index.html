@@ -12,10 +12,11 @@ html,body{margin:0;width:100%;height:100%;background:#0d0c0b;overflow:hidden}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.boot i{animation:none}}
 </style>
-<script>
+<!-- MIRROR_URL:https://aka.doubaocdn.com/s/WcF4U8bUU2 -->
+<script id="meiying-entry" data-mirror="https://aka.doubaocdn.com/s/WcF4U8bUU2">
 (function () {
   var entry = './full-r33.html';
-  var mirror = 'https://aka.doubaocdn.com/s/2Z76gsH4ok'; // R40 国内加速镜像，7 天有效
+  var mirror = document.getElementById('meiying-entry').dataset.mirror;
   var hash = location.hash || '';
   var q = new URLSearchParams(location.search);
   var navigated = false;
@@ -41,7 +42,7 @@ html,body{margin:0;width:100%;height:100%;background:#0d0c0b;overflow:hidden}
   var timer = setTimeout(function () {
     controller.abort();
     go(mirror);
-  }, 900);
+  }, 2000);
 
   fetch(entry, {
     cache: 'default',
